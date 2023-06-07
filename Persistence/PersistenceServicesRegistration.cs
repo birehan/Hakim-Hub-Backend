@@ -14,6 +14,7 @@ namespace Persistence
             opt.UseNpgsql(configuration.GetConnectionString("HakimConnectionString")));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISpecialityRepository, SpecialityRepository>();
+            services.AddScoped<IDoctorAvailabilityRepository, DoctorAvailabilityRepository>();
             return services;
         }
 
