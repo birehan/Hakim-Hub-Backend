@@ -4,13 +4,19 @@ namespace Domain
 {
     public class DoctorAvailability: BaseDomainEntity
     {
-        public string doctorId { get; set; }
 
-        public string institutionId { get; set; }
+        public DayOfWeek AvailableDay {get; set;}
+        public DateTime StartTime {get; set;}
+        public DateTime EndTime {get; set;}
 
-        public string specialityId {get; set;}
-        public DayOfWeek availableDays {get; set;}
-        public DateTime startTime {get; set;}
-        public DateTime endTime {get; set;}
+
+        public Guid DoctorId { get; set; }
+        public DoctorProfile Doctor { get; set; }
+
+        public Guid InstitutionId { get; set; }
+        public InstitutionProfile Institution { get; set; }
+
+        public Guid SpecialityId { get; set; }
+        public Speciality Speciality { get; set; }
     }
 }
