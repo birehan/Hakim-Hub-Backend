@@ -10,7 +10,10 @@ namespace Domain
         public string Woreda { get; set; }
         public string City { get; set; }
         public string SubCity { get; set; }
-        public double longitude { get; set;}
-        public double latitude { get; set;}
+        public double Longitude { get; set;}
+        public double Latitude { get; set;}
+
+        public Guid InstitutionId {get; set;}
+        public InstitutionProfile Institution {get; set;}
     }
 }
