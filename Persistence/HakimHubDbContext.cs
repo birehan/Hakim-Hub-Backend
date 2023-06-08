@@ -43,6 +43,7 @@ namespace Persistence
             return base.SaveChangesAsync(cancellationToken);
         }
         public DbSet<Speciality> Specialities { get; set; }
+        public DbSet<DoctorAvailability> DoctorAvailabilities {get; set;}
 
     }
 }

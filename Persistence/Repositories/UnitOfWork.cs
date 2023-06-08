@@ -9,6 +9,7 @@ namespace Persistence.Repositories
 
 
         private ISpecialityRepository _specialityRepository;
+        private IDoctorAvailabilityRepository _doctorAvailabilityRepository;
 
 
 
@@ -22,6 +23,13 @@ namespace Persistence.Repositories
             get
             {
                 return _specialityRepository ??= new SpecialityRepository(_context);
+            }
+        }
+        public IDoctorAvailabilityRepository DoctorAvailabilityRepository
+        {
+            get
+            {
+                return _doctorAvailabilityRepository = new DoctorAvailabilityRepository(_context);
             }
         }
 
