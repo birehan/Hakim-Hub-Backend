@@ -10,6 +10,7 @@ namespace Persistence.Repositories
 
         private ISpecialityRepository _specialityRepository;
         private IDoctorAvailabilityRepository _doctorAvailabilityRepository;
+        private IInstitutionAvailabilityRepository _institutionAvailabilityRepository;
 
 
 
@@ -30,6 +31,14 @@ namespace Persistence.Repositories
             get
             {
                 return _doctorAvailabilityRepository = new DoctorAvailabilityRepository(_context);
+            }
+        }
+
+        public IInstitutionAvailabilityRepository InstitutionAvailabilityRepository
+        {
+            get
+            {
+                return _institutionAvailabilityRepository = new InstitutionAvailabilityRepository(_context);
             }
         }
 
