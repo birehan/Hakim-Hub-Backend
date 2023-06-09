@@ -1,6 +1,6 @@
-namespace Application.Features.DoctorAvailabilities.DTOs
+namespace Application.Features.InstitutionAvailabilities.DTOs
 {
-    public class CreateDoctorAvailabilityDto : IDoctorAvailabilityDto
+    public interface IInstitutionAvailabilityDto
     {
         public bool TwentyFourHours { get; set; }
         public DayOfWeek StartDay {get; set;}
