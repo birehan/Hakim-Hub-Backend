@@ -142,7 +142,7 @@ namespace Persistence
 
                     institutionProfile.Photos = photos;
 
-                    var services = new List<Services>();
+                    var services = new List<Service>();
                     foreach (var serviceData in institution.Services)
                     {
                         // Check if the service with the same name already exists
@@ -154,15 +154,13 @@ namespace Persistence
                             services.Add(existingService);
                             continue;
                         }
-                        else
+
+                        var service = new Service
                         {
-                            var service = new Services
-                            {
-                                Id = Guid.NewGuid(),
-                                ServiceName = serviceData.ServiceName,
-                                ServiceDescription = serviceData.ServiceDescription,
-                                Institutions = new List<InstitutionProfile>()
-                            };
+                            Id = Guid.NewGuid(),
+                            ServiceName = serviceData.ServiceName,
+                            ServiceDescription = serviceData.ServiceDescription,
+                        };
 
                             // Add the doctor to the institution
                             service.Institutions.Add(institutionProfile);

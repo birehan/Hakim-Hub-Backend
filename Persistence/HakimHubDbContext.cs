@@ -20,7 +20,7 @@ namespace Persistence
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(HakimHubDbContext).Assembly);
 
             // Unqiue service name
-            modelBuilder.Entity<Services>()
+            modelBuilder.Entity<Service>()
              .HasIndex(s => s.ServiceName)
              .IsUnique();
 
@@ -159,7 +159,7 @@ namespace Persistence
         public DbSet<Experience> Experiences { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Address> Address { get; set; }
-        public DbSet<Services> Services { get; set; }
+        public DbSet<Service> Services { get; set; }
         public DbSet<InstitutionProfile> InstitutioProfiles { get; set; }
         public DbSet<InstitutionAvailability> InstitutionAvailabilities { get; set; }
         public DbSet<DoctorAvailability> DoctorAvailabilities { get; set; }

@@ -12,14 +12,16 @@ namespace Domain
         public double Rate { get; set; }
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
-        public string LogoId { get; set; }
+        public ICollection<DoctorProfile> Doctors { get; set; }
+        public ICollection<Experience> Experiences { get; set; }
+        public ICollection<Service> Services { get; set; }
+        public ICollection<Photo> Photos { get; set; }
+
+        public string LogoId {get;set;}
         public Photo Logo { get; set; }
         public string BannerId { get; set; }
         public Photo Banner { get; set; }
-        public ICollection<DoctorProfile> Doctors { get; set; } = new List<DoctorProfile>();
-        public ICollection<Services> Services { get; set; } = new List<Services>();
-        public ICollection<Photo> Photos { get; set; } = new List<Photo>();
+        public ICollection<InstitutionAvailability> InstitutionAvailabilities { get; set; } = new List<InstitutionAvailability>();
         public InstitutionAvailability InstitutionAvailability { get; set; }
-
     }
 }
