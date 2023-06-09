@@ -54,6 +54,3 @@ namespace API.Controllers
         {
             return HandleResult(await _mediator.Send(new GetInstitutionAvailabilityDetailQuery { Id = id }));
         }
-
-    }
-}

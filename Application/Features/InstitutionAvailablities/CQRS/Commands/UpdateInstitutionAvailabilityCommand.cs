@@ -10,3 +10,5 @@ namespace Application.Features.InstitutionAvailabilities.CQRS.Commands
 
     }
 }
+
+
