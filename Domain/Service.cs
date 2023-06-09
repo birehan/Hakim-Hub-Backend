@@ -2,7 +2,7 @@ using Domain.Common;
 
 namespace Domain;
 
-public class Services : BaseDomainEntity
+public class Service : BaseDomainEntity
 {
     public string ServiceName { get; set; } 
     public string ServiceDescription { get; set; }
