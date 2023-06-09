@@ -10,6 +10,8 @@ namespace Persistence.Repositories
 
         private ISpecialityRepository _specialityRepository;
         private IDoctorAvailabilityRepository _doctorAvailabilityRepository;
+        private IExperienceRepository _experienceRepository;
+        private IServiceRepository _serviceRepository;
 
 
 
@@ -30,6 +32,20 @@ namespace Persistence.Repositories
             get
             {
                 return _doctorAvailabilityRepository = new DoctorAvailabilityRepository(_context);
+            }
+        }
+        public IExperienceRepository ExperienceRepository
+        {
+            get
+            {
+                return _experienceRepository ??= new ExperienceRepository(_context);
+            }
+        }
+        public IServiceRepository ServiceRepository
+        {
+            get
+            {
+                return _serviceRepository ??= new ServiceRepository(_context);
             }
         }
 
