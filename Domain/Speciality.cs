@@ -9,6 +9,6 @@ namespace Domain
 
         
         public ICollection<DoctorProfile> Doctors {get;set;}
-        public ICollection<DoctorAvailability> DoctorAvailabilities { get; set; }
+        // public ICollection<DoctorAvailability> DoctorAvailabilities { get; set; }
     }
 }

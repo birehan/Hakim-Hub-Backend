@@ -4,14 +4,14 @@ namespace Application.Features.DoctorAvailabilities.DTOs
 {
     public class UpdateDoctorAvailabilityDto : BaseDto, IDoctorAvailabilityDto
     {
-        public string doctorId { get; set; }
+        public bool TwentyFourHours { get; set; }
+        public DayOfWeek StartDay {get; set;}
 
-        public string institutionId { get; set; }
+        public DayOfWeek EndDay {get; set;}
 
-        public string specialityId {get; set;}
-        public DayOfWeek availableDays {get; set;}
-        public DateTime startTime {get; set;}
-        public DateTime endTime {get; set;}
+        public DateTime StartTime {get; set;}
+        public DateTime EndTime {get; set;}
+        public Guid InstitutionId { get; set; }
 
     }
 }

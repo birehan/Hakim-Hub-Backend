@@ -4,7 +4,7 @@ namespace Application.Contracts.Persistence
     {
         ISpecialityRepository SpecialityRepository { get; }
         IDoctorAvailabilityRepository DoctorAvailabilityRepository {get;}
-
+        IInstitutionAvailabilityRepository InstitutionAvailabilityRepository{get;}
         Task<int> Save();
 
     }

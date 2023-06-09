@@ -6,21 +6,17 @@ namespace Application.Features.DoctorAvailabilities.DTOs.Validators
     {
         public IDoctorAvailabilityDtoValidator()
         {
-            RuleFor(p => p.doctorId)
+            RuleFor(p => p.InstitutionId)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull()
-                .MaximumLength(50).WithMessage("{PropertyName} must not exceed {ComparisonValue} characters.");
+                .NotNull();
 
-            RuleFor(p => p.institutionId)
+            RuleFor(p => p.EndTime)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull()
-                .MaximumLength(300).WithMessage("{PropertyName} must not exceed {ComparisonValue} characters.");
+                .NotNull();
                 
-            RuleFor(p => p.specialityId)
+            RuleFor(p => p.StartTime)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull()
-                .MaximumLength(300).WithMessage("{PropertyName} must not exceed {ComparisonValue} characters.");
-
+                .NotNull();
 
 
         }
