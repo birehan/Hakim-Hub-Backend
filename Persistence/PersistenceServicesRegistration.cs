@@ -14,6 +14,7 @@ namespace Persistence
             opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISpecialityRepository, SpecialityRepository>();
+            services.AddScoped<IEducationRepository, EducationRepository>();
             services.AddScoped<IDoctorAvailabilityRepository, DoctorAvailabilityRepository>();
             return services;
         }
