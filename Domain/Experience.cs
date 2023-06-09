@@ -9,11 +9,9 @@ public class Experience : BaseDomainEntity
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
 
-
-
     public Guid DoctorId { get; set; }
     public DoctorProfile Doctor { get; set; }
-    
+
     public Guid InstitutionId { get; set; }
     public InstitutionProfile Institution { get; set; }
    
