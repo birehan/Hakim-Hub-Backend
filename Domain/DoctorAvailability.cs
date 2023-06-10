@@ -2,13 +2,11 @@ using Domain.Common;
 
 namespace Domain
 {
-    public class DoctorAvailability: BaseDomainEntity
+    public class DoctorAvailability : BaseDomainEntity
     {
-
-        public DayOfWeek AvailableDay {get; set;}
-        public DateTime StartTime {get; set;}
-        public DateTime EndTime {get; set;}
-
+        public DayOfWeek Day { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
 
         public Guid DoctorId { get; set; }
         public DoctorProfile Doctor { get; set; }

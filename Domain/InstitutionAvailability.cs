@@ -1,15 +1,14 @@
 using Domain.Common;
-
 namespace Domain
 {
-    public class InstitutionAvailability: BaseDomainEntity
+    public class InstitutionAvailability : BaseDomainEntity
     {
-        
-        public DayOfWeek AvailableDay {get; set;}
-        public DateTime StartTime {get; set;}
-        public DateTime EndTime {get; set;}
+        public string StartDay { get; set; }
+        public string EndDay { get; set; }
+        public string Opening { get; set; }
+        public string Closing { get; set; }
+        public bool TwentyFourHours { get; set; }
         public Guid InstitutionId { get; set; }
-        public InstitutionProfile Institution {get; set;}
-
+        public InstitutionProfile Institution { get; set; }
     }
 }

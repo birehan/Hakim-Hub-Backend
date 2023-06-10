@@ -1,6 +1,7 @@
 using Persistence;
 using Application;
 using API.Middleware;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,20 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+
+try
+{
+    var context = services.GetRequiredService<HakimHubDbContext>();
+    await context.Database.MigrateAsync();
+    await Seed.SeedData(context);
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An erorr occured during migration");
+}
+
 app.Run();
-
-
