@@ -13,12 +13,16 @@ namespace Persistence
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(HakimHubDbContext).Assembly);
+
+            // Unqiue service name
+            modelBuilder.Entity<Services>()
+             .HasIndex(s => s.ServiceName)
+             .IsUnique();
 
             // address to institution
             modelBuilder.Entity<InstitutionProfile>()
@@ -27,27 +31,37 @@ namespace Persistence
             .HasForeignKey<InstitutionProfile>(e => e.AddressId)
             .OnDelete(DeleteBehavior.Cascade);
 
+            // doctor profile to phot
+            modelBuilder.Entity<DoctorProfile>()
+                .HasOne(d => d.Photo)
+                .WithOne()
+                .HasForeignKey<Photo>(x => x.DoctorProfileId);
+
+
+            // institiution logo with photo
+            modelBuilder.Entity<InstitutionProfile>()
+                .HasOne(d => d.Logo)
+                .WithOne()
+                .HasForeignKey<Photo>(x => x.LogoId);
+
+            // institiution banner with photo
+            modelBuilder.Entity<InstitutionProfile>()
+                .HasOne(d => d.Banner)
+                .WithOne()
+                .HasForeignKey<Photo>(x => x.BannerId);
+            //
+            modelBuilder.Entity<DoctorProfile>()
+                .HasOne(d => d.MainInstitution)
+                .WithMany()
+                .HasForeignKey(d => d.MainInstitutionId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // doctor availability
             modelBuilder.Entity<DoctorProfile>()
             .HasMany(e => e.DoctorAvailabilities)
             .WithOne(d => d.Doctor)
             .HasForeignKey(e => e.DoctorId)
             .OnDelete(DeleteBehavior.Cascade);
-
-            // institute availability
-            modelBuilder.Entity<InstitutionProfile>()
-            .HasMany(e => e.DoctorAvailabilities)
-            .WithOne(d => d.Institution)
-            .HasForeignKey(e => e.InstitutionId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-            // speciality availability
-            modelBuilder.Entity<Speciality>()
-            .HasMany(e => e.DoctorAvailabilities)
-            .WithOne(d => d.Speciality)
-            .HasForeignKey(e => e.SpecialityId)
-            .OnDelete(DeleteBehavior.Cascade);
-
 
             // doctor to institution
             modelBuilder.Entity<DoctorProfile>()
@@ -72,8 +86,6 @@ namespace Persistence
             modelBuilder.Entity<DoctorProfile>()
             .HasMany(e => e.Specialities)
             .WithMany(d => d.Doctors);
-
-
             // 
             modelBuilder.Entity<DoctorProfile>()
             .HasOne(e => e.Photo)
@@ -85,14 +97,8 @@ namespace Persistence
             modelBuilder.Entity<Education>()
             .HasOne(e => e.InstitutionLogo)
             .WithOne()
-            .HasForeignKey<Education>(e => e.PhotoId)
+            .HasForeignKey<Education>(e => e.InstitutionLogoId)
             .OnDelete(DeleteBehavior.Cascade);
-
-            // 
-            modelBuilder.Entity<InstitutionProfile>()
-            .HasMany(e => e.Experiences)
-            .WithOne(d => d.Institution)
-            .HasForeignKey(e => e.InstitutionId);
             // 
             modelBuilder.Entity<InstitutionProfile>()
             .HasMany(e => e.InstitutionAvailabilities)
@@ -126,9 +132,6 @@ namespace Persistence
             .HasForeignKey<InstitutionProfile>(e => e.LogoId)
             .OnDelete(DeleteBehavior.Cascade);
 
-
-
-
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -155,7 +158,6 @@ namespace Persistence
         public DbSet<Services> Services { get; set; }
         public DbSet<InstitutionProfile> InstitutioProfiles { get; set; }
         public DbSet<InstitutionAvailability> InstitutionAvailabilities { get; set; }
-        public DbSet<DoctorAvailability> DoctorAvailabilities {get; set;}
-
+        public DbSet<DoctorAvailability> DoctorAvailabilities { get; set; }
     }
 }
