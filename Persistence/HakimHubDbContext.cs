@@ -63,6 +63,21 @@ namespace Persistence
             .HasForeignKey(e => e.DoctorId)
             .OnDelete(DeleteBehavior.Cascade);
 
+            // institute availability - we don't have it now
+            // modelBuilder.Entity<InstitutionProfile>()
+            // .HasMany(e => e.DoctorAvailabilities)
+            // .WithOne(d => d.Institution)
+            // .HasForeignKey(e => e.InstitutionId)
+            // .OnDelete(DeleteBehavior.Cascade);
+
+            // speciality availability
+            modelBuilder.Entity<Speciality>()
+            .HasMany(e => e.DoctorAvailabilities)
+            .WithOne(d => d.Speciality)
+            .HasForeignKey(e => e.SpecialityId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
             // doctor to institution
             modelBuilder.Entity<DoctorProfile>()
             .HasMany(e => e.Institutions)
@@ -99,11 +114,12 @@ namespace Persistence
             .WithOne()
             .HasForeignKey<Education>(e => e.InstitutionLogoId)
             .OnDelete(DeleteBehavior.Cascade);
+
             // 
             modelBuilder.Entity<InstitutionProfile>()
             .HasOne(e => e.InstitutionAvailability)
-            .WithOne(d => d.Institution)
-            .HasForeignKey<InstitutionAvailability>(e => e.InstitutionId)
+            .WithOne()
+            .HasForeignKey<InstitutionProfile>(I => I.InstitutionAvailabilityId)
             .OnDelete(DeleteBehavior.Cascade);
 
             // address to institution
