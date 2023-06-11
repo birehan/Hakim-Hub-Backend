@@ -1,30 +1,27 @@
 using Domain.Common;
-namespace Domain
+namespace Domain;
+
+public enum Gender
 {
-    public class DoctorProfile : BaseDomainEntity
-    {
-        public enum GenderType
-        {
-            Male,
-            Female
-        }
+    Male,
+    Female
+}
 
-        public string FullName { get; set; }
-        public string? About { get; set; }
-        public GenderType Gender { get; set; }
-        public string? Email { get; set; }
-        public string? PhotoId { get; set; }
-        public Photo? Photo { get; set; }
-        public DateTime CareerStartTime { get; set; }
+public class DoctorProfile : BaseDomainEntity
+{
+    public string FullName { get; set; }
+    public string About { get; set; }
+    public string Email { get; set; }
+    public string PhotoId { get; set; }
+    public Photo Photo { get; set; }
+    public DateTime CareerStartTime { get; set; }
+    public Gender Gender { get; set; }
+    public ICollection<InstitutionProfile> Institutions { get; set; }
+    public Guid MainInstitutionId { get; set; }
+    public InstitutionProfile MainInstitution { get; set; }
+    public ICollection<Education> Educations { get; set; }
+    public ICollection<Experience> Experiences { get; set; }
+    public ICollection<Speciality> Specialities { get; set; }
 
-        public Guid? MainInstitutionId { get; set; }
 
-        public InstitutionProfile? MainInstitution { get; set; }
-        public ICollection<InstitutionProfile> Institutions { get; set; } = new List<InstitutionProfile>();
-        public ICollection<DoctorAvailability> DoctorAvailabilities { get; set; } = new List<DoctorAvailability>();
-        public ICollection<Education> Educations { get; set; } = new List<Education>();
-        public ICollection<Experience> Experiences { get; set; } = new List<Experience>();
-        public ICollection<Speciality> Specialities { get; set; } = new List<Speciality>();
-
-    }
 }
