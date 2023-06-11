@@ -11,6 +11,7 @@ namespace Application.Contracts.Persistence
         IInstitutionProfileRepository InstitutionProfileRepository {get;}
         IExperienceRepository ExperienceRepository { get; }
         IServiceRepository ServiceRepository { get; }
+        IDoctorProfileRepository DoctorProfileRepository { get; }
 
         Task<int> Save();
 
