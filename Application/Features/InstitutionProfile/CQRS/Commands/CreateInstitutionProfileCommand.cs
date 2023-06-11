@@ -6,6 +6,6 @@ namespace Application.Features.InstitutionProfiles.CQRS.Commands
 {
     public class CreateInstitutionProfileCommand : IRequest<Result<Guid>>
     {
-        public CreateInstitutionProfileDto InstitutionProfileDto { get; set; }
+        public CreateInstitutionProfileDto CreateInstitutionProfileDto { get; set; }
     }
 }

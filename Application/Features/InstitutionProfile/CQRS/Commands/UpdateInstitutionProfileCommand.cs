@@ -7,7 +7,7 @@ namespace Application.Features.InstitutionProfiles.CQRS.Commands
 {
     public class UpdateInstitutionProfileCommand : IRequest<Result<Unit>>
     {
-        public UpdateInstitutionProfileDto InstitutionProfileDto { get; set; }
+        public UpdateInstitutionProfileDto UpdateInstitutionProfileDto { get; set; }
 
     }
 }

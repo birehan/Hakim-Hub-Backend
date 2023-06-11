@@ -39,8 +39,8 @@ namespace Application.Features.InstitutionProfiles.DTOs.Validators
         RuleFor(p => p.Rate)
             .InclusiveBetween(0, 10).WithMessage("{PropertyName} must be a value between {From} and {To}.");
 
-        RuleFor(p => p.AddressId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
+        // RuleFor(p => p.AddressId)
+        //     .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.LogoId)
             .NotEmpty().WithMessage("{PropertyName} is required.");
@@ -48,8 +48,8 @@ namespace Application.Features.InstitutionProfiles.DTOs.Validators
         RuleFor(p => p.BannerId)
             .NotEmpty().WithMessage("{PropertyName} is required.");
 
-        RuleFor(p => p.InstitutionAvailabilityId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
+        // RuleFor(p => p.InstitutionAvailabilityId)
+        //     .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.Doctors)
             .Null().When(p => p.Doctors == null);

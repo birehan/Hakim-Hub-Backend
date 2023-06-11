@@ -5,7 +5,7 @@ using Application.Features.Specialities.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SpecialitiesManagement.API.Controllers
+namespace API.Controllers
 {
     public class SpecialitiesController : BaseApiController
     {

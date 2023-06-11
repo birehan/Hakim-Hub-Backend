@@ -5,7 +5,7 @@ using Application.Features.Addresses.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AddressesManagement.API.Controllers
+namespace API.Controllers
 {
     public class AddressesController : BaseApiController
     {

@@ -5,32 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class initialmigration : Migration
+    public partial class restructure : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Address",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Country = table.Column<string>(type: "text", nullable: false),
-                    Region = table.Column<string>(type: "text", nullable: false),
-                    Zone = table.Column<string>(type: "text", nullable: false),
-                    Woreda = table.Column<string>(type: "text", nullable: false),
-                    City = table.Column<string>(type: "text", nullable: false),
-                    SubCity = table.Column<string>(type: "text", nullable: false),
-                    Longitude = table.Column<double>(type: "double precision", nullable: false),
-                    Latitude = table.Column<double>(type: "double precision", nullable: false),
-                    InstitutionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Address", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Services",
                 columns: table => new
@@ -59,6 +37,29 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Specialities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Address",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Country = table.Column<string>(type: "text", nullable: false),
+                    Region = table.Column<string>(type: "text", nullable: false),
+                    Zone = table.Column<string>(type: "text", nullable: false),
+                    Woreda = table.Column<string>(type: "text", nullable: false),
+                    City = table.Column<string>(type: "text", nullable: false),
+                    SubCity = table.Column<string>(type: "text", nullable: false),
+                    Summary = table.Column<string>(type: "text", nullable: false),
+                    Longitude = table.Column<double>(type: "double precision", nullable: false),
+                    Latitude = table.Column<double>(type: "double precision", nullable: false),
+                    InstitutionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Address", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -247,9 +248,8 @@ namespace Persistence.Migrations
                     Website = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     Summary = table.Column<string>(type: "text", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    EstablishedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Rate = table.Column<double>(type: "double precision", nullable: false),
-                    AddressId = table.Column<Guid>(type: "uuid", nullable: false),
                     LogoId = table.Column<string>(type: "text", nullable: false),
                     BannerId = table.Column<string>(type: "text", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -258,12 +258,6 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_InstitutioProfiles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InstitutioProfiles_Address_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Address",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -290,9 +284,15 @@ namespace Persistence.Migrations
                 columns: new[] { "Id", "DateCreated", "Description", "LastModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("6e1567ba-66a5-44f8-a578-2e013820f24f"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sample Content 2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "tiltle 2" },
-                    { new Guid("f17f9988-1714-4220-b527-b5e26380e4ca"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sample Content", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "title" }
+                    { new Guid("8ed738fd-b6c9-447e-907a-8db7f2f1b781"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sample Content 2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "tiltle 2" },
+                    { new Guid("cff467e8-fd7d-41b4-bde4-e3d69082ebe6"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sample Content", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "title" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Address_InstitutionId",
+                table: "Address",
+                column: "InstitutionId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_DoctorAvailabilities_DoctorId",
@@ -349,18 +349,13 @@ namespace Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_InstitutionAvailabilities_InstitutionId",
                 table: "InstitutionAvailabilities",
-                column: "InstitutionId");
+                column: "InstitutionId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_InstitutionProfileServices_ServicesId",
                 table: "InstitutionProfileServices",
                 column: "ServicesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InstitutioProfiles_AddressId",
-                table: "InstitutioProfiles",
-                column: "AddressId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_InstitutioProfiles_BannerId",
@@ -378,6 +373,14 @@ namespace Persistence.Migrations
                 name: "IX_Photos_InstitutionProfileId",
                 table: "Photos",
                 column: "InstitutionProfileId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Address_InstitutioProfiles_InstitutionId",
+                table: "Address",
+                column: "InstitutionId",
+                principalTable: "InstitutioProfiles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_DoctorProfiles_Photos_PhotoId",
@@ -459,6 +462,9 @@ namespace Persistence.Migrations
                 table: "Photos");
 
             migrationBuilder.DropTable(
+                name: "Address");
+
+            migrationBuilder.DropTable(
                 name: "DoctorAvailabilities");
 
             migrationBuilder.DropTable(
@@ -490,9 +496,6 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "InstitutioProfiles");
-
-            migrationBuilder.DropTable(
-                name: "Address");
 
             migrationBuilder.DropTable(
                 name: "Photos");

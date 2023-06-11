@@ -28,7 +28,7 @@ namespace Persistence
             modelBuilder.Entity<InstitutionProfile>()
             .HasOne(e => e.Address)
             .WithOne(d => d.Institution)
-            .HasForeignKey<InstitutionProfile>(e => e.AddressId)
+            .HasForeignKey<Address>(e => e.InstitutionId)
             .OnDelete(DeleteBehavior.Cascade);
 
             // doctor profile to phot
@@ -118,8 +118,8 @@ namespace Persistence
             // 
             modelBuilder.Entity<InstitutionProfile>()
             .HasOne(e => e.InstitutionAvailability)
-            .WithOne()
-            .HasForeignKey<InstitutionProfile>(I => I.InstitutionAvailabilityId)
+            .WithOne(d => d.Institution)
+            .HasForeignKey<InstitutionAvailability>(I => I.InstitutionId)
             .OnDelete(DeleteBehavior.Cascade);
 
             // address to institution

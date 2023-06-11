@@ -29,6 +29,10 @@ namespace Application.Features.Addresses.DTOs.Validators
             RuleFor(p => p.SubCity)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull();
+            
+            RuleFor(p => p.Summary)
+                .NotEmpty().WithMessage("{PropertyName} is required.")
+                .NotNull();
 
             RuleFor(p => p.Longitude)
                 .NotEmpty().WithMessage("{PropertyName} is required.")

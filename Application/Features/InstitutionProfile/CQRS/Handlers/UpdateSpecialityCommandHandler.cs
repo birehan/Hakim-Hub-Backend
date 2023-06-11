@@ -21,16 +21,16 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
         public async Task<Result<Unit>> Handle(UpdateInstitutionProfileCommand request, CancellationToken cancellationToken)
         {
             var validator = new UpdateInstitutionProfileDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.InstitutionProfileDto);
+            var validationResult = await validator.ValidateAsync(request.UpdateInstitutionProfileDto);
 
             if (!validationResult.IsValid)
                 return Result<Unit>.Failure(validationResult.Errors[0].ErrorMessage);
 
 
-            var InstitutionProfile = await _unitOfWork.InstitutionProfileRepository.Get(request.InstitutionProfileDto.Id);
+            var InstitutionProfile = await _unitOfWork.InstitutionProfileRepository.Get(request.UpdateInstitutionProfileDto.Id);
             if (InstitutionProfile == null) return null;
 
-            _mapper.Map(request.InstitutionProfileDto, InstitutionProfile);
+            _mapper.Map(request.UpdateInstitutionProfileDto, InstitutionProfile);
             await _unitOfWork.InstitutionProfileRepository.Update(InstitutionProfile);
 
             if (await _unitOfWork.Save() > 0)

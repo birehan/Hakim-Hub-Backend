@@ -2,6 +2,8 @@ using Application.Features.Specialities.DTOs;
 using Application.Features.DoctorAvailabilities.DTOs;
 using AutoMapper;
 using Domain;
+using Application.Features.InstitutionProfiles.DTOs;
+using Application.Features.Addresses.DTOs;
 
 namespace Application.Profiles
 {
@@ -16,6 +18,14 @@ namespace Application.Profiles
             CreateMap<CreateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();
             CreateMap<UpdateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();
             CreateMap<DoctorAvailability, DoctorAvailabilityDto>();
+
+            CreateMap<CreateInstitutionProfileDto, InstitutionProfile>().ReverseMap();
+            CreateMap<UpdateInstitutionProfileDto, InstitutionProfile>().ReverseMap();
+            CreateMap<InstitutionProfileDto, InstitutionProfile>().ReverseMap();
+
+            CreateMap<CreateAddressDto, Address>().ReverseMap();
+            CreateMap<UpdateAddressDto, Address>().ReverseMap();
+            CreateMap<AddressDto, Address>().ReverseMap();
         }
     }
 }
