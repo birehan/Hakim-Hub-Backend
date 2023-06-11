@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(HakimHubDbContext))]
-    [Migration("20230609070120_initial migration")]
-    partial class initialmigration
+    [Migration("20230611092002_restructure")]
+    partial class restructure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,7 +54,7 @@ namespace Persistence.Migrations
                     b.ToTable("DoctorProfileSpeciality");
                 });
 
-            modelBuilder.Entity("Domain.Addresses", b =>
+            modelBuilder.Entity("Domain.Address", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -91,6 +91,10 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Woreda")
                         .IsRequired()
                         .HasColumnType("text");
@@ -100,6 +104,9 @@ namespace Persistence.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InstitutionId")
+                        .IsUnique();
 
                     b.ToTable("Address");
                 });
@@ -294,7 +301,8 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InstitutionId");
+                    b.HasIndex("InstitutionId")
+                        .IsUnique();
 
                     b.ToTable("InstitutionAvailabilities");
                 });
@@ -303,9 +311,6 @@ namespace Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AddressId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("BannerId")
@@ -317,6 +322,9 @@ namespace Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("EstablishedOn")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("InstitutionName")
@@ -337,9 +345,6 @@ namespace Persistence.Migrations
                     b.Property<double>("Rate")
                         .HasColumnType("double precision");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("Summary")
                         .IsRequired()
                         .HasColumnType("text");
@@ -349,9 +354,6 @@ namespace Persistence.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId")
-                        .IsUnique();
 
                     b.HasIndex("BannerId")
                         .IsUnique();
@@ -433,7 +435,7 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f17f9988-1714-4220-b527-b5e26380e4ca"),
+                            Id = new Guid("cff467e8-fd7d-41b4-bde4-e3d69082ebe6"),
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Sample Content",
                             LastModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -441,7 +443,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6e1567ba-66a5-44f8-a578-2e013820f24f"),
+                            Id = new Guid("8ed738fd-b6c9-447e-907a-8db7f2f1b781"),
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Sample Content 2",
                             LastModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -494,6 +496,17 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Address", b =>
+                {
+                    b.HasOne("Domain.InstitutionProfile", "Institution")
+                        .WithOne("Address")
+                        .HasForeignKey("Domain.Address", "InstitutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Institution");
+                });
+
             modelBuilder.Entity("Domain.DoctorAvailability", b =>
                 {
                     b.HasOne("Domain.DoctorProfile", "Doctor")
@@ -503,7 +516,7 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.InstitutionProfile", "Institution")
-                        .WithMany("DoctorAvailabilities")
+                        .WithMany()
                         .HasForeignKey("InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -560,7 +573,7 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.InstitutionProfile", "Institution")
-                        .WithMany("Experiences")
+                        .WithMany()
                         .HasForeignKey("InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -573,8 +586,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.InstitutionAvailability", b =>
                 {
                     b.HasOne("Domain.InstitutionProfile", "Institution")
-                        .WithMany("InstitutionAvailabilities")
-                        .HasForeignKey("InstitutionId")
+                        .WithOne("InstitutionAvailability")
+                        .HasForeignKey("Domain.InstitutionAvailability", "InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -583,12 +596,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.InstitutionProfile", b =>
                 {
-                    b.HasOne("Domain.Addresses", "Address")
-                        .WithOne("Institution")
-                        .HasForeignKey("Domain.InstitutionProfile", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Photo", "Banner")
                         .WithOne()
                         .HasForeignKey("Domain.InstitutionProfile", "BannerId")
@@ -600,8 +607,6 @@ namespace Persistence.Migrations
                         .HasForeignKey("Domain.InstitutionProfile", "LogoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Address");
 
                     b.Navigation("Banner");
 
@@ -631,12 +636,6 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Addresses", b =>
-                {
-                    b.Navigation("Institution")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.DoctorProfile", b =>
                 {
                     b.Navigation("DoctorAvailabilities");
@@ -648,11 +647,11 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.InstitutionProfile", b =>
                 {
-                    b.Navigation("DoctorAvailabilities");
+                    b.Navigation("Address")
+                        .IsRequired();
 
-                    b.Navigation("Experiences");
-
-                    b.Navigation("InstitutionAvailabilities");
+                    b.Navigation("InstitutionAvailability")
+                        .IsRequired();
 
                     b.Navigation("Photos");
                 });

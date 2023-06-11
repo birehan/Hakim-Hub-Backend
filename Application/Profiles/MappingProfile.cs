@@ -25,7 +25,10 @@ namespace Application.Profiles
 
             CreateMap<CreateAddressDto, Address>().ReverseMap();
             CreateMap<UpdateAddressDto, Address>().ReverseMap();
+<<<<<<< HEAD
             CreateMap<string, Address>().ReverseMap();
+=======
+>>>>>>> d90788f (feat(crud-biruk): done with the cruds about to pull)
             CreateMap<AddressDto, Address>().ReverseMap();
         }
     }

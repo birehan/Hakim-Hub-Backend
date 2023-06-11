@@ -47,6 +47,7 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
 
             var validator = new CreateInstitutionProfileDtoValidator();
 <<<<<<< HEAD
+<<<<<<< HEAD
             var validationResult = await validator.ValidateAsync(request.CreateInstitutionProfileDto);
 
             if (!validationResult.IsValid){
@@ -76,12 +77,15 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
                 
 =======
             var validationResult = await validator.ValidateAsync(request.InstitutionProfileDto);
+=======
+            var validationResult = await validator.ValidateAsync(request.CreateInstitutionProfileDto);
+>>>>>>> d90788f (feat(crud-biruk): done with the cruds about to pull)
 
             if (!validationResult.IsValid)
                 return Result<Guid>.Failure(validationResult.Errors[0].ErrorMessage);
 
 
-            var InstitutionProfile = _mapper.Map<InstitutionProfile>(request.InstitutionProfileDto);
+            var InstitutionProfile = _mapper.Map<InstitutionProfile>(request.CreateInstitutionProfileDto);
             await _unitOfWork.InstitutionProfileRepository.Add(InstitutionProfile);
 
             if (await _unitOfWork.Save() > 0)

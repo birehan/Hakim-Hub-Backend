@@ -30,16 +30,22 @@ namespace Application.Features.Addresses.DTOs.Validators
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull();
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d90788f (feat(crud-biruk): done with the cruds about to pull)
             
             RuleFor(p => p.Summary)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull();
+<<<<<<< HEAD
 
             RuleFor(p => p.Longitude)
                 .NotNull();
 
             RuleFor(p => p.Latitude)
 =======
+=======
+>>>>>>> d90788f (feat(crud-biruk): done with the cruds about to pull)
 
             RuleFor(p => p.Longitude)
                 .NotEmpty().WithMessage("{PropertyName} is required.")

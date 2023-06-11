@@ -16,14 +16,18 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public DateTime EstablishedOn {get; set;}
         public double Rate {get; set;}
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
         public Guid AddressId { get; set; }
+=======
+
+>>>>>>> d90788f (feat(crud-biruk): done with the cruds about to pull)
         public Guid LogoId {get;set;}
         public Guid BannerId { get; set; }
-        public Guid InstitutionAvailabilityId {get; set;}
-
-
+        
+        public Address Address { get; set; }
+        public InstitutionAvailability InstitutionAvailability {get; set;}
 
         public ICollection<DoctorProfile> Doctors { get; set; }
         public ICollection<Services> Services { get; set; }
