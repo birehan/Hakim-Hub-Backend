@@ -29,6 +29,7 @@ namespace Application.Features.Addresses.DTOs.Validators
             RuleFor(p => p.SubCity)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull();
+<<<<<<< HEAD
             
             RuleFor(p => p.Summary)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
@@ -38,6 +39,15 @@ namespace Application.Features.Addresses.DTOs.Validators
                 .NotNull();
 
             RuleFor(p => p.Latitude)
+=======
+
+            RuleFor(p => p.Longitude)
+                .NotEmpty().WithMessage("{PropertyName} is required.")
+                .NotNull();
+
+            RuleFor(p => p.Latitude)
+                .NotEmpty().WithMessage("{PropertyName} is required.")
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
                 .NotNull();   
         }
 

@@ -10,7 +10,10 @@ namespace Application.Features.Addresses.DTOs
         public string SubCity { get; set; }
         public double Longitude { get; set;}
         public double Latitude { get; set;}
+<<<<<<< HEAD
         public string Summary { get; set; }
         public Guid InstitutionId { get; set; }
+=======
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
     }
 }

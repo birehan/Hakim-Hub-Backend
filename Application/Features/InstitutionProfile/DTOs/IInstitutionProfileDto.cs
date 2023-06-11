@@ -1,5 +1,8 @@
 using Domain;
+<<<<<<< HEAD
 using Microsoft.AspNetCore.Http;
+=======
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
 
 namespace Application.Features.InstitutionProfiles.DTOs
 {
@@ -12,6 +15,19 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public string Summary {get; set;}
         public DateTime EstablishedOn {get; set;}
         public double Rate {get; set;}
+<<<<<<< HEAD
 
+=======
+        public Guid AddressId { get; set; }
+        public Guid LogoId {get;set;}
+        public Guid BannerId { get; set; }
+        public Guid InstitutionAvailabilityId {get; set;}
+
+
+
+        public ICollection<DoctorProfile> Doctors { get; set; }
+        public ICollection<Services> Services { get; set; }
+        public ICollection<Photo> Photos { get; set; }
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
     }
 }

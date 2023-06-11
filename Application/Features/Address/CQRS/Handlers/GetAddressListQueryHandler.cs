@@ -20,7 +20,11 @@ namespace Application.Features.Addresses.CQRS.Handlers
 
         public async Task<Result<List<AddressDto>>> Handle(GetAddressListQuery request, CancellationToken cancellationToken)
         {
+<<<<<<< HEAD
             var Addresses = await _unitOfWork.AddressRepository.GetAllPopulated();
+=======
+            var Addresses = await _unitOfWork.AddressRepository.GetAll();
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
 
             if (Addresses == null) return null;
 

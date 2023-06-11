@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Application.Contracts.Persistence;
 using Domain;
 using Microsoft.EntityFrameworkCore;
+=======
+using Application.Contracts.Persistence;
+using Domain;
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
 
 namespace Persistence.Repositories
 {
@@ -17,6 +22,7 @@ namespace Persistence.Repositories
             _dbContext = dbContext;
         }
 
+<<<<<<< HEAD
         public async Task<List<InstitutionProfile>> GetAllPopulated()
         {
             return await _dbContext.Set<InstitutionProfile>()
@@ -147,5 +153,7 @@ namespace Persistence.Repositories
 
         
         
+=======
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
     }
 }

@@ -2,13 +2,18 @@ using Application.Features.InstitutionProfiles.DTOs.Validators;
 using Application.Features.InstitutionProfiles.DTOs;
 using FluentValidation;
 
+<<<<<<< HEAD
 namespace Application.Features.InstitutionProfiles.DTOs.Validators
+=======
+namespace Application.Features.Specialities.DTOs.Validators
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
 
 {
     public class UpdateInstitutionProfileDtoValidator : AbstractValidator<UpdateInstitutionProfileDto>
     {
         public UpdateInstitutionProfileDtoValidator()
         {
+<<<<<<< HEAD
             RuleFor(p => p.InstitutionName)
                 .MaximumLength(50).WithMessage("{PropertyName} must not exceed {MaxLength} characters.")
                 .When(p => p.InstitutionName != null);
@@ -34,6 +39,11 @@ namespace Application.Features.InstitutionProfiles.DTOs.Validators
             RuleFor(p => p.Rate)
                 .InclusiveBetween(0, 10).WithMessage("{PropertyName} must be a value between {From} and {To}.")
                 .When(p => p.Rate != null);
+=======
+            Include(new IInstitutionProfileDtoValidator());
+
+            RuleFor(p => p.Id).NotNull().WithMessage("{PropertyName} must be present");
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
 
         }
     }

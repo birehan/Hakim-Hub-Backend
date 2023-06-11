@@ -19,7 +19,11 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
 
             var InstitutionProfile = await _unitOfWork.InstitutionProfileRepository.Get(request.Id);
 
+<<<<<<< HEAD
             if (InstitutionProfile is null) return Result<Guid>.Failure("Delete Failed");
+=======
+            if (InstitutionProfile is null) return null;
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
 
             await _unitOfWork.InstitutionProfileRepository.Delete(InstitutionProfile);
 

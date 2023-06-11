@@ -1,11 +1,20 @@
 using AutoMapper;
 using Application.Contracts.Persistence;
+<<<<<<< HEAD
+=======
+using Application.Features.Specialities.CQRS.Commands;
+using Application.Features.Specialities.DTOs.Validators;
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
 using MediatR;
 using Application.Responses;
 using Application.Features.Addresses.CQRS.Commands;
 using Application.Features.Addresses.DTOs.Validators;
 
+<<<<<<< HEAD
 namespace Application.Features.Addresses.CQRS.Handlers
+=======
+namespace Application.Features.Specialities.CQRS.Handlers
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
 {
     public class UpdateAddressCommandHandler : IRequestHandler<UpdateAddressCommand, Result<Unit>>
     {
@@ -28,7 +37,11 @@ namespace Application.Features.Addresses.CQRS.Handlers
 
 
             var Address = await _unitOfWork.AddressRepository.Get(request.UpdateAddressDto.Id);
+<<<<<<< HEAD
             if (Address == null) return Result<Unit>.Failure("Update Failed");
+=======
+            if (Address == null) return null;
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
 
             _mapper.Map(request.UpdateAddressDto, Address);
             await _unitOfWork.AddressRepository.Update(Address);

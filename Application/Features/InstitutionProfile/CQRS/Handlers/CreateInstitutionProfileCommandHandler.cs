@@ -5,12 +5,16 @@ using Application.Features.Specialities.DTOs.Validators;
 using Application.Responses;
 using MediatR;
 using Domain;
+<<<<<<< HEAD
 using Newtonsoft.Json;
 using Application.Features.InstitutionProfiles.CQRS.Commands;
 using Application.Features.InstitutionProfiles.DTOs.Validators;
 using Application.Interfaces;
 using Application.Photos;
 using Application.Features.Addresses.DTOs;
+=======
+using Application.Features.InstitutionProfiles.CQRS.Commands;
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
 
 namespace Application.Features.InstitutionProfiles.CQRS.Handlers
 {
@@ -18,6 +22,7 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+<<<<<<< HEAD
         private readonly IPhotoAccessor _photoAccessor;
 
 
@@ -26,6 +31,14 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _photoAccessor = photoAccessor;
+=======
+
+
+        public CreateInstitutionProfileCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
 
         }
 
@@ -33,6 +46,7 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
         {
 
             var validator = new CreateInstitutionProfileDtoValidator();
+<<<<<<< HEAD
             var validationResult = await validator.ValidateAsync(request.CreateInstitutionProfileDto);
 
             if (!validationResult.IsValid){
@@ -60,6 +74,20 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
             if (await _unitOfWork.Save() > 0 )
                 return Result<Guid>.Success(InstitutionProfile.Id);
                 
+=======
+            var validationResult = await validator.ValidateAsync(request.InstitutionProfileDto);
+
+            if (!validationResult.IsValid)
+                return Result<Guid>.Failure(validationResult.Errors[0].ErrorMessage);
+
+
+            var InstitutionProfile = _mapper.Map<InstitutionProfile>(request.InstitutionProfileDto);
+            await _unitOfWork.InstitutionProfileRepository.Add(InstitutionProfile);
+
+            if (await _unitOfWork.Save() > 0)
+                return Result<Guid>.Success(InstitutionProfile.Id);
+
+>>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
             return Result<Guid>.Failure("Creation Failed");
 
         }
