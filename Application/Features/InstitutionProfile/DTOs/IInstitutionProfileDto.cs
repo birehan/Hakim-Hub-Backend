@@ -16,7 +16,7 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public string BannerId { get; set; }
         
         public Address Address { get; set; }
-        ICollection<InstitutionAvailability> InstitutionAvailabilities {get; set;}
+        InstitutionAvailability InstitutionAvailability {get; set;}
 
         public ICollection<DoctorProfile> Doctors { get; set; }
         public ICollection<Services> Services { get; set; }

@@ -61,23 +61,31 @@ namespace Persistence.Repositories
     if (openStatus)
     {
         var currentDate = DateTime.UtcNow.Date;
-            var currentTime = DateTime.UtcNow.TimeOfDay;
+        var currentTime = DateTime.UtcNow.TimeOfDay;
         
-            var institutionIds = await query.Select(x => x.Id).ToListAsync();
-            var currentDayOfWeek = currentDate.DayOfWeek;
+        var institutionIds = await query.Select(x => x.Id).ToListAsync();
+        var currentDayOfWeek = (int)currentDate.DayOfWeek + 1; // Adding 1 to match the numbering convention
         
-            var availabilities = await _dbContext.Set<InstitutionAvailability>()
-                .Where(avail => institutionIds.Contains(avail.InstitutionId) &&
-                    avail.StartDay <= currentDayOfWeek && currentDayOfWeek <= avail.EndDay)
-                .ToListAsync();
-        
-            var profiles = await query.ToListAsync();
-        
-            var filteredProfiles = profiles.Where(x => x.InstitutionAvailability != null &&
-                availabilities.Any(a => a.InstitutionId == x.Id &&
-                    (a.TwentyFourHours ||
-                     (TimeSpan.Parse(a.Opening) <= currentTime && currentTime <= TimeSpan.Parse(a.Closing))))
-                ).ToList();
+        var availabilities = await _dbContext.Set<InstitutionAvailability>()
+            .Where(avail => institutionIds.Contains(avail.InstitutionId) &&
+                (avail.StartDay <= avail.EndDay
+                    ? (avail.StartDay <= (DayOfWeek)(currentDayOfWeek % 7) && (DayOfWeek)(currentDayOfWeek % 7) <= avail.EndDay)
+                    : (avail.StartDay <= (DayOfWeek)(currentDayOfWeek % 7) || (DayOfWeek)(currentDayOfWeek % 7) <= avail.EndDay))
+            )
+            .ToListAsync();
+
+    
+        var profiles = await query.ToListAsync();
+        Console.WriteLine("pooooooooooooooooooooopopopop");
+        Console.WriteLine(currentDayOfWeek);
+        var filteredProfiles = profiles.Where(x => x.InstitutionAvailability != null &&
+            availabilities.Any(a => a.InstitutionId == x.Id)
+            //     (a.TwentyFourHours ||
+            //      (TimeSpan.Parse(a.Opening) <= currentTime && currentTime <= TimeSpan.Parse(a.Closing))))
+            ).ToList();
+        Console.WriteLine("pooooooooooooooooooooopopopop");
+        Console.WriteLine(filteredProfiles.Count);
+
 
         return filteredProfiles;
     }

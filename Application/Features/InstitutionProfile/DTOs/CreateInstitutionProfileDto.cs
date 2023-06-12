@@ -15,7 +15,7 @@ namespace Application.Features.InstitutionProfiles.DTOs
 
         public string LogoId {get;set;}
         public string BannerId { get; set; }
-        public ICollection<InstitutionAvailability> InstitutionAvailabilities { get; set; }
+        public InstitutionAvailability InstitutionAvailability { get; set; }
         public Address Address { get; set; }
 
 
