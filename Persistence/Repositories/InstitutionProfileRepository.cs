@@ -35,56 +35,62 @@ namespace Persistence.Repositories
         }
 
         public async Task<List<InstitutionProfile>> Search(string serviceName, int operationYears, bool openStatus)
-        {
-            var options = new JsonSerializerOptions
-            {
-                ReferenceHandler = ReferenceHandler.Preserve,
-                MaxDepth = 32
-            };
+{
+    var options = new JsonSerializerOptions
+    {
+        ReferenceHandler = ReferenceHandler.Preserve,
+        MaxDepth = 32
+    };
 
-            IQueryable<InstitutionProfile> query = _dbContext.Set<InstitutionProfile>()
-                .Include(x => x.Services)
-                    .ThenInclude(s => s.Institutions)
-                .Include(x => x.InstitutionAvailabilities);
+    IQueryable<InstitutionProfile> query = _dbContext.Set<InstitutionProfile>()
+        .Include(x => x.Services)
+            .ThenInclude(s => s.Institutions)
+        .Include(x => x.InstitutionAvailability);
 
-            if (!string.IsNullOrEmpty(serviceName))
-            {
-                query = query.Where(x => x.Services.Any(service => service.ServiceName == serviceName));
-            }
+    if (!string.IsNullOrEmpty(serviceName))
+    {
+        query = query.Where(x => x.Services.Any(service => service.ServiceName == serviceName));
+    }
 
-            if (operationYears > 0)
-            {
-                DateTime startDate = DateTime.Today.AddYears(-operationYears);
-                query = query.Where(x => x.EstablishedOn <= startDate);
-            }
+    if (operationYears > 0)
+    {
+        DateTime startDate = DateTime.Today.AddYears(-operationYears);
+        query = query.Where(x => x.EstablishedOn <= startDate);
+    }
 
-            if (openStatus)
-            {
-                var currentDate = DateTime.UtcNow.Date;
-                var currentTime = DateTime.UtcNow.TimeOfDay;
+    if (openStatus)
+    {
+        var currentDate = DateTime.UtcNow.Date;
+            var currentTime = DateTime.UtcNow.TimeOfDay;
+        
+            var institutionIds = await query.Select(x => x.Id).ToListAsync();
+            var currentDayOfWeek = currentDate.DayOfWeek;
+        
+            var availabilities = await _dbContext.Set<InstitutionAvailability>()
+                .Where(avail => institutionIds.Contains(avail.InstitutionId) &&
+                    avail.StartDay <= currentDayOfWeek && currentDayOfWeek <= avail.EndDay)
+                .ToListAsync();
+        
+            var profiles = await query.ToListAsync();
+        
+            var filteredProfiles = profiles.Where(x => x.InstitutionAvailability != null &&
+                availabilities.Any(a => a.InstitutionId == x.Id &&
+                    (a.TwentyFourHours ||
+                     (TimeSpan.Parse(a.Opening) <= currentTime && currentTime <= TimeSpan.Parse(a.Closing))))
+                ).ToList();
 
-                var institutionIds = await query.Select(x => x.Id).ToListAsync();
-                var availabilities = await _dbContext.Set<InstitutionAvailability>()
-                    .Where(avail => institutionIds.Contains(avail.InstitutionId) &&
-                        avail.StartDay == currentDate.DayOfWeek.ToString() &&
-                        avail.EndDay == currentDate.DayOfWeek.ToString())
-                    .ToListAsync();
+        return filteredProfiles;
+    }
 
-                query = query.Where(x => x.InstitutionAvailabilities.Any(avail =>
-                    availabilities.Any(a => a.InstitutionId == x.Id &&
-                        (a.TwentyFourHours ||
-                         IsTimeWithinRange(a.Opening, a.Closing, currentTime))
-                    )));
-            }
+    return await query.ToListAsync();
+}
 
-            return await query.ToListAsync();
-        }
 
         public async Task<List<InstitutionProfile>> Search(string institutionName)
         {
             IQueryable<InstitutionProfile> query = _dbContext.Set<InstitutionProfile>()
                 .Include(x => x.Services)
-                .Include(x => x.InstitutionAvailabilities);
+                .Include(x => x.InstitutionAvailability);
         
             if (!string.IsNullOrEmpty(institutionName))
             {

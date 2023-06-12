@@ -6,7 +6,7 @@
       "Zone": "01",
       "Summary": "Bole Sub City, Around Gerji",
       "Latitude": 38.8078175,
-      "Longtiude": 38.8078175,
+      "Longitude": 38.8078175,
       "Country": "Ethiopia",
       "City": "Addis Ababa",
       "SubCity": "Bole"
@@ -551,7 +551,7 @@
       "Zone": "01",
       "Summary": "Kirkos Sub City, Around Gotera",
       "Latitude": 38.7590401,
-      "Longtiude": 38.7590401,
+      "Longitude": 38.7590401,
       "Country": "Ethiopia",
       "City": "Addis Ababa",
       "SubCity": "Kirkos"
@@ -675,7 +675,7 @@
       "Zone": "01",
       "Summary": "Gulele Sub City, Near Medhane Alem High School",
       "Latitude": 38.7276472,
-      "Longtiude": 38.7276472,
+      "Longitude": 38.7276472,
       "Country": "Ethiopia",
       "City": "Addis Ababa",
       "SubCity": "Gulele"
@@ -726,7 +726,7 @@
       "Zone": "01",
       "Summary": "Kirkos Sub City, On the road from Mexico Square to Kerra, near Genet Hotel and Temamaw Building",
       "Latitude": 38.7474034,
-      "Longtiude": 38.7474034,
+      "Longitude": 38.7474034,
       "Country": "Ethiopia",
       "City": "Addis Ababa",
       "SubCity": "Kirkos"
@@ -803,7 +803,7 @@
       "Zone": "01",
       "Summary": "Lideta Sub City, Abenet near CocaCola factory",
       "Latitude": 38.7290889,
-      "Longtiude": 38.7290889,
+      "Longitude": 38.7290889,
       "Country": "Ethiopia",
       "City": "Addis Ababa",
       "SubCity": "Lideta"
@@ -1011,7 +1011,7 @@
       "Zone": "01",
       "Summary": "Located in Addis Ababa",
       "Latitude": 38.7153456,
-      "Longtiude": 38.7153456,
+      "Longitude": 38.7153456,
       "Country": "Ethiopia",
       "City": "Addis Ababa",
       "SubCity": "Located in"
@@ -1066,7 +1066,7 @@
       "Zone": "01",
       "Summary": "Bole Sub City, Infront of Addis Ababa Airport Cargo",
       "Latitude": 38.7831172,
-      "Longtiude": 38.7831172,
+      "Longitude": 38.7831172,
       "Country": "Ethiopia",
       "City": "Addis Ababa",
       "SubCity": "Bole"
@@ -1232,7 +1232,7 @@
       "Zone": "01",
       "Summary": "Yeka Sub City, Around Megenagna roundabout near Afarensis building",
       "Latitude": 38.8012849,
-      "Longtiude": 38.8012849,
+      "Longitude": 38.8012849,
       "Country": "Ethiopia",
       "City": "Addis Ababa",
       "SubCity": "Yeka"
@@ -1315,7 +1315,7 @@
       "Zone": "01",
       "Summary": "Bole Sub City, On the road to Gergi Giorgis, Gerji 46 Mazorya",
       "Latitude": 38.774653,
-      "Longtiude": 38.774653,
+      "Longitude": 38.774653,
       "Country": "Ethiopia",
       "City": "Addis Ababa",
       "SubCity": "Bole"
@@ -1452,7 +1452,7 @@
       "Zone": "01",
       "Summary": "Lideta Sub City, Near Mesqel square",
       "Latitude": 38.7549081,
-      "Longtiude": 38.7549081,
+      "Longitude": 38.7549081,
       "Country": "Ethiopia",
       "City": "Addis Ababa",
       "SubCity": "Lideta"
