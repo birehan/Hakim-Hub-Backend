@@ -28,6 +28,7 @@ namespace Application.Features.InstitutionProfiles.DTOs
 <<<<<<< HEAD
 <<<<<<< HEAD
 
+<<<<<<< HEAD
         public IFormFile LogoFile {get;set;}
         public IFormFile BannerFile { get; set; }
 =======
@@ -38,6 +39,11 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public Guid LogoId {get;set;}
         public Guid BannerId { get; set; }
         public InstitutionAvailability InstitutionAvailability { get; set; }
+=======
+        public string LogoId {get;set;}
+        public string BannerId { get; set; }
+        public ICollection<InstitutionAvailability> InstitutionAvailabilities { get; set; }
+>>>>>>> 2e3d14f (feat(crud-biruk): add endpoints for address and InstitutionProfile)
         public Address Address { get; set; }
 
 

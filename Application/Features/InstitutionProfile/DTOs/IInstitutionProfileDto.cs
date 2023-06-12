@@ -18,6 +18,7 @@ namespace Application.Features.InstitutionProfiles.DTOs
 <<<<<<< HEAD
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 =======
         public Guid AddressId { get; set; }
 =======
@@ -25,9 +26,13 @@ namespace Application.Features.InstitutionProfiles.DTOs
 >>>>>>> d90788f (feat(crud-biruk): done with the cruds about to pull)
         public Guid LogoId {get;set;}
         public Guid BannerId { get; set; }
+=======
+        public string LogoId {get;set;}
+        public string BannerId { get; set; }
+>>>>>>> 2e3d14f (feat(crud-biruk): add endpoints for address and InstitutionProfile)
         
         public Address Address { get; set; }
-        public InstitutionAvailability InstitutionAvailability {get; set;}
+        ICollection<InstitutionAvailability> InstitutionAvailabilities {get; set;}
 
         public ICollection<DoctorProfile> Doctors { get; set; }
         public ICollection<Services> Services { get; set; }

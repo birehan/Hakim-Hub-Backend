@@ -46,10 +46,10 @@ namespace Application.Features.InstitutionProfiles.DTOs
 
 >>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
 
-        public Guid LogoId {get;set;}
-        public Guid BannerId { get; set; }
+        public string LogoId {get;set;}
+        public string BannerId { get; set; }
 
-        public InstitutionAvailability InstitutionAvailability {get; set;}
+        public ICollection<InstitutionAvailability> InstitutionAvailabilities {get; set;}
         public Address Address {get; set;}
 
         public ICollection<DoctorProfile> Doctors { get; set; }

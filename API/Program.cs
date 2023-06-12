@@ -45,6 +45,7 @@ var services = scope.ServiceProvider;
 
 try
 {
+    Console.WriteLine("ffffffffffffffffffffffffffffffffffffffff");
     var context = services.GetRequiredService<HakimHubDbContext>();
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
 

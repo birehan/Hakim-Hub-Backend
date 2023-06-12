@@ -22,7 +22,11 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
         {
             var InstitutionProfiles = await _unitOfWork.InstitutionProfileRepository.Search(request.Name);
 
+<<<<<<< HEAD
             if (InstitutionProfiles == null)             return Result<List<InstitutionProfileDto>>.Failure(error: "Item not found.");
+=======
+            if (InstitutionProfiles == null) return null;
+>>>>>>> 2e3d14f (feat(crud-biruk): add endpoints for address and InstitutionProfile)
 
             return Result<List<InstitutionProfileDto>>.Success(_mapper.Map<List<InstitutionProfileDto>>(InstitutionProfiles));
         }

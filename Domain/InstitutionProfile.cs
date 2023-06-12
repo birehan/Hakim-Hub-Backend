@@ -41,9 +41,9 @@ namespace Domain
         public InstitutionAvailability InstitutionAvailability { get; set; }
 
         // Many to many relation references
-        public ICollection<DoctorProfile> Doctors { get; set; }
-        public ICollection<Services> Services { get; set; }
-        public ICollection<Photo> Photos { get; set; }
+        public ICollection<DoctorProfile> Doctors { get; set; } = new List<DoctorProfile>();
+        public ICollection<Services> Services { get; set; } = new List<Services>();
+        public ICollection<Photo> Photos { get; set; } = new List<Photo>();
 
 <<<<<<< HEAD
         public string LogoId {get;set;}

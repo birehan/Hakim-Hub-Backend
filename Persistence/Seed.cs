@@ -8,8 +8,7 @@ namespace Persistence
 {
     public class Seed
     {
-        public static async Task SeedData(HakimHubDbContext context, UserManager<AppUser> userManager, IConfiguration configuration
-            )
+        public static async Task SeedData(HakimHubDbContext context, UserManager<AppUser> userManager, IConfiguration configuration)
         {
 
             // Check if there are no users in the database

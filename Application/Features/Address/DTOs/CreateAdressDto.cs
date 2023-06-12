@@ -14,10 +14,13 @@ namespace Application.Features.Addresses.DTOs
 <<<<<<< HEAD
         public string Summary { get; set; }
         public Guid InstitutionId { get; set; }
+<<<<<<< HEAD
 =======
 >>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
 =======
         public string Summary { get; set; }
 >>>>>>> d90788f (feat(crud-biruk): done with the cruds about to pull)
+=======
+>>>>>>> 2e3d14f (feat(crud-biruk): add endpoints for address and InstitutionProfile)
     }
 }

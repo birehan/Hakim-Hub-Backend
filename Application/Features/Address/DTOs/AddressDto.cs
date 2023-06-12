@@ -19,6 +19,7 @@ namespace Application.Features.Addresses.DTOs
 
 
         public string InstitutionId {get; set;}
+<<<<<<< HEAD
 =======
 =======
         public string Summary { get; set; }
@@ -27,6 +28,8 @@ namespace Application.Features.Addresses.DTOs
 
         public Guid InstitutionId {get; set;}
 >>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
+=======
+>>>>>>> 2e3d14f (feat(crud-biruk): add endpoints for address and InstitutionProfile)
         public InstitutionProfile Institution {get; set;}
 
     }
