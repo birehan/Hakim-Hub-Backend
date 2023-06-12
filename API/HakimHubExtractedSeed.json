@@ -11,10 +11,10 @@
       "City": "Addis Ababa",
       "SubCity": "Bole"
     },
-    "Availability": {
-      "TwentyFourHours": "true",
-      "StartDay": "Monday",
-      "EndDay": "Sunday",
+    "InstitutionAvailability": {
+      "TwentyFourHours": true,
+      "StartDay": 1,
+      "EndDay": 0,
       "Opening": "00:00",
       "Closing": "23:59"
     },
@@ -25,7 +25,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314381/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_8.png"
         },
         "About": "",
-        "Speciality": [{ "Name": "General Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "General Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:26.533993Z",
         "Gender": 0,
         "Experiences": [],
@@ -39,7 +39,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314390/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_10.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:27.186410Z",
         "Gender": 0,
         "Experiences": [],
@@ -53,7 +53,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314393/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_11.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Pediatric Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "Pediatric Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:28.076034Z",
         "Gender": 0,
         "Experiences": [],
@@ -67,7 +67,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314398/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_12.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "General Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "General Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:28.790384Z",
         "Gender": 0,
         "Experiences": [],
@@ -81,7 +81,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314402/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_13.png"
         },
         "About": "",
-        "Speciality": [{ "Name": "Orthopedic Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "Orthopedic Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:29.600113Z",
         "Gender": 0,
         "Experiences": [],
@@ -95,7 +95,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314410/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_15.png"
         },
         "About": "",
-        "Speciality": [{ "Name": "Cardiologist", "Description": "" }],
+        "Specialities": [{ "Name": "Cardiologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:30.287770Z",
         "Gender": 0,
         "Experiences": [],
@@ -109,7 +109,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314414/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_16.png"
         },
         "About": "",
-        "Speciality": [{ "Name": "Hematologist", "Description": "" }],
+        "Specialities": [{ "Name": "Hematologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:31.282046Z",
         "Gender": 1,
         "Experiences": [],
@@ -123,7 +123,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314417/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_17.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Gastroenterologist", "Description": "" }],
+        "Specialities": [{ "Name": "Gastroenterologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:32.077824Z",
         "Gender": 0,
         "Experiences": [],
@@ -137,7 +137,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314422/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_18.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Internist", "Description": "" }],
+        "Specialities": [{ "Name": "Internist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:33.048692Z",
         "Gender": 0,
         "Experiences": [],
@@ -151,7 +151,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314426/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_19.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Internist", "Description": "" }],
+        "Specialities": [{ "Name": "Internist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:34.158365Z",
         "Gender": 0,
         "Experiences": [],
@@ -165,7 +165,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314429/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_20.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Internist", "Description": "" }],
+        "Specialities": [{ "Name": "Internist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:34.900939Z",
         "Gender": 1,
         "Experiences": [],
@@ -179,7 +179,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314431/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_21.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Internist", "Description": "" }],
+        "Specialities": [{ "Name": "Internist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:35.915368Z",
         "Gender": 1,
         "Experiences": [],
@@ -193,7 +193,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314434/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_22.png"
         },
         "About": "",
-        "Speciality": [
+        "Specialities": [
           { "Name": "Neurologist & Psychiatrist", "Description": "" }
         ],
         "CareerStartTime": "2023-06-10T09:15:36.644716Z",
@@ -209,7 +209,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314443/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_24.png"
         },
         "About": "",
-        "Speciality": [
+        "Specialities": [
           { "Name": "Obstetrician & Gynecologist", "Description": "" }
         ],
         "CareerStartTime": "2023-06-10T09:15:51.527983Z",
@@ -225,7 +225,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314446/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_25.png"
         },
         "About": "",
-        "Speciality": [
+        "Specialities": [
           { "Name": "Obstetrician & Gynecologist", "Description": "" }
         ],
         "CareerStartTime": "2023-06-10T09:15:52.652305Z",
@@ -241,7 +241,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314450/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_26.png"
         },
         "About": "",
-        "Speciality": [
+        "Specialities": [
           { "Name": "Obstetrician & Gynecologist", "Description": "" }
         ],
         "CareerStartTime": "2023-06-10T09:15:53.515809Z",
@@ -257,7 +257,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314454/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_27.png"
         },
         "About": "",
-        "Speciality": [
+        "Specialities": [
           { "Name": "Obstetrician & Gynecologist", "Description": "" }
         ],
         "CareerStartTime": "2023-06-10T09:15:54.383702Z",
@@ -273,7 +273,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314457/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_28.jpg"
         },
         "About": "",
-        "Speciality": [
+        "Specialities": [
           { "Name": "Obstetrician & Gynecologist", "Description": "" }
         ],
         "CareerStartTime": "2023-06-10T09:15:55.188192Z",
@@ -289,7 +289,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314463/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_30.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Pediatrician", "Description": "" }],
+        "Specialities": [{ "Name": "Pediatrician", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:56.152138Z",
         "Gender": 1,
         "Experiences": [],
@@ -303,7 +303,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314466/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_31.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Pediatrician", "Description": "" }],
+        "Specialities": [{ "Name": "Pediatrician", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:56.857506Z",
         "Gender": 0,
         "Experiences": [],
@@ -317,7 +317,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314480/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_33.png"
         },
         "About": "",
-        "Speciality": [{ "Name": "Urologist", "Description": "" }],
+        "Specialities": [{ "Name": "Urologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:57.747818Z",
         "Gender": 0,
         "Experiences": [],
@@ -331,7 +331,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314482/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_34.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Anesthesiologist", "Description": "" }],
+        "Specialities": [{ "Name": "Anesthesiologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:58.505320Z",
         "Gender": 0,
         "Experiences": [],
@@ -345,7 +345,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314485/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_35.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Anesthesiologist", "Description": "" }],
+        "Specialities": [{ "Name": "Anesthesiologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:15:59.200515Z",
         "Gender": 0,
         "Experiences": [],
@@ -359,7 +359,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314489/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_36.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Anesthesiologist", "Description": "" }],
+        "Specialities": [{ "Name": "Anesthesiologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:16:00.053146Z",
         "Gender": 0,
         "Experiences": [],
@@ -373,7 +373,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314493/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_37.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Anesthesiologist", "Description": "" }],
+        "Specialities": [{ "Name": "Anesthesiologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:16:00.692112Z",
         "Gender": 0,
         "Experiences": [],
@@ -387,7 +387,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314497/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_38.png"
         },
         "About": "",
-        "Speciality": [{ "Name": "Radioloigst", "Description": "" }],
+        "Specialities": [{ "Name": "Radioloigst", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:16:01.511257Z",
         "Gender": 0,
         "Experiences": [],
@@ -401,7 +401,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314501/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_39.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Radioloigst", "Description": "" }],
+        "Specialities": [{ "Name": "Radioloigst", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:16:02.309343Z",
         "Gender": 0,
         "Experiences": [],
@@ -415,7 +415,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314508/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_41.png"
         },
         "About": "",
-        "Speciality": [{ "Name": "Dental Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "Dental Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:16:03.036128Z",
         "Gender": 0,
         "Experiences": [],
@@ -429,7 +429,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314512/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_42.png"
         },
         "About": "",
-        "Speciality": [{ "Name": "Dental Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "Dental Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:16:04.030873Z",
         "Gender": 1,
         "Experiences": [],
@@ -443,7 +443,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314516/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_43.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Dental Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "Dental Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:16:05.373138Z",
         "Gender": 0,
         "Experiences": [],
@@ -457,7 +457,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314525/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_45.png"
         },
         "About": "",
-        "Speciality": [{ "Name": "Ophthalmologist", "Description": "" }],
+        "Specialities": [{ "Name": "Ophthalmologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:16:06.229931Z",
         "Gender": 0,
         "Experiences": [],
@@ -471,7 +471,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314530/POP_DATA_DOC/Myung_Sung_Christian_Medical_Center_46.png"
         },
         "About": "",
-        "Speciality": [{ "Name": "Ophthalmologist", "Description": "" }],
+        "Specialities": [{ "Name": "Ophthalmologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:16:06.963486Z",
         "Gender": 1,
         "Experiences": [],
@@ -556,10 +556,10 @@
       "City": "Addis Ababa",
       "SubCity": "Kirkos"
     },
-    "Availability": {
-      "TwentyFourHours": "true",
-      "StartDay": "Monday",
-      "EndDay": "Sunday",
+    "InstitutionAvailability": {
+      "TwentyFourHours": true,
+      "StartDay": 1,
+      "EndDay": 0,
       "Opening": "00:00",
       "Closing": "23:59"
     },
@@ -570,7 +570,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314609/POP_DATA_DOC/Hallelujah_General_Hospital_0.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Internist", "Description": "" }],
+        "Specialities": [{ "Name": "Internist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:16:42.683688Z",
         "Gender": 0,
         "Experiences": [],
@@ -584,7 +584,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314613/POP_DATA_DOC/Hallelujah_General_Hospital_1.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Internist", "Description": "" }],
+        "Specialities": [{ "Name": "Internist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:16:43.532042Z",
         "Gender": 0,
         "Experiences": [],
@@ -598,7 +598,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314616/POP_DATA_DOC/Hallelujah_General_Hospital_2.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Dental Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "Dental Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:16:44.404328Z",
         "Gender": 1,
         "Experiences": [],
@@ -612,7 +612,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314618/POP_DATA_DOC/Hallelujah_General_Hospital_3.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "General Practitioner", "Description": "" }],
+        "Specialities": [{ "Name": "General Practitioner", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:16:45.135336Z",
         "Gender": 1,
         "Experiences": [],
@@ -680,10 +680,10 @@
       "City": "Addis Ababa",
       "SubCity": "Gulele"
     },
-    "Availability": {
-      "TwentyFourHours": "true",
-      "StartDay": "Monday",
-      "EndDay": "Sunday",
+    "InstitutionAvailability": {
+      "TwentyFourHours": true,
+      "StartDay": 1,
+      "EndDay": 0,
       "Opening": "00:00",
       "Closing": "23:59"
     },
@@ -731,10 +731,10 @@
       "City": "Addis Ababa",
       "SubCity": "Kirkos"
     },
-    "Availability": {
-      "TwentyFourHours": "true",
-      "StartDay": "Monday",
-      "EndDay": "Sunday",
+    "InstitutionAvailability": {
+      "TwentyFourHours": true,
+      "StartDay": 1,
+      "EndDay": 0,
       "Opening": "00:00",
       "Closing": "23:59"
     },
@@ -808,10 +808,10 @@
       "City": "Addis Ababa",
       "SubCity": "Lideta"
     },
-    "Availability": {
-      "TwentyFourHours": "true",
-      "StartDay": "Monday",
-      "EndDay": "Sunday",
+    "InstitutionAvailability": {
+      "TwentyFourHours": true,
+      "StartDay": 1,
+      "EndDay": 0,
       "Opening": "00:00",
       "Closing": "23:59"
     },
@@ -822,7 +822,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314582/POP_DATA_DOC/Amin_General_Hospital_0.jpg"
         },
         "About": "",
-        "Speciality": [
+        "Specialities": [
           { "Name": "Obstetrician & Gynecologist", "Description": "" }
         ],
         "CareerStartTime": "2023-06-10T09:19:24.905791Z",
@@ -838,7 +838,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314584/POP_DATA_DOC/Amin_General_Hospital_1.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Pediatrician", "Description": "" }],
+        "Specialities": [{ "Name": "Pediatrician", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:19:25.625556Z",
         "Gender": 1,
         "Experiences": [],
@@ -852,7 +852,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314587/POP_DATA_DOC/Amin_General_Hospital_2.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Dental Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "Dental Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:19:26.425018Z",
         "Gender": 1,
         "Experiences": [],
@@ -866,7 +866,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314590/POP_DATA_DOC/Amin_General_Hospital_3.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Gastroenterologist", "Description": "" }],
+        "Specialities": [{ "Name": "Gastroenterologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:19:27.360326Z",
         "Gender": 0,
         "Experiences": [],
@@ -880,7 +880,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314593/POP_DATA_DOC/Amin_General_Hospital_4.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Internist", "Description": "" }],
+        "Specialities": [{ "Name": "Internist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:19:28.232322Z",
         "Gender": 0,
         "Experiences": [],
@@ -894,7 +894,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314597/POP_DATA_DOC/Amin_General_Hospital_5.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Diabetologist", "Description": "" }],
+        "Specialities": [{ "Name": "Diabetologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:19:28.905186Z",
         "Gender": 0,
         "Experiences": [],
@@ -908,7 +908,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314600/POP_DATA_DOC/Amin_General_Hospital_6.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Gastroenterologist", "Description": "" }],
+        "Specialities": [{ "Name": "Gastroenterologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:19:29.849168Z",
         "Gender": 0,
         "Experiences": [],
@@ -922,7 +922,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314602/POP_DATA_DOC/Amin_General_Hospital_7.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "General Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "General Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:19:30.863345Z",
         "Gender": 0,
         "Experiences": [],
@@ -936,7 +936,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314605/POP_DATA_DOC/Amin_General_Hospital_8.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "General Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "General Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:19:32.259406Z",
         "Gender": 0,
         "Experiences": [],
@@ -1016,10 +1016,10 @@
       "City": "Addis Ababa",
       "SubCity": "Located in"
     },
-    "Availability": {
-      "TwentyFourHours": "false",
-      "StartDay": "Monday",
-      "EndDay": "Sunday",
+    "InstitutionAvailability": {
+      "TwentyFourHours": false,
+      "StartDay": 1,
+      "EndDay": 0,
       "Opening": "09:00",
       "Closing": "23:59"
     },
@@ -1071,10 +1071,10 @@
       "City": "Addis Ababa",
       "SubCity": "Bole"
     },
-    "Availability": {
-      "TwentyFourHours": "true",
-      "StartDay": "Monday",
-      "EndDay": "Sunday",
+    "InstitutionAvailability": {
+      "TwentyFourHours": true,
+      "StartDay": 1,
+      "EndDay": 0,
       "Opening": "00:00",
       "Closing": "23:59"
     },
@@ -1085,7 +1085,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314302/POP_DATA_DOC/Addis_Cardiac_Hospital_0.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Cardiologist", "Description": "" }],
+        "Specialities": [{ "Name": "Cardiologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:22:19.056441Z",
         "Gender": 0,
         "Experiences": [],
@@ -1099,7 +1099,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314305/POP_DATA_DOC/Addis_Cardiac_Hospital_1.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Cardiologist", "Description": "" }],
+        "Specialities": [{ "Name": "Cardiologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:22:20.004690Z",
         "Gender": 0,
         "Experiences": [],
@@ -1113,7 +1113,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314309/POP_DATA_DOC/Addis_Cardiac_Hospital_2.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Cardiologist", "Description": "" }],
+        "Specialities": [{ "Name": "Cardiologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:22:20.747912Z",
         "Gender": 0,
         "Experiences": [],
@@ -1127,7 +1127,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314313/POP_DATA_DOC/Addis_Cardiac_Hospital_3.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Cardiologist", "Description": "" }],
+        "Specialities": [{ "Name": "Cardiologist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:22:21.615706Z",
         "Gender": 0,
         "Experiences": [],
@@ -1141,7 +1141,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314316/POP_DATA_DOC/Addis_Cardiac_Hospital_4.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Internist", "Description": "" }],
+        "Specialities": [{ "Name": "Internist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:22:22.603850Z",
         "Gender": 0,
         "Experiences": [],
@@ -1155,7 +1155,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314320/POP_DATA_DOC/Addis_Cardiac_Hospital_5.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Internist", "Description": "" }],
+        "Specialities": [{ "Name": "Internist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:22:23.304077Z",
         "Gender": 0,
         "Experiences": [],
@@ -1225,19 +1225,6 @@
     "Website": "http://addiscardiacenter.com/e/"
   },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   {
     "Address": {
       "Region": "ADDIS ABABA",
@@ -1250,10 +1237,10 @@
       "City": "Addis Ababa",
       "SubCity": "Yeka"
     },
-    "Availability": {
-      "TwentyFourHours": "true",
-      "StartDay": "Monday",
-      "EndDay": "Sunday",
+    "InstitutionAvailability": {
+      "TwentyFourHours": true,
+      "StartDay": 1,
+      "EndDay": 0,
       "Opening": "00:00",
       "Closing": "23:59"
     },
@@ -1333,10 +1320,10 @@
       "City": "Addis Ababa",
       "SubCity": "Bole"
     },
-    "Availability": {
-      "TwentyFourHours": "false",
-      "StartDay": "Monday",
-      "EndDay": "Sunday",
+    "InstitutionAvailability": {
+      "TwentyFourHours": false,
+      "StartDay": 1,
+      "EndDay": 0,
       "Opening": "08:00",
       "Closing": "23:59"
     },
@@ -1458,22 +1445,6 @@
     "Website": ""
   },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
   {
     "Address": {
       "Region": "ADDIS ABABA",
@@ -1486,10 +1457,10 @@
       "City": "Addis Ababa",
       "SubCity": "Lideta"
     },
-    "Availability": {
-      "TwentyFourHours": "true",
-      "StartDay": "Monday",
-      "EndDay": "Sunday",
+    "InstitutionAvailability": {
+      "TwentyFourHours": true,
+      "StartDay": 1,
+      "EndDay": 0,
       "Opening": "00:00",
       "Closing": "23:59"
     },
@@ -1500,7 +1471,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314323/POP_DATA_DOC/Bethzatha_General_Hospital_0.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Internist", "Description": "" }],
+        "Specialities": [{ "Name": "Internist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:26:03.064406Z",
         "Gender": 0,
         "Experiences": [],
@@ -1514,7 +1485,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314326/POP_DATA_DOC/Bethzatha_General_Hospital_1.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "General Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "General Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:26:03.888099Z",
         "Gender": 0,
         "Experiences": [],
@@ -1528,7 +1499,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314330/POP_DATA_DOC/Bethzatha_General_Hospital_2.png"
         },
         "About": "",
-        "Speciality": [{ "Name": "Pediatrician", "Description": "" }],
+        "Specialities": [{ "Name": "Pediatrician", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:26:04.828850Z",
         "Gender": 0,
         "Experiences": [],
@@ -1542,7 +1513,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314333/POP_DATA_DOC/Bethzatha_General_Hospital_3.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "General Practitioner", "Description": "" }],
+        "Specialities": [{ "Name": "General Practitioner", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:26:05.858663Z",
         "Gender": 0,
         "Experiences": [],
@@ -1556,7 +1527,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314337/POP_DATA_DOC/Bethzatha_General_Hospital_4.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "General Surgeon", "Description": "" }],
+        "Specialities": [{ "Name": "General Surgeon", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:26:06.726054Z",
         "Gender": 0,
         "Experiences": [],
@@ -1570,7 +1541,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314340/POP_DATA_DOC/Bethzatha_General_Hospital_5.jpg"
         },
         "About": "",
-        "Speciality": [
+        "Specialities": [
           { "Name": "Obstetrician & Gynecologist", "Description": "" }
         ],
         "CareerStartTime": "2023-06-10T09:26:07.549854Z",
@@ -1586,7 +1557,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314343/POP_DATA_DOC/Bethzatha_General_Hospital_6.jpg"
         },
         "About": "",
-        "Speciality": [{ "Name": "Internist", "Description": "" }],
+        "Specialities": [{ "Name": "Internist", "Description": "" }],
         "CareerStartTime": "2023-06-10T09:26:08.190973Z",
         "Gender": 0,
         "Experiences": [],
@@ -1600,7 +1571,7 @@
           "Url": "https://res.cloudinary.com/hakimhub/image/upload/v1656314346/POP_DATA_DOC/Bethzatha_General_Hospital_7.jpg"
         },
         "About": "",
-        "Speciality": [
+        "Specialities": [
           { "Name": "Obstetrician & Gynecologist", "Description": "" }
         ],
         "CareerStartTime": "2023-06-10T09:26:09.256969Z",

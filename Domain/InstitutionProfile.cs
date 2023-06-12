@@ -19,7 +19,7 @@ namespace Domain
         public ICollection<DoctorProfile> Doctors { get; set; } = new List<DoctorProfile>();
         public ICollection<Services> Services { get; set; } = new List<Services>();
         public ICollection<Photo> Photos { get; set; } = new List<Photo>();
-        public ICollection<InstitutionAvailability> InstitutionAvailabilities { get; set; } = new List<InstitutionAvailability>();
+        public InstitutionAvailability InstitutionAvailability { get; set; }
 
     }
 }

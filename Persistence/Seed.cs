@@ -43,6 +43,16 @@ namespace Persistence
                             Summary = institution.Address.Summary,
                             City = institution.Address.City,
                         },
+                        InstitutionAvailability = new InstitutionAvailability
+                        {
+                            Id = Guid.NewGuid(),
+                            StartDay = institution.InstitutionAvailability.StartDay,
+                            EndDay = institution.InstitutionAvailability.EndDay,
+                            Opening = institution.InstitutionAvailability.Opening,
+                            Closing = institution.InstitutionAvailability.Closing,
+                            TwentyFourHours = institution.InstitutionAvailability.TwentyFourHours,
+                            // Add the doctor to the institution
+                        }
 
                     };
 
@@ -75,8 +85,6 @@ namespace Persistence
                     }
                     institutionProfile.BannerId = banner.Id;
                     institutionProfile.Banner = banner;
-
-
                     var photos = new List<Photo>();
                     foreach (var photoData in institution.Photos)
                     {
@@ -86,8 +94,8 @@ namespace Persistence
                             var photo = new Photo
                             {
                                 Id = photoData.Id,
-                                Url = photoData.Url,
-                                DoctorProfileId = institutionProfile.Id
+                                Url = photoData.Url
+
                             };
                             context.Photos.Add(photo);
                             photos.Add(photo);
@@ -121,54 +129,69 @@ namespace Persistence
                             services.Add(existingService);
                             continue;
                         }
-
-                        var service = new Services
+                        else
                         {
-                            Id = Guid.NewGuid(),
-                            ServiceName = serviceData.ServiceName,
-                            ServiceDescription = serviceData.ServiceDescription,
-                        };
+                            var service = new Services
+                            {
+                                Id = Guid.NewGuid(),
+                                ServiceName = serviceData.ServiceName,
+                                ServiceDescription = serviceData.ServiceDescription,
+                                Institutions = new List<InstitutionProfile>()
+                            };
 
-                        // Add the doctor to the institution
-                        service.Institutions.Add(institutionProfile);
-
-                        services.Add(service);
+                            // Add the doctor to the institution
+                            service.Institutions.Add(institutionProfile);
+                            services.Add(service);
+                        }
                     }
 
                     institutionProfile.Services = services;
+                    // await context.SaveChangesAsync();
 
 
-                    var institutionAvailabilities = new List<InstitutionAvailability>();
-                    foreach (var availableData in institution.InstitutionAvailabilities)
-                    {
-                        var available = new InstitutionAvailability
-                        {
-                            Id = Guid.NewGuid(),
-                            StartDay = availableData.StartDay,
-                            EndDay = availableData.EndDay,
-                            Opening = availableData.Opening,
-                            Closing = availableData.Closing,
-                            TwentyFourHours = availableData.TwentyFourHours,
-                            // Add the doctor to the institution
-                            Institution = institutionProfile
-                        };
+                   
 
-                        institutionAvailabilities.Add(available);
-                    }
-                    institutionProfile.InstitutionAvailabilities = institutionAvailabilities;
-
+                    //.........add doctors to institutionsss.........
                     var doctors = new List<DoctorProfile>();
                     foreach (var doctorData in institution.Doctors)
                     {
                         var existingDoctor = await context.DoctorProfiles.FirstOrDefaultAsync(d => d.FullName == doctorData.FullName);
-
                         if (existingDoctor != null)
                         {
+                            //..................add speciality to doctors....................
+                            var specialties = new List<Speciality>();
+                            var servs = doctorData.Specialities;
+                            foreach (var specialtyData in doctorData.Specialities)
+                            {
+                                // Check if the specialty with the same name already exists
+                                var existingSpecialty = await context.Specialities.FirstOrDefaultAsync(s => s.Name == specialtyData.Name);
 
+                                if (existingSpecialty != null)
+                                {
+                                    // Specialty already exists, skip creating a new one
+                                    specialties.Add(existingSpecialty);
+                                }
+                                else
+                                {
+                                    var newSpecialty = new Speciality
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Name = specialtyData.Name,
+                                        Description = specialtyData.Description,
+                                        Doctors = new List<DoctorProfile>()
+                                    };
+
+                                    // Add the doctor to the specialty
+                                    newSpecialty.Doctors.Add(existingDoctor);
+
+                                    specialties.Add(newSpecialty);
+                                    await context.SaveChangesAsync();
+                                }
+                            }
+                            existingDoctor.Specialities = specialties;
                             // Assign the existing doctor to the institution
                             existingDoctor.Institutions.Add(institutionProfile);
                             existingDoctor.MainInstitution = institutionProfile;
-
                             doctors.Add(existingDoctor);
                         }
                         else
@@ -184,16 +207,43 @@ namespace Persistence
                                 Photo = doctorData.Photo,
                                 MainInstitution = institutionProfile
                             };
+                            //..................add speciality to doctors....................
+                            var specialties = new List<Speciality>();
+                            // var servs = doctorData.Speciality;
+                            foreach (var specialtyData in doctorData.Specialities)
+                            {
+                                // Check if the specialty with the same name already exists
+                                var existingSpecialty = await context.Specialities.FirstOrDefaultAsync(s => s.Name == specialtyData.Name);
+                                if (existingSpecialty != null)
+                                {
+                                    // Specialty already exists, skip creating a new one
+                                    specialties.Add(existingSpecialty);
+                                }
+                                else
+                                {
+                                    var newSpecialty = new Speciality
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Name = specialtyData.Name,
+                                        Description = specialtyData.Description,
+                                        Doctors = new List<DoctorProfile>()
+                                    };
+                                    // Add the doctor to the specialty
+                                    newSpecialty.Doctors.Add(newDoctor);
+                                    specialties.Add(newSpecialty);
+                                    // await context.SaveChangesAsync();
+                                }
+                            }
 
                             // Assign the new doctor to the institution
+                            newDoctor.Specialities = specialties;
                             newDoctor.Institutions.Add(institutionProfile);
-
+                            newDoctor.MainInstitution = institutionProfile;
                             doctors.Add(newDoctor);
                         }
+                        // await context.SaveChangesAsync();
                     }
-
                     institutionProfile.Doctors = doctors;
-
                     context.InstitutioProfiles.Add(institutionProfile);
                     await context.SaveChangesAsync();
                     context.ChangeTracker.Clear();
@@ -202,3 +252,5 @@ namespace Persistence
         }
     }
 }
+
+

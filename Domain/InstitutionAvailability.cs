@@ -3,8 +3,8 @@ namespace Domain
 {
     public class InstitutionAvailability : BaseDomainEntity
     {
-        public string StartDay { get; set; }
-        public string EndDay { get; set; }
+        public DayOfWeek StartDay { get; set; }
+        public DayOfWeek EndDay { get; set; }
         public string Opening { get; set; }
         public string Closing { get; set; }
         public bool TwentyFourHours { get; set; }

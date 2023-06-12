@@ -4,7 +4,7 @@ namespace Domain;
 
 public class Services : BaseDomainEntity
 {
-    public string ServiceName { get; set; } 
+    public string ServiceName { get; set; }
     public string ServiceDescription { get; set; }
-    public ICollection<InstitutionProfile> Institutions { get; set; }
+    public ICollection<InstitutionProfile> Institutions { get; set; } = new List<InstitutionProfile>();
 }
