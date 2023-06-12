@@ -6,7 +6,7 @@ public class IEducationDtoValidator : AbstractValidator<IEducationDto>
 {
     public IEducationDtoValidator()
     {
-        RuleFor(p => p.InstitutionName)
+        RuleFor(p => p.EducationInstitution)
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .NotNull()
             .MaximumLength(50).WithMessage("{PropertyName} must not exceed {ComparisonValue} characters.");
@@ -14,11 +14,7 @@ public class IEducationDtoValidator : AbstractValidator<IEducationDto>
                     .NotEmpty().WithMessage("{PropertyName} is required.")
                     .NotNull()
                     .MaximumLength(50).WithMessage("{PropertyName} must not exceed {ComparisonValue} characters.");
-        RuleFor(p => p.Description)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .NotNull()
-            .MaximumLength(300).WithMessage("{PropertyName} must not exceed {ComparisonValue} characters.");
-        RuleFor(p => p.DoctorId)
+       RuleFor(p => p.DoctorId)
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .NotNull()
             .WithMessage("{PropertyName} must not exceed {ComparisonValue} characters.");
