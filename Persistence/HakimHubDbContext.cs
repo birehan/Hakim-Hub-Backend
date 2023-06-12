@@ -36,20 +36,31 @@ namespace Persistence
             .HasForeignKey<Address>(a => a.InstitutionId)
             .OnDelete(DeleteBehavior.Cascade);
 
-            // institute availability
-            // modelBuilder.Entity<InstitutionProfile>()
-            // .HasMany(e => e.DoctorAvailabilities)
-            // .WithOne(d => d.Institution)
-            // .HasForeignKey(e => e.InstitutionId)
-            // .OnDelete(DeleteBehavior.Cascade);
+            // doctor profile to phot
+            modelBuilder.Entity<DoctorProfile>()
+                .HasOne(d => d.Photo)
+                .WithOne()
+                .HasForeignKey<Photo>(x => x.DoctorProfileId);
 
-            // speciality availability
-            // modelBuilder.Entity<Speciality>()
-            // .HasMany(e => e.DoctorAvailabilities)
-            // .WithOne(d => d.Speciality)
-            // .HasForeignKey(e => e.SpecialityId)
-            // .OnDelete(DeleteBehavior.Cascade);
 
+            // institiution logo with photo
+            modelBuilder.Entity<InstitutionProfile>()
+                .HasOne(d => d.Logo)
+                .WithOne()
+                .HasForeignKey<Photo>(x => x.LogoId);
+
+            // institiution banner with photo
+            modelBuilder.Entity<InstitutionProfile>()
+                .HasOne(d => d.Banner)
+                .WithOne()
+                .HasForeignKey<Photo>(x => x.BannerId);
+            //
+            modelBuilder.Entity<DoctorProfile>()
+                .HasOne(d => d.MainInstitution)
+                .WithMany()
+                .HasForeignKey(d => d.MainInstitutionId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
 
             // doctor to institution
             modelBuilder.Entity<DoctorProfile>()
