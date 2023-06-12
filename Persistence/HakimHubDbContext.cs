@@ -101,9 +101,9 @@ namespace Persistence
             .OnDelete(DeleteBehavior.Cascade);
             // 
             modelBuilder.Entity<InstitutionProfile>()
-            .HasMany(e => e.InstitutionAvailabilities)
+            .HasOne(e => e.InstitutionAvailability)
             .WithOne(d => d.Institution)
-            .HasForeignKey(e => e.InstitutionId)
+            .HasForeignKey<InstitutionAvailability>(e => e.InstitutionId)
             .OnDelete(DeleteBehavior.Cascade);
 
             // address to institution
