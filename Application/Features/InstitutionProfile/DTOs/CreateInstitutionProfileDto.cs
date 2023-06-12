@@ -13,9 +13,9 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public DateTime EstablishedOn {get; set;}
         public double Rate {get; set;}
 
-        public Guid LogoId {get;set;}
-        public Guid BannerId { get; set; }
-        public InstitutionAvailability InstitutionAvailability { get; set; }
+        public string LogoId {get;set;}
+        public string BannerId { get; set; }
+        public ICollection<InstitutionAvailability> InstitutionAvailabilities { get; set; }
         public Address Address { get; set; }
 
 

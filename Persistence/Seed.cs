@@ -6,8 +6,7 @@ namespace Persistence
 {
     public class Seed
     {
-        public static async Task SeedData(HakimHubDbContext context
-            )
+        public static async Task SeedData(HakimHubDbContext context)
         {
             if (!context.InstitutioProfiles.Any())
             {

@@ -16,10 +16,10 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public bool Status {get; set;}
 
 
-        public Guid LogoId {get;set;}
-        public Guid BannerId { get; set; }
+        public string LogoId {get;set;}
+        public string BannerId { get; set; }
 
-        public InstitutionAvailability InstitutionAvailability {get; set;}
+        public ICollection<InstitutionAvailability> InstitutionAvailabilities {get; set;}
         public Address Address {get; set;}
 
         public ICollection<DoctorProfile> Doctors { get; set; }

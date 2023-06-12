@@ -16,7 +16,7 @@ namespace Application.Features.Addresses.DTOs
         public string Summary { get; set; }
 
 
-        public Guid InstitutionId {get; set;}
+        public string InstitutionId {get; set;}
         public InstitutionProfile Institution {get; set;}
 
     }

@@ -12,11 +12,11 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public DateTime EstablishedOn {get; set;}
         public double Rate {get; set;}
 
-        public Guid LogoId {get;set;}
-        public Guid BannerId { get; set; }
+        public string LogoId {get;set;}
+        public string BannerId { get; set; }
         
         public Address Address { get; set; }
-        public InstitutionAvailability InstitutionAvailability {get; set;}
+        ICollection<InstitutionAvailability> InstitutionAvailabilities {get; set;}
 
         public ICollection<DoctorProfile> Doctors { get; set; }
         public ICollection<Services> Services { get; set; }

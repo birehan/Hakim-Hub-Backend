@@ -56,9 +56,12 @@ var services = scope.ServiceProvider;
 
 try
 {
+    Console.WriteLine("ffffffffffffffffffffffffffffffffffffffff");
     var context = services.GetRequiredService<HakimHubDbContext>();
     await context.Database.MigrateAsync();
     await Seed.SeedData(context);
+    Console.WriteLine("ffffffffffffffffffffffffffffffffffffffff");
+
 }
 catch (Exception ex)
 {

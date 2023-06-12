@@ -20,12 +20,12 @@ namespace Domain
         public Address Address { get; set; }
         public Photo Logo { get; set; }
         public Photo Banner { get; set; }
-        public InstitutionAvailability InstitutionAvailability { get; set; }
+        public ICollection<InstitutionAvailability> InstitutionAvailabilities { get; set; } = new List<InstitutionAvailability>();
 
         // Many to many relation references
-        public ICollection<DoctorProfile> Doctors { get; set; }
-        public ICollection<Services> Services { get; set; }
-        public ICollection<Photo> Photos { get; set; }
+        public ICollection<DoctorProfile> Doctors { get; set; } = new List<DoctorProfile>();
+        public ICollection<Services> Services { get; set; } = new List<Services>();
+        public ICollection<Photo> Photos { get; set; } = new List<Photo>();
 
 
     }

@@ -11,5 +11,6 @@ namespace Application.Features.Addresses.DTOs
         public double Longitude { get; set;}
         public double Latitude { get; set;}
         public string Summary { get; set; }
+        public Guid InstitutionId { get; set; }
     }
 }
