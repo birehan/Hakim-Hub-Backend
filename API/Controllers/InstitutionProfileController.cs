@@ -1,5 +1,4 @@
 using API.Controllers;
-using Application.Features.InstitutionProfiles.CQRS.Commands;
 using Application.Features.InstitutionProfiles.CQRS.Queries;
 using Application.Features.InstitutionProfiles.DTOs;
 using Application.Features.Specialities.CQRS.Queries;
@@ -32,6 +31,9 @@ namespace API.Controllers
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 79f95ec (feat(search-biruk): add search and filter for institutionProfile)
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {

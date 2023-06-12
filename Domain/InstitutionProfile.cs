@@ -6,12 +6,16 @@ namespace Domain
     {
         public string InstitutionName { get; set; }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 79f95ec (feat(search-biruk): add search and filter for institutionProfile)
         public string? BranchName { get; set; }
         public string? Website { get; set; }
         public string? PhoneNumber { get; set; }
         public string Summary { get; set; }
         public DateTime EstablishedOn { get; set; }
         public double Rate { get; set; }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
         [JsonIgnore]
@@ -35,15 +39,23 @@ namespace Domain
 
         // One to one realtion references
 >>>>>>> d90788f (feat(crud-biruk): done with the cruds about to pull)
+=======
+        public Guid AddressId { get; set; }
+>>>>>>> 79f95ec (feat(search-biruk): add search and filter for institutionProfile)
         public Address Address { get; set; }
+        public string LogoId { get; set; }
         public Photo Logo { get; set; }
+        public string BannerId { get; set; }
         public Photo Banner { get; set; }
         public InstitutionAvailability InstitutionAvailability { get; set; }
 
         // Many to many relation references
         public ICollection<DoctorProfile> Doctors { get; set; } = new List<DoctorProfile>();
+
+        [JsonIgnore]
         public ICollection<Services> Services { get; set; } = new List<Services>();
         public ICollection<Photo> Photos { get; set; } = new List<Photo>();
+<<<<<<< HEAD
 
 <<<<<<< HEAD
         public string LogoId {get;set;}
@@ -68,6 +80,10 @@ namespace Domain
         public InstitutionAvailability InstitutionAvailability { get; set; }
 =======
 >>>>>>> d90788f (feat(crud-biruk): done with the cruds about to pull)
+=======
+        [JsonIgnore]
+        public InstitutionAvailability InstitutionAvailability { get; set; }
+>>>>>>> 79f95ec (feat(search-biruk): add search and filter for institutionProfile)
 
     }
 }
