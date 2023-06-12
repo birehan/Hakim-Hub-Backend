@@ -9,7 +9,7 @@ public class DeleteServiceCommandHandler : IRequestHandler<DeleteServiceCommand,
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteServiceCommandHandler(IUnitOfWork unitOfWork)
+        public DeleteServiceCommandHandler(IUnitOfWork unitOfWork, AutoMapper.IMapper _mapper)
         {
             _unitOfWork = unitOfWork;
         }
