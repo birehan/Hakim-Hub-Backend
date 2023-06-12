@@ -26,11 +26,11 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
         public async Task<Result<List<DoctorProfileDto>>> Handle(GetDoctorProfileListBySpecialityAndGenderQuery request, CancellationToken cancellationToken)
         {
             var response = new Result<List<DoctorProfileDto>>();
-            var doctorProfiles = await _unitOfWork.DoctorProfileRepository.GetDoctorProfileBySpecialityAndGender(request.speciality, request.Gender);
+            var doctorProfiles = await _unitOfWork.DoctorProfileRepository.GetDoctorProfileBySpecialityIdAndGender(request.specialityId, request.Gender);
             if (doctorProfiles is null || doctorProfiles.Count == 0)
             {
                 response.IsSuccess = false;
-                response.Error = $"{new NotFoundException(nameof(doctorProfiles), request.speciality)} and {request.Gender}";
+                response.Error = $"{new NotFoundException(nameof(doctorProfiles), request.specialityId)} and {request.Gender}";
                 return response;
             }
             else

@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Features.DoctorProfiles.DTOs;
 using Application.Responses;
+using Domain;
 using MediatR;
+using static Domain.DoctorProfile;
 
 namespace Application.Features.DoctorProfiles.CQRS.Queris
 {
     public class GetDoctorProfileListByGenderQuery : IRequest<Result<List<DoctorProfileDto>>>
     {
-        public string Gender { get; set; }
+        public GenderType Gender { get; set; }
     }
 }

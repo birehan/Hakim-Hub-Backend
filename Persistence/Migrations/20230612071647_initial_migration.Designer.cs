@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence;
@@ -11,13 +12,14 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(HakimHubDbContext))]
-    partial class HakimHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230612071647_initial_migration")]
+    partial class initial_migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.15")
+                .HasAnnotation("ProductVersion", "6.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -102,9 +104,6 @@ namespace Persistence.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InstitutionId")
-                        .IsUnique();
 
                     b.ToTable("Address");
                 });
@@ -371,6 +370,9 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddressId")
+                        .IsUnique();
+
                     b.HasIndex("BannerId")
                         .IsUnique();
 
@@ -505,17 +507,6 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Address", b =>
-                {
-                    b.HasOne("Domain.InstitutionProfile", "Institution")
-                        .WithOne("Address")
-                        .HasForeignKey("Domain.Address", "InstitutionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Institution");
-                });
-
             modelBuilder.Entity("Domain.DoctorAvailability", b =>
                 {
                     b.HasOne("Domain.DoctorProfile", "Doctor")
@@ -612,6 +603,12 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.InstitutionProfile", b =>
                 {
+                    b.HasOne("Domain.Address", "Address")
+                        .WithOne("Institution")
+                        .HasForeignKey("Domain.InstitutionProfile", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Photo", "Banner")
                         .WithOne()
                         .HasForeignKey("Domain.InstitutionProfile", "BannerId")
@@ -623,6 +620,8 @@ namespace Persistence.Migrations
                         .HasForeignKey("Domain.InstitutionProfile", "LogoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Address");
 
                     b.Navigation("Banner");
 
@@ -652,6 +651,12 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Address", b =>
+                {
+                    b.Navigation("Institution")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.DoctorProfile", b =>
                 {
                     b.Navigation("Educations");
@@ -661,11 +666,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.InstitutionProfile", b =>
                 {
-                    b.Navigation("Address")
-                        .IsRequired();
-
-                    b.Navigation("InstitutionAvailability")
-                        .IsRequired();
+                    b.Navigation("InstitutionAvailabilities");
 
                     b.Navigation("Photos");
                 });
