@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain;
 using FluentValidation;
+using static Domain.DoctorProfile;
 
 namespace Application.Features.DoctorProfiles.DTOs.Validators
 {
@@ -55,7 +56,7 @@ namespace Application.Features.DoctorProfiles.DTOs.Validators
             .WithMessage("{PropertyName} is required")
             .NotEmpty()
             .WithMessage("{PropertyName} must be present")
-            .Must(gender => gender == Gender.Male || gender == Gender.Female)
+            .Must(gender => gender == GenderType.Male || gender == GenderType.Female)
             .WithMessage("{PropertyName} must be 'male' or 'female'");
 
 

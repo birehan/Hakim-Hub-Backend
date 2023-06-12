@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Features.Common;
 using Domain;
+using static Domain.DoctorProfile;
 
 namespace Application.Features.DoctorProfiles.DTOs
 {
@@ -13,7 +14,7 @@ namespace Application.Features.DoctorProfiles.DTOs
         public string About { get; set; }
         public string Email { get; set; }
         public DateTime CareerStartTime { get; set; }
-        public Gender Gender { get; set; }
+        public GenderType Gender { get; set; }
 
     }
 }

@@ -7,12 +7,13 @@ using Application.Features.Specialities.DTOs;
 using Application.Responses;
 using Domain;
 using MediatR;
+using static Domain.DoctorProfile;
 
 namespace Application.Features.DoctorProfiles.CQRS.Queris
 {
     public class GetDoctorProfileListBySpecialityAndGenderQuery: IRequest<Result<List<DoctorProfileDto>>>
     {
-        public string speciality{get;set;}
-        public string Gender{get;set;}
+        public Guid specialityId {get;set;}
+        public GenderType Gender{get;set;}
     }
 }

@@ -9,9 +9,11 @@ using Application.Responses;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static Domain.DoctorProfile;
 
 namespace API.Controllers
 {
+
     public class DoctorProfilesController : BaseApiController
     {
         [HttpGet("{id}")]
@@ -23,15 +25,15 @@ namespace API.Controllers
 
 
         }
-        [HttpGet]
-        public async Task<ActionResult<Result<List<DoctorProfileDto>>>> GetDoctors()
-        {
-            var query = new GetDoctorProfileListQuery();
-            var response = await Mediator.Send(query);
-            return HandleResult<List<DoctorProfileDto>>(response);
-        }
+        // [HttpGet]
+        // public async Task<ActionResult<Result<List<DoctorProfileDto>>>> GetDoctors()
+        // {
+        //     var query = new GetDoctorProfileListQuery();
+        //     var response = await Mediator.Send(query);
+        //     return HandleResult<List<DoctorProfileDto>>(response);
+        // }
 
-        [HttpGet("specialityId")]
+        [HttpGet("specialities/{specialityId}")]
         public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesBySpecialityID(Guid specialityId)
         {
             var query = new GetDoctorProfileListBySpecialityIdQuery { SpecialityId = specialityId };
@@ -39,21 +41,30 @@ namespace API.Controllers
             return HandleResult<List<DoctorProfileDto>>(response);
         }
 
-        [HttpGet("institutionId")]
+       [HttpGet]
+       public async Task<ActionResult<List<DoctorProfileDto>>> FilterDoctors(Guid specialityID, Guid educationId, DateTime careerStartTime, Guid institutionId){
+        var query = new FilterDoctorProfilesQuery{specialityId=specialityID,EducationId=educationId,careerStartTime=careerStartTime,institutionId=institutionId};
+        var response = await Mediator.Send(query);
+        return HandleResult<List<DoctorProfileDto>>(response);
+       }
+        
+
+        [HttpGet("institution/{institutionId}")]
         public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesByInstitutionId(Guid institutionId)
         {
             var query = new GetDoctorProfileListByInstitutionIdQuery { InstitutionId = institutionId };
             var response = await Mediator.Send(query);
             return HandleResult<List<DoctorProfileDto>>(response);
         }
+
         [HttpGet("gender")]
-        public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesByGender(string gender)
+        public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesByGender(GenderType gender)
         {
             var query = new GetDoctorProfileListByGenderQuery { Gender = gender };
             var response = await Mediator.Send(query);
             return HandleResult<List<DoctorProfileDto>>(response);
         }
-        [HttpGet("careerStartTime")]
+        [HttpGet("exprience/{careerStartTime}")]
         public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesByCareerStartTime(DateTime careerStartTime)
         {
             var query = new GetDoctorProfileListByCareerStartTimeQuery { CareerStartTime = careerStartTime };
@@ -62,11 +73,11 @@ namespace API.Controllers
 
 
         }
-        [HttpGet("speciality/{speciality}/gender/{gender}")]
-        public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesBySpecialityAndGender(string speciality, string gender)
+        [HttpGet("speciality/{specialityId}/gender/{gender}")]
+        public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesBySpecialityIdAndGender(Guid specialityId, GenderType gender)
         {
 
-            var query = new GetDoctorProfileListBySpecialityAndGenderQuery { speciality = speciality, Gender = gender };
+            var query = new GetDoctorProfileListBySpecialityAndGenderQuery { specialityId = specialityId, Gender = gender };
             var response = await Mediator.Send(query);
             return HandleResult<List<DoctorProfileDto>>(response);
 
