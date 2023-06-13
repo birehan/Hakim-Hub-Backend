@@ -154,13 +154,15 @@ namespace Persistence
                             services.Add(existingService);
                             continue;
                         }
-
-                        var service = new Service
+                        else
                         {
-                            Id = Guid.NewGuid(),
-                            ServiceName = serviceData.ServiceName,
-                            ServiceDescription = serviceData.ServiceDescription,
-                        };
+                            var service = new Service
+                            {
+                                Id = Guid.NewGuid(),
+                                ServiceName = serviceData.ServiceName,
+                                ServiceDescription = serviceData.ServiceDescription,
+                                Institutions = new List<InstitutionProfile>()
+                            };
 
                             // Add the doctor to the institution
                             service.Institutions.Add(institutionProfile);
@@ -247,5 +249,4 @@ namespace Persistence
         }
     }
 }
-
 
