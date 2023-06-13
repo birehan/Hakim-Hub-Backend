@@ -1,6 +1,5 @@
 ﻿using Application.Contracts.Persistence;
 using Application.UnitTest.Mocks;
-using Application.UnitTests.Mocks;
 using Moq;
 using System;
 using System.Collections.Generic;
