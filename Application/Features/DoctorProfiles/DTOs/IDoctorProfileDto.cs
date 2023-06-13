@@ -1,31 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain;
+
 using static Domain.DoctorProfile;
 
-namespace Application.Features.DoctorProfiles.DTOs
-{
-    public interface IDoctorProfileDto
+public interface IDoctorProfileDto 
     {
-        string FullName { get; set; }
-        string About { get; set; }
-        string Email { get; set; }
+        public string FullName{get;set;}
+        public string About{get;set;}
+        public string Email{get;set;}
+        public DateTime CareerStartTime {get;set;}
+        public GenderType Gender{get;set;}
+        
+        // public PhotoDto Photo {get;set;}
 
-        DateTime CareerStartTime { get; set; }
-        GenderType Gender { get; set; }
-        // PhotoDto Photo {get;set;}
+        // public ICollection<InstitutionProfileDto> Institutions {get;set;}
 
-        // ICollection<InstitutionProfileDto> Institutions {get;set;}
+        // public InstitutionProfileDto MainInstitution {get;set;}
 
-        // InstitutionProfileDto MainInstitution {get;set;}
-
-        // ICollection<EducationDto> Educations { get; set; }
-        // ICollection<ExperienceDto> Experiences { get; set; }
-        // ICollection<SpecialityDto> Specialities { get; set; }
-
-
-
+        // public ICollection<EducationDto> Educations { get; set; }
+        // public ICollection<ExperienceDto> Experiences { get; set; }
+        // public ICollection<SpecialityDto> Specialities { get; set; }
     }
-}
