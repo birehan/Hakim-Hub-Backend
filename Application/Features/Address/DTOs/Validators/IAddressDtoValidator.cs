@@ -35,11 +35,9 @@ namespace Application.Features.Addresses.DTOs.Validators
                 .NotNull();
 
             RuleFor(p => p.Longitude)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull();
 
             RuleFor(p => p.Latitude)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull();   
         }
 

@@ -24,7 +24,8 @@ namespace Application.Features.Addresses.CQRS.Handlers
         {
             var Address = await _unitOfWork.AddressRepository.Get(request.Id);
 
-            if (Address == null) return null;
+            if (Address == null) return Result<AddressDto>.Failure(error: "Item not found.");
+;
 
             return Result<AddressDto>.Success(_mapper.Map<AddressDto>(Address));
         }

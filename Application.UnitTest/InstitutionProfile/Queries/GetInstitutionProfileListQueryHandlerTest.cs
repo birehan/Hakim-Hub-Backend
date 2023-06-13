@@ -72,7 +72,6 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
             // Assert
             Assert.IsType<Result<List<InstitutionProfileDto>>>(result);
             Assert.False(result.IsSuccess);
-            Console.WriteLine(result.Value);
             Assert.Null(result.Value);
 
             _mockUnitOfWork.Verify(uow => uow.InstitutionProfileRepository.GetAllPopulated(), Times.Once);

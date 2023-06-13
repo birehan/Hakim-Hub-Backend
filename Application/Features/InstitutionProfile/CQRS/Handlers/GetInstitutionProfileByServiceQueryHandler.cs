@@ -22,7 +22,7 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
         {
             var InstitutionProfile = await _unitOfWork.InstitutionProfileRepository.GetByService(request.ServiceId);
             
-            if (InstitutionProfile == null) return null;
+            if (InstitutionProfile == null) return Result<List<InstitutionProfileDto>>.Failure(error: "Item not found.");
 
             return Result<List<InstitutionProfileDto>>.Success(_mapper.Map<List<InstitutionProfileDto>>(InstitutionProfile));
         }

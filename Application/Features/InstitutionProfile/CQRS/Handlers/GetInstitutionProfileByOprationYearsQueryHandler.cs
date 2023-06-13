@@ -21,8 +21,7 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
         public async Task<Result<List<InstitutionProfileDto>>> Handle(GetInstitutionProfileByOprationYearsQuery request, CancellationToken cancellationToken)
         {
             var InstitutionProfile = await _unitOfWork.InstitutionProfileRepository.GetByYears(request.Years);
-            Console.WriteLine(InstitutionProfile);
-            if (InstitutionProfile == null) return null;
+            if (InstitutionProfile == null) return Result<List<InstitutionProfileDto>>.Failure(error: "Item not found.");
 
             return Result<List<InstitutionProfileDto>>.Success(_mapper.Map<List<InstitutionProfileDto>>(InstitutionProfile));
         }
