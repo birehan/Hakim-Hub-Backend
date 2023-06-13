@@ -9,7 +9,7 @@ public class DeleteExperienceCommandHandler : IRequestHandler<DeleteExperienceCo
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteExperienceCommandHandler(IUnitOfWork unitOfWork)
+        public DeleteExperienceCommandHandler(IUnitOfWork unitOfWork, AutoMapper.IMapper? _mapper)
         {
             _unitOfWork = unitOfWork;
         }
