@@ -30,8 +30,13 @@ namespace Application.Features.Addresses.CQRS.Handlers
 =======
             var Address = await _unitOfWork.AddressRepository.Get(request.Id);
 
+<<<<<<< HEAD
             if (Address == null) return null;
 >>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
+=======
+            if (Address == null) return Result<AddressDto>.Failure(error: "Item not found.");
+;
+>>>>>>> 95d003c (fix(clean-biruk): clean up)
 
             return Result<AddressDto>.Success(_mapper.Map<AddressDto>(Address));
         }

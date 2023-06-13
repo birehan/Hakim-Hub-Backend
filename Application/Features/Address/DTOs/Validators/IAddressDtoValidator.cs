@@ -48,12 +48,14 @@ namespace Application.Features.Addresses.DTOs.Validators
 >>>>>>> d90788f (feat(crud-biruk): done with the cruds about to pull)
 
             RuleFor(p => p.Longitude)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull();
 
             RuleFor(p => p.Latitude)
+<<<<<<< HEAD
                 .NotEmpty().WithMessage("{PropertyName} is required.")
 >>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
+=======
+>>>>>>> 95d003c (fix(clean-biruk): clean up)
                 .NotNull();   
         }
 

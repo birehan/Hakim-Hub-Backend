@@ -22,6 +22,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(new GetAddressListQuery()));
         }
 
+<<<<<<< HEAD
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateAddressDto createTask)
@@ -47,6 +48,8 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
+=======
+>>>>>>> 95d003c (fix(clean-biruk): clean up)
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {

@@ -6,10 +6,15 @@ namespace Application.Contracts.Persistence
     {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         Task<List<InstitutionProfile>> GetAllPopulated();
         Task<InstitutionProfile> GetPopulated(Guid id);
 =======
 >>>>>>> 2e3d14f (feat(crud-biruk): add endpoints for address and InstitutionProfile)
+=======
+        Task<List<InstitutionProfile>> GetAllPopulated();
+        Task<InstitutionProfile> GetPopulated(Guid id);
+>>>>>>> 95d003c (fix(clean-biruk): clean up)
         Task<List<InstitutionProfile>> GetByYears(int years);
         Task<List<InstitutionProfile>> GetByService(Guid id);
 

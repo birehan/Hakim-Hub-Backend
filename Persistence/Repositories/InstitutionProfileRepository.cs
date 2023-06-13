@@ -30,12 +30,19 @@ namespace Persistence.Repositories
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         public async Task<List<InstitutionProfile>> GetAllPopulated()
         {
             return await _dbContext.Set<InstitutionProfile>()
                 .Include(x => x.Address)
                 .Include(x => x.Logo)
                 .Include(x => x.Banner).AsNoTracking().ToListAsync();
+=======
+        public async Task<List<InstitutionProfile>> GetAllPopulated()
+        {
+            return await _dbContext.Set<InstitutionProfile>()
+                .Include(x => x.Address).AsNoTracking().ToListAsync();
+>>>>>>> 95d003c (fix(clean-biruk): clean up)
         }
 
         public async Task<InstitutionProfile> GetPopulated(Guid id)
@@ -49,17 +56,24 @@ namespace Persistence.Repositories
                 .Include(x => x.InstitutionAvailability)
                 .Include(x => x.Doctors).FirstOrDefaultAsync(b => b.Id == id);
         }
+<<<<<<< HEAD
 =======
 >>>>>>> 2e3d14f (feat(crud-biruk): add endpoints for address and InstitutionProfile)
+=======
+>>>>>>> 95d003c (fix(clean-biruk): clean up)
         public async Task<List<InstitutionProfile>> GetByYears(int years)
         {
             DateTime startDate = DateTime.Today.AddYears(-years);
             return await _dbContext.Set<InstitutionProfile>()
 <<<<<<< HEAD
+<<<<<<< HEAD
                 .Include(x => x.InstitutionAvailability)
 =======
                 // .Include(x => x.Address)
 >>>>>>> 2e3d14f (feat(crud-biruk): add endpoints for address and InstitutionProfile)
+=======
+                .Include(x => x.InstitutionAvailability)
+>>>>>>> 95d003c (fix(clean-biruk): clean up)
                 .Where(x => x.EstablishedOn <= startDate)
                 .ToListAsync();
         }
@@ -73,13 +87,14 @@ namespace Persistence.Repositories
         }
 
         public async Task<List<InstitutionProfile>> Search(string serviceName, int operationYears, bool openStatus)
-{
-    var options = new JsonSerializerOptions
-    {
-        ReferenceHandler = ReferenceHandler.Preserve,
-        MaxDepth = 32
-    };
+        {
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                MaxDepth = 32
+            };
 
+<<<<<<< HEAD
 <<<<<<< HEAD
             IQueryable<InstitutionProfile> query = _dbContext.Set<InstitutionProfile>()
                 .Include(x => x.Services)
@@ -97,18 +112,27 @@ namespace Persistence.Repositories
             .ThenInclude(s => s.Institutions)
         .Include(x => x.InstitutionAvailability);
 >>>>>>> 79f95ec (feat(search-biruk): add search and filter for institutionProfile)
+=======
+            IQueryable<InstitutionProfile> query = _dbContext.Set<InstitutionProfile>()
+                .Include(x => x.Services)
+                    .ThenInclude(s => s.Institutions)
+                .Include(x => x.InstitutionAvailability)
+                .Include(x => x.Logo)
+                .Include(x => x.Banner);
+>>>>>>> 95d003c (fix(clean-biruk): clean up)
 
-    if (!string.IsNullOrEmpty(serviceName))
-    {
-        query = query.Where(x => x.Services.Any(service => service.ServiceName == serviceName));
-    }
+            if (!string.IsNullOrEmpty(serviceName))
+            {
+                query = query.Where(x => x.Services.Any(service => service.ServiceName == serviceName));
+            }
 
-    if (operationYears > 0)
-    {
-        DateTime startDate = DateTime.Today.AddYears(-operationYears);
-        query = query.Where(x => x.EstablishedOn <= startDate);
-    }
+            if (operationYears > 0)
+            {
+                DateTime startDate = DateTime.Today.AddYears(-operationYears);
+                query = query.Where(x => x.EstablishedOn <= startDate);
+            }
 
+<<<<<<< HEAD
     if (openStatus)
     {
         var currentDate = DateTime.UtcNow.Date;
@@ -133,6 +157,14 @@ namespace Persistence.Repositories
 <<<<<<< HEAD
                 var institutionIds = await query.Select(x => x.Id).ToListAsync();
 <<<<<<< HEAD
+=======
+            if (openStatus)
+            {
+                var currentDate = DateTime.UtcNow.Date;
+                var currentTime = DateTime.UtcNow.TimeOfDay;
+
+                var institutionIds = await query.Select(x => x.Id).ToListAsync();
+>>>>>>> 95d003c (fix(clean-biruk): clean up)
                 var currentDayOfWeek = (int)currentDate.DayOfWeek + 1; // Adding 1 to match the numbering convention
 
                 var availabilities = await _dbContext.Set<InstitutionAvailability>()
@@ -145,6 +177,7 @@ namespace Persistence.Repositories
 
 
                 var profiles = await query.ToListAsync();
+<<<<<<< HEAD
 
                 var filteredProfiles = profiles.Where(x => x.InstitutionAvailability != null &&
                     availabilities.Any(a => a.InstitutionId == x.Id)
@@ -175,6 +208,21 @@ namespace Persistence.Repositories
     return await query.ToListAsync();
 }
 >>>>>>> 79f95ec (feat(search-biruk): add search and filter for institutionProfile)
+=======
+
+                var filteredProfiles = profiles.Where(x => x.InstitutionAvailability != null &&
+                    availabilities.Any(a => a.InstitutionId == x.Id)
+                    //     (a.TwentyFourHours ||
+                    //      (TimeSpan.Parse(a.Opening) <= currentTime && currentTime <= TimeSpan.Parse(a.Closing))))
+                    ).ToList();
+
+
+                return filteredProfiles;
+            }
+
+            return await query.ToListAsync();
+        }
+>>>>>>> 95d003c (fix(clean-biruk): clean up)
 
 
 <<<<<<< HEAD
@@ -187,6 +235,7 @@ namespace Persistence.Repositories
                 .Include(x => x.Services)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 .Include(x => x.InstitutionAvailability)
                 .Include(x => x.Logo)
                 .Include(x => x.Banner);
@@ -196,6 +245,11 @@ namespace Persistence.Repositories
 =======
                 .Include(x => x.InstitutionAvailability);
 >>>>>>> 79f95ec (feat(search-biruk): add search and filter for institutionProfile)
+=======
+                .Include(x => x.InstitutionAvailability)
+                .Include(x => x.Logo)
+                .Include(x => x.Banner);
+>>>>>>> 95d003c (fix(clean-biruk): clean up)
         
             if (!string.IsNullOrEmpty(institutionName))
             {

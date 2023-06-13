@@ -24,6 +24,7 @@ namespace Domain
         [JsonIgnore]
 =======
         public Guid AddressId { get; set; }
+<<<<<<< HEAD
 =======
         public string BranchName { get; set; }
         public string Website { get; set; }
@@ -42,18 +43,23 @@ namespace Domain
 =======
         public Guid AddressId { get; set; }
 >>>>>>> 79f95ec (feat(search-biruk): add search and filter for institutionProfile)
+=======
+
+        [JsonIgnore]
+>>>>>>> 95d003c (fix(clean-biruk): clean up)
         public Address Address { get; set; }
         public string LogoId { get; set; }
+        [JsonIgnore]
         public Photo Logo { get; set; }
         public string BannerId { get; set; }
+        [JsonIgnore]
         public Photo Banner { get; set; }
-        public InstitutionAvailability InstitutionAvailability { get; set; }
-
-        // Many to many relation references
+        [JsonIgnore]
         public ICollection<DoctorProfile> Doctors { get; set; } = new List<DoctorProfile>();
 
         [JsonIgnore]
         public ICollection<Services> Services { get; set; } = new List<Services>();
+        [JsonIgnore]
         public ICollection<Photo> Photos { get; set; } = new List<Photo>();
 <<<<<<< HEAD
 
