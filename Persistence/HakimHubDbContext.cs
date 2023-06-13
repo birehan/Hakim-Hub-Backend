@@ -36,20 +36,6 @@ namespace Persistence
             .HasForeignKey<Address>(a => a.InstitutionId)
             .OnDelete(DeleteBehavior.Cascade);
 
-            // institute availability
-            modelBuilder.Entity<InstitutionProfile>()
-            .HasMany(e => e.DoctorAvailabilities)
-            .WithOne(d => d.Institution)
-            .HasForeignKey(e => e.InstitutionId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-            // speciality availability
-            modelBuilder.Entity<Speciality>()
-            .HasMany(e => e.DoctorAvailabilities)
-            .WithOne(d => d.Speciality)
-            .HasForeignKey(e => e.SpecialityId)
-            .OnDelete(DeleteBehavior.Cascade);
-
 
             // doctor to institution
             modelBuilder.Entity<DoctorProfile>()
