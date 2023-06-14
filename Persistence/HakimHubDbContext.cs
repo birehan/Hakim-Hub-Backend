@@ -5,7 +5,7 @@ using Domain.Common;
 
 namespace Persistence
 {
-    public class HakimHubDbContext : DbContext
+    public class HakimHubDbContext : IdentityDbContext<AppUser>
     {
         public HakimHubDbContext(DbContextOptions<HakimHubDbContext> options)
          : base(options)
@@ -23,6 +23,10 @@ namespace Persistence
             modelBuilder.Entity<Services>()
              .HasIndex(s => s.ServiceName)
              .IsUnique();
+
+            modelBuilder.Entity<Speciality>()
+           .HasIndex(s => s.Name)
+           .IsUnique();
 
             // address to institution
             modelBuilder.Entity<InstitutionProfile>()
