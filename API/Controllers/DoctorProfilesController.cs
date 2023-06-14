@@ -35,12 +35,12 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<DoctorProfileDto>>> FilterDoctors(Guid? specialityID, Guid? educationId, DateTime? careerStartTime, Guid? institutionId)
+        public async Task<ActionResult<List<DoctorProfileDto>>> FilterDoctors(string? specialityName, string? educationName, DateTime? careerStartTime, Guid institutionId)
         {
             var query = new FilterDoctorProfilesQuery
             {
-                SpecialityId = specialityID,
-                EducationId = educationId,
+                SpecialityName = specialityName,
+                EducationName = educationName,
                 CareerStartTime = careerStartTime,
                 InstitutionId = institutionId
             };
