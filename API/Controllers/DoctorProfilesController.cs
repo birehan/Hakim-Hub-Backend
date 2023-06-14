@@ -13,7 +13,7 @@ using static Domain.DoctorProfile;
 
 namespace API.Controllers
 {
-
+    [Route("api/institutions/[Controller]")]
     public class DoctorProfilesController : BaseApiController
     {
         [HttpGet("{id}")]
@@ -25,13 +25,6 @@ namespace API.Controllers
 
 
         }
-        // [HttpGet]
-        // public async Task<ActionResult<Result<List<DoctorProfileDto>>>> GetDoctors()
-        // {
-        //     var query = new GetDoctorProfileListQuery();
-        //     var response = await Mediator.Send(query);
-        //     return HandleResult<List<DoctorProfileDto>>(response);
-        // }
 
         [HttpGet("specialities/{specialityId}")]
         public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesBySpecialityID(Guid specialityId)
@@ -41,13 +34,21 @@ namespace API.Controllers
             return HandleResult<List<DoctorProfileDto>>(response);
         }
 
-       [HttpGet]
-       public async Task<ActionResult<List<DoctorProfileDto>>> FilterDoctors(Guid specialityID, Guid educationId, DateTime careerStartTime, Guid institutionId){
-        var query = new FilterDoctorProfilesQuery{specialityId=specialityID,EducationId=educationId,careerStartTime=careerStartTime,institutionId=institutionId};
-        var response = await Mediator.Send(query);
-        return HandleResult<List<DoctorProfileDto>>(response);
-       }
-        
+        [HttpGet]
+        public async Task<ActionResult<List<DoctorProfileDto>>> FilterDoctors(Guid? specialityID, Guid? educationId, DateTime? careerStartTime, Guid? institutionId)
+        {
+            var query = new FilterDoctorProfilesQuery
+            {
+                SpecialityId = specialityID,
+                EducationId = educationId,
+                CareerStartTime = careerStartTime,
+                InstitutionId = institutionId
+            };
+            var response = await Mediator.Send(query);
+            return HandleResult<List<DoctorProfileDto>>(response);
+        }
+
+
 
         [HttpGet("institution/{institutionId}")]
         public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesByInstitutionId(Guid institutionId)
