@@ -1,36 +1,71 @@
+using Application.Contracts.Persistence;
+using Application.Features.Educations.CQRS.Handlers;
+using Application.Features.Educations.CQRS.Queries;
+using Application.Features.Educations.DTOs;
+using Application.Profiles;
+using Application.UnitTest.Mocks;
+using AutoMapper;
+using Domain;
+using Moq;
+using Xunit;
+using Shouldly;
+using Application.Responses;
+
 namespace Application.UnitTest.EducationTest.EducationQueryTest;
 
 public class GetEducationDetailCommandHandlerTest
 {
-
-    private IMapper _mapper { get; set; }
+    private Mock<IMapper> _mapper { get; set; }
     private Mock<IUnitOfWork> _mockUnitOfWork { get; set; }
-    private GetEducationDetailsQueryHandler _handler { get; set; }
+    private GetEducationByIdQueryHandler _handler { get; set; }
 
-    public GetBlogDetailsQueryHandlerTest()
+    public GetEducationDetailCommandHandlerTest()
     {
         _mockUnitOfWork = MockUnitOfWork.GetUnitOfWork();
-
-        _mapper = new MapperConfiguration(c =>
-        {
-            c.AddProfile<MappingProfile>();
-        }).CreateMapper();
-
-        _handler = new GetEducationDetailsQueryHandler(_mockUnitOfWork.Object, _mapper);
+        _mapper = new Mock<IMapper>();
+        _handler = new GetEducationByIdQueryHandler(_mockUnitOfWork.Object, _mapper.Object);
     }
 
     [Fact]
     public async Task GetEducationDetailsValid()
     {
-        var result = await _handler.Handle(new GetEducationDetailsQuery() { Id = 1 }, CancellationToken.None);
+        var educationId = Guid.NewGuid();
+        Education education = new(){
+            Id = educationId,
+            EducationInstitution = "Belford University",
+            StartYear = DateTime.Now,
+            GraduationYear = DateTime.Today,
+            Degree = "Bachelors",
+            DoctorId = Guid.NewGuid(),
+            InstitutionLogoId = "Belford Campus"
+        };
+        EducationDto educationDto = new()
+        {
+            Id = educationId,
+            EducationInstitution = "Belford University",
+            StartYear = DateTime.Now,
+            GraduationYear = DateTime.Today,
+            Degree = "Bachelors",
+            DoctorId = Guid.NewGuid(),
+            InstitutionLogoId = "Belford Campus"
+        };
+
+        _mockUnitOfWork.Setup(uow => uow.EducationRepository.Get(educationId)).ReturnsAsync(education);
+        _mapper.Setup(mapper => mapper.Map<EducationDto>(education)).Returns(educationDto);
+        var result = await _handler.Handle(new GetEducationDetailQuery() { Id = educationDto.Id }, CancellationToken.None);
         result.ShouldNotBe(null);
+        Assert.IsType<Result<EducationDto>>(result);
+        Assert.IsType<EducationDto>(result.Value);
+        Assert.Equal(educationId, result.Value.Id);
+
     }
 
     [Fact]
-    public async Task GetBlogDetailsInvalid()
+    public async Task GetEducationDetailsInvalid()
     {
-        var result = await _handler.Handle(new GetEducationDetailsQuery() { Id = 100 }, CancellationToken.None);
+        var result = await _handler.Handle(new GetEducationDetailQuery() { Id = Guid.NewGuid() }, CancellationToken.None);
         result.Value.ShouldBe(null);
+        Assert.Equal("Fetch Failed", result.Error);
     }
 }
 

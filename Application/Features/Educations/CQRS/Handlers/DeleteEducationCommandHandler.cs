@@ -1,12 +1,13 @@
 
 
+using System.Net;
 using AutoMapper;
 using Application.Contracts.Persistence;
 using Application.Responses;
 using MediatR;
 namespace Application.Features.Educations.CQRS.Handlers;
 
-public class DeleteEducationCommandHandler: IRequestHandler<DeleteEducationCommand, Result<Guid>>
+public class DeleteEducationCommandHandler: IRequestHandler<DeleteEducationCommand, Result<Guid?>>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
@@ -17,19 +18,26 @@ public class DeleteEducationCommandHandler: IRequestHandler<DeleteEducationComma
         _mapper = mapper;
     }
 
-    public async Task<Result<Guid>> Handle(DeleteEducationCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid?>> Handle(DeleteEducationCommand request, CancellationToken cancellationToken)
     {
         var education = await _unitOfWork.EducationRepository.Get(request.Id);
-
-        if (education is null) return null;
-
+        var response = new Result<Guid?>();
+        if (education is null){
+            response.IsSuccess = false;
+            response.Value = null;
+            response.Error = "Education Not Found.";
+            return response;
+        }
         await _unitOfWork.EducationRepository.Delete(education);
-
-        if (await _unitOfWork.Save() > 0)
-            return Result<Guid>.Success(education.Id);
-
-        return Result<Guid>.Failure("Delete Failed");
-
-
+        if (await _unitOfWork.Save() > 0){
+            response.IsSuccess = true;
+            response.Value = education.Id;
+            response.Error = "Education Deleted Successfully.";
+        }else{
+            response.IsSuccess = false;
+            response.Value = null;
+            response.Error = "Education Deletion Failed.";
+        }
+        return response;
     }
 }

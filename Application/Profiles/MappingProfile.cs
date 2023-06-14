@@ -12,11 +12,11 @@ namespace Application.Profiles
         {
             CreateMap<CreateSpecialityDto, Speciality>().ReverseMap();
             CreateMap<UpdateSpecialityDto, Speciality>().ReverseMap();
-            CreateMap<Speciality, SpecialityDto>();
+            CreateMap<Speciality, SpecialityDto>().ReverseMap();
 
             CreateMap<CreateEducationDto, Education>().ReverseMap();
             CreateMap<UpdateEducationDto, Education>().ReverseMap();
-            CreateMap<Education, EducationDto>();
+            CreateMap<Education, EducationDto>().ReverseMap();
 
             CreateMap<CreateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();
             CreateMap<UpdateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();
