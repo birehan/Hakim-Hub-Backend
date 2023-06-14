@@ -11,6 +11,9 @@ using Application.Features.Services.DTOs;
 using Application.Features.Specialities.DTOs;
 using Application.Features.DoctorAvailabilities.DTOs;
 
+using AutoMapper;
+using Domain;
+using Application.Features.DoctorProfiles.DTOs;
 
 namespace Application.Profiles
 {
@@ -50,6 +53,9 @@ namespace Application.Profiles
             CreateMap<CreateServiceDto, Service>().ReverseMap();
             CreateMap<UpdateServiceDto, Service>().ReverseMap();
             CreateMap<ServiceDto, Service>().ReverseMap();
+
+            CreateMap<DoctorProfile,DoctorProfileDto>().ReverseMap();
+            CreateMap<DoctorProfile,DoctorProfileDetailDto>().ReverseMap();
         }
     }
 }
