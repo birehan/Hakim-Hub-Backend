@@ -23,6 +23,9 @@ namespace API.Controllers
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 371b067 (test(address-biruk): add tests for address commands)
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateAddressDto createTask)
@@ -48,8 +51,11 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
+<<<<<<< HEAD
 =======
 >>>>>>> 95d003c (fix(clean-biruk): clean up)
+=======
+>>>>>>> 371b067 (test(address-biruk): add tests for address commands)
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {

@@ -11,7 +11,10 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
+<<<<<<< HEAD
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+=======
+>>>>>>> 371b067 (test(address-biruk): add tests for address commands)
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
