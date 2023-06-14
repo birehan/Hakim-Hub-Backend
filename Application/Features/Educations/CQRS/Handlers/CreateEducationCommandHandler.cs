@@ -30,12 +30,21 @@ public class CreateEducationCommandHandler: IRequestHandler<CreateEducationComma
             return Result<CreateEducationDto>.Failure(validationResult.Errors[0].ErrorMessage);
 
         var education = _mapper.Map<Education>(request.createEducationDto);
-        
+        education.Id = Guid.NewGuid();
         var edu = await _unitOfWork.EducationRepository.Add(education);
 
-        if (await _unitOfWork.Save() > 0)
-            return Result<CreateEducationDto>.Success(_mapper.Map<CreateEducationDto>(edu));
-        return Result<CreateEducationDto>.Failure("Creation Failed");
-    }
 
+        var response = new Result<CreateEducationDto>();
+        if (await _unitOfWork.Save() > 0){
+            response.Value = _mapper.Map<CreateEducationDto>(edu);
+            response.IsSuccess = true;
+            response.Error = "Create Education Successful.";
+            
+        }else{
+            response.Value = null;
+            response.IsSuccess = false;
+            response.Error = "Create Education Failed.";
+        }
+        return response;
+    }
 }

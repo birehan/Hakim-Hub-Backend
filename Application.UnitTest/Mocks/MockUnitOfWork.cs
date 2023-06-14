@@ -1,6 +1,5 @@
 ﻿using Application.Contracts.Persistence;
 using Application.UnitTest.Mocks;
-using Application.UnitTests.Mocks;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -16,10 +15,15 @@ namespace Application.UnitTest.Mocks
         public static Mock<IUnitOfWork> GetUnitOfWork()
         {
             var mockUow = new Mock<IUnitOfWork>();
+            
+            var mockEducationRepo = MockEducationRepository.GetEducationRepository();
+            mockUow.Setup(r => r.EducationRepository).Returns(mockEducationRepo.Object);
+
+            var mockSpecialityRepo = MockSpecialityRepository.GetSpecialityRepository();
+            mockUow.Setup(r => r.SpecialityRepository).Returns(mockSpecialityRepo.Object);
+
             mockUow.Setup(r => r.Save()).ReturnsAsync(1);
             return mockUow;
         }
-
-
     }
 }

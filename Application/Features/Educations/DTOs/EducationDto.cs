@@ -4,6 +4,7 @@ namespace Application.Features.Educations.DTOs;
 
 public class EducationDto : BaseDto, IEducationDto
 {
+    public Guid Id { get; set; }
     public string EducationInstitution { get; set; }
     public DateTime StartYear { get; set; }
     public DateTime GraduationYear { get; set; }

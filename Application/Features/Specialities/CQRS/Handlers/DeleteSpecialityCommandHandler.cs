@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Features.Specialities.CQRS.Handlers
 {
-    public class DeleteSpecialityCommandHandler : IRequestHandler<DeleteSpecialityCommand, Result<Guid>>
+    public class DeleteSpecialityCommandHandler : IRequestHandler<DeleteSpecialityCommand, Result<Guid?>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,19 +14,33 @@ namespace Application.Features.Specialities.CQRS.Handlers
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<Guid>> Handle(DeleteSpecialityCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid?>> Handle(DeleteSpecialityCommand request, CancellationToken cancellationToken)
         {
 
-            var Speciality = await _unitOfWork.SpecialityRepository.Get(request.Id);
+            var speciality = await _unitOfWork.SpecialityRepository.Get(request.Id);
+            var response = new Result<Guid?>();
+            if (speciality is null) {
+                response.IsSuccess = false;
+                response.Value = null;
+                response.Error = "Speciality Not Found.";
+                return response;
+            };
 
-            if (Speciality is null) return null;
-
-            await _unitOfWork.SpecialityRepository.Delete(Speciality);
-
+            await _unitOfWork.SpecialityRepository.Delete(speciality);
+           
             if (await _unitOfWork.Save() > 0)
-                return Result<Guid>.Success(Speciality.Id);
+                {
+                    response.IsSuccess = true;
+                    response.Value = speciality.Id;
+                    response.Error = "Speciality Deleted Successfully.";
 
-            return Result<Guid>.Failure("Delete Failed");
+                }else{
+                response.IsSuccess = false;
+                response.Value = null;
+                response.Error = "Speciality Deleted Failed.";
+                }
+
+            return response;
 
         }
     }

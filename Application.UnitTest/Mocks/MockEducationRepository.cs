@@ -1,3 +1,7 @@
+using Application.Contracts.Persistence;
+using Domain;
+using Moq;
+
 namespace Application.UnitTest.Mocks;
 
 public class MockEducationRepository
@@ -6,44 +10,65 @@ public class MockEducationRepository
         var educations = new List<Education>
         {
            new Education
-                {},
+                {
+                    Id = Guid.NewGuid(),
+                    EducationInstitution = "Addis Ababa University",
+                    StartYear = DateTime.Today,
+                    GraduationYear = DateTime.Today,
+                    Degree = "Masters",
+                    DoctorId = Guid.NewGuid(),
+                    InstitutionLogoId = "Addis Ababa Logo"
+                },
            new Education
-                {}
+                {
+                    Id = Guid.NewGuid(),
+                    EducationInstitution = "Arba Minch University",
+                    StartYear = DateTime.Now,
+                    GraduationYear = DateTime.Today,
+                    Degree = "Bachelors",
+                    DoctorId = Guid.NewGuid(),
+                    InstitutionLogoId = "Addis Ababa Logo"
+                }
         };
 
         var mockRepository = new Mock<IEducationRepository>();
 
-        mockRepository.Setup(r => r.GetAll()).ReturnsAsync(chores);
+        mockRepository.Setup(r => r.GetAll()).ReturnsAsync(educations);
 
-        mockRepository.Setup(r => r.Add(It.IsAny<Education>())).ReturnsAsync((Education chore) =>
+        mockRepository.Setup(r => r.Add(It.IsAny<Education>())).ReturnsAsync((Education edu) =>
         {
-            chore.Id = chores.Count() + 1;
-            chores.Add(chore);
-            return chore;
+            edu.Id = Guid.NewGuid();
+            educations.Add(edu);
+            MockUnitOfWork.changes += 1;
+            return edu;
         });
 
-        mockRepository.Setup(r => r.Update(It.IsAny<Education>())).Callback((Education chore) =>
+        mockRepository.Setup(r => r.Update(It.IsAny<Education>())).Callback((Education edu) =>
         {
-            var newChores = chores.Where((r) => r.Id != chore.Id);
-            chores = newChores.ToList();
-            chores.Add(chore);
+            var newEdu = educations.Where((r) => r.Id != edu.Id);
+            educations = newEdu.ToList();
+            educations.Add(edu);
+            MockUnitOfWork.changes += 1;
         });
 
         mockRepository.Setup(r => r.Delete(It.IsAny<Education>())).Callback((Education chore) =>
         {
-            if (chores.Exists(b => b.Id == chore.Id))
-                chores.Remove(chores.Find(b => b.Id == chore.Id)!);
+            if (educations.Exists(b => b.Id == chore.Id)){
+                educations.Remove(educations.Find(b => b.Id == chore.Id)!);
+                MockUnitOfWork.changes -= 1;
+            }
+                
         });
 
-        mockRepository.Setup(r => r.Exists(It.IsAny<int>())).ReturnsAsync((int id) =>
+        mockRepository.Setup(r => r.Exists(It.IsAny<Guid>())).ReturnsAsync((Guid id) =>
         {
-            var chore = chores.FirstOrDefault((r) => r.Id == id);
+            var chore = educations.FirstOrDefault((r) => r.Id == id);
             return chore != null;
         });
 
-        mockRepository.Setup(r => r.Get(It.IsAny<int>()))!.ReturnsAsync((int id) =>
+        mockRepository.Setup(r => r.Get(It.IsAny<Guid>()))!.ReturnsAsync((Guid id) =>
         {
-            return chores.FirstOrDefault((r) => r.Id == id);
+            return educations.FirstOrDefault((r) => r.Id == id);
         });
 
         return mockRepository;
