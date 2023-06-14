@@ -14,7 +14,7 @@ namespace Persistence.Repositories
                  .Build();
 
             var builder = new DbContextOptionsBuilder<HakimHubDbContext>();
-            var connectionString = configuration.GetConnectionString("HakimConnectionString");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             builder.UseNpgsql(connectionString);
 
