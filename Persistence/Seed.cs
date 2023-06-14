@@ -1,14 +1,39 @@
 using Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Text.Json;
 
 namespace Persistence
 {
     public class Seed
     {
-        public static async Task SeedData(HakimHubDbContext context
+        public static async Task SeedData(HakimHubDbContext context, UserManager<AppUser> userManager, IConfiguration configuration
             )
         {
+
+            // Check if there are no users in the database
+            if (!context.Users.Any())
+            {
+                // Read the admin user details from appsettings.json
+                var adminUser = configuration.GetSection("AdminUser");
+
+                var userName = adminUser["UserName"];
+                var email = adminUser["Email"];
+                var password = adminUser["Password"];
+
+
+                // Create a new instance of the AppUser
+                var user = new AppUser
+                {
+                    UserName = userName,
+                    Email = email
+                };
+
+                // Create the admin user with the UserManager
+                var result = await userManager.CreateAsync(user, password);
+            }
+
             if (!context.InstitutioProfiles.Any())
             {
 
@@ -149,47 +174,18 @@ namespace Persistence
                     // await context.SaveChangesAsync();
 
 
-                   
+
 
                     //.........add doctors to institutionsss.........
                     var doctors = new List<DoctorProfile>();
+                    var specialties = await context.Specialities.ToListAsync();
+
+
                     foreach (var doctorData in institution.Doctors)
                     {
                         var existingDoctor = await context.DoctorProfiles.FirstOrDefaultAsync(d => d.FullName == doctorData.FullName);
                         if (existingDoctor != null)
                         {
-                            //..................add speciality to doctors....................
-                            var specialties = new List<Speciality>();
-                            var servs = doctorData.Specialities;
-                            foreach (var specialtyData in doctorData.Specialities)
-                            {
-                                // Check if the specialty with the same name already exists
-                                var existingSpecialty = await context.Specialities.FirstOrDefaultAsync(s => s.Name == specialtyData.Name);
-
-                                if (existingSpecialty != null)
-                                {
-                                    // Specialty already exists, skip creating a new one
-                                    specialties.Add(existingSpecialty);
-                                }
-                                else
-                                {
-                                    var newSpecialty = new Speciality
-                                    {
-                                        Id = Guid.NewGuid(),
-                                        Name = specialtyData.Name,
-                                        Description = specialtyData.Description,
-                                        Doctors = new List<DoctorProfile>()
-                                    };
-
-                                    // Add the doctor to the specialty
-                                    newSpecialty.Doctors.Add(existingDoctor);
-
-                                    specialties.Add(newSpecialty);
-                                    await context.SaveChangesAsync();
-                                }
-                            }
-                            existingDoctor.Specialities = specialties;
-                            // Assign the existing doctor to the institution
                             existingDoctor.Institutions.Add(institutionProfile);
                             existingDoctor.MainInstitution = institutionProfile;
                             doctors.Add(existingDoctor);
@@ -208,16 +204,16 @@ namespace Persistence
                                 MainInstitution = institutionProfile
                             };
                             //..................add speciality to doctors....................
-                            var specialties = new List<Speciality>();
-                            // var servs = doctorData.Speciality;
+
                             foreach (var specialtyData in doctorData.Specialities)
                             {
                                 // Check if the specialty with the same name already exists
-                                var existingSpecialty = await context.Specialities.FirstOrDefaultAsync(s => s.Name == specialtyData.Name);
+                                var existingSpecialty = specialties.Find(s => s.Name == specialtyData.Name);
                                 if (existingSpecialty != null)
                                 {
-                                    // Specialty already exists, skip creating a new one
-                                    specialties.Add(existingSpecialty);
+                                    newDoctor.Specialities.Add(existingSpecialty);
+                                    existingSpecialty.Doctors.Add(newDoctor);
+
                                 }
                                 else
                                 {
@@ -230,19 +226,20 @@ namespace Persistence
                                     };
                                     // Add the doctor to the specialty
                                     newSpecialty.Doctors.Add(newDoctor);
+                                    newDoctor.Specialities.Add(newSpecialty);
                                     specialties.Add(newSpecialty);
-                                    // await context.SaveChangesAsync();
                                 }
                             }
 
                             // Assign the new doctor to the institution
-                            newDoctor.Specialities = specialties;
                             newDoctor.Institutions.Add(institutionProfile);
                             newDoctor.MainInstitution = institutionProfile;
                             doctors.Add(newDoctor);
                         }
-                        // await context.SaveChangesAsync();
                     }
+
+
+
                     institutionProfile.Doctors = doctors;
                     context.InstitutioProfiles.Add(institutionProfile);
                     await context.SaveChangesAsync();

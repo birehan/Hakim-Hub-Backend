@@ -2,41 +2,23 @@ using Persistence;
 using Application;
 using API.Middleware;
 using Microsoft.EntityFrameworkCore;
-using Application.Interfaces;
-using Infrastructure.Photos;
-using HFC.Infrastructure.Photos;
+using API.Extensions;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddHttpContextAccessor();
-
-
-builder.Services.AddScoped<IPhotoAccessor, PhotoAccessor>();
-builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));
-
-
+builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.ConfigurePersistenceServices(builder.Configuration);
 builder.Services.ConfigureApplicationServices();
+builder.Services.AddIdentityServices(builder.Configuration);
 
-
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("CorsPolicy", policy =>
-    policy.AllowAnyMethod().
-    AllowCredentials().
-    AllowAnyHeader());
-});
 
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
-
 
 if (app.Environment.IsDevelopment())
 {
@@ -49,7 +31,14 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
-app.MapControllers();
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
@@ -57,8 +46,12 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<HakimHubDbContext>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
     await context.Database.MigrateAsync();
-    await Seed.SeedData(context);
+    // await Seed.SeedData(context, );
+    await Seed.SeedData(context, userManager, builder.Configuration);
+
 }
 catch (Exception ex)
 {

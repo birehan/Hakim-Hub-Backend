@@ -8,13 +8,16 @@ namespace Persistence.Repositories
     {
         public HakimHubDbContext CreateDbContext(string[] args)
         {
+            string environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
             IConfigurationRoot configuration = new ConfigurationBuilder()
                  .SetBasePath(Directory.GetCurrentDirectory())
                  .AddJsonFile("appsettings.json")
+                 .AddJsonFile($"appsettings.{environmentName}.json", optional: true)
                  .Build();
 
             var builder = new DbContextOptionsBuilder<HakimHubDbContext>();
-            var connectionString = configuration.GetConnectionString("HakimConnectionString");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             builder.UseNpgsql(connectionString);
 

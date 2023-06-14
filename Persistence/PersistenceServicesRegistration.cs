@@ -11,7 +11,7 @@ namespace Persistence
         public static IServiceCollection ConfigurePersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<HakimHubDbContext>(opt =>
-            opt.UseNpgsql(configuration.GetConnectionString("HakimConnectionString")));
+            opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISpecialityRepository, SpecialityRepository>();
             services.AddScoped<IDoctorAvailabilityRepository, DoctorAvailabilityRepository>();

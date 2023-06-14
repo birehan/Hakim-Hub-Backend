@@ -1,4 +1,4 @@
-namespace HFC.Infrastructure.Photos
+namespace Infrastructure.Photos
 {
     public class CloudinarySettings
     {
