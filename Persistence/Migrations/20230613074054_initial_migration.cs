@@ -15,14 +15,14 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Country = table.Column<string>(type: "text", nullable: false),
-                    Region = table.Column<string>(type: "text", nullable: false),
-                    Zone = table.Column<string>(type: "text", nullable: false),
-                    Woreda = table.Column<string>(type: "text", nullable: false),
+                    Region = table.Column<string>(type: "text", nullable: true),
+                    Zone = table.Column<string>(type: "text", nullable: true),
+                    Woreda = table.Column<string>(type: "text", nullable: true),
                     City = table.Column<string>(type: "text", nullable: false),
-                    SubCity = table.Column<string>(type: "text", nullable: false),
-                    Summary = table.Column<string>(type: "text", nullable: false),
-                    Longitude = table.Column<double>(type: "double precision", nullable: false),
-                    Latitude = table.Column<double>(type: "double precision", nullable: false),
+                    SubCity = table.Column<string>(type: "text", nullable: true),
+                    Summary = table.Column<string>(type: "text", nullable: true),
+                    Longitude = table.Column<double>(type: "double precision", nullable: true),
+                    Latitude = table.Column<double>(type: "double precision", nullable: true),
                     InstitutionId = table.Column<Guid>(type: "uuid", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
@@ -85,8 +85,8 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    StartDay = table.Column<string>(type: "text", nullable: false),
-                    EndDay = table.Column<string>(type: "text", nullable: false),
+                    StartDay = table.Column<int>(type: "integer", nullable: false),
+                    EndDay = table.Column<int>(type: "integer", nullable: false),
                     Opening = table.Column<string>(type: "text", nullable: false),
                     Closing = table.Column<string>(type: "text", nullable: false),
                     TwentyFourHours = table.Column<bool>(type: "boolean", nullable: false),
@@ -174,12 +174,12 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     FullName = table.Column<string>(type: "text", nullable: false),
-                    About = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    PhotoId = table.Column<string>(type: "text", nullable: false),
-                    CareerStartTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    About = table.Column<string>(type: "text", nullable: true),
                     Gender = table.Column<int>(type: "integer", nullable: false),
-                    MainInstitutionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    PhotoId = table.Column<string>(type: "text", nullable: true),
+                    CareerStartTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    MainInstitutionId = table.Column<Guid>(type: "uuid", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -383,7 +383,8 @@ namespace Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_InstitutionAvailabilities_InstitutionId",
                 table: "InstitutionAvailabilities",
-                column: "InstitutionId");
+                column: "InstitutionId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_InstitutionProfileServices_ServicesId",
