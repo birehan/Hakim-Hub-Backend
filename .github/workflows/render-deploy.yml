@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main # Update this if your main branch has a different name
-      - birehan.fix-speciality-error-and-add-identity-and-cotinuous-deployment-on-render
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
