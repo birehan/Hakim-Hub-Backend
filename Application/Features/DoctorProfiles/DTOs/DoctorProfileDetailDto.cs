@@ -16,14 +16,14 @@ namespace Application.Features.DoctorProfiles.DTOs
         public DateTime CareerStartTime {get;set;}
         public GenderType Gender{get;set;}
         
-        // public PhotoDto Photo {get;set;}
+        public Photo Photo {get;set;}
 
-        // public ICollection<InstitutionProfileDto> Institutions {get;set;}
+        public ICollection<InstitutionProfile> Institutions {get;set;}
 
-        // public InstitutionProfileDto MainInstitution {get;set;}
+        public InstitutionProfile MainInstitution {get;set;}
 
-        // public ICollection<EducationDto> Educations { get; set; }
-        // public ICollection<ExperienceDto> Experiences { get; set; }
-        // public ICollection<SpecialityDto> Specialities { get; set; }
+        public ICollection<Education> Educations { get; set; }
+        public ICollection<Experience> Experiences { get; set; }
+        public ICollection<Speciality> Specialities { get; set; }
     }
 }
