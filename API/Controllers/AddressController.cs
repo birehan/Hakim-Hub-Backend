@@ -22,6 +22,31 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(new GetAddressListQuery()));
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] CreateAddressDto createTask)
+        {
+
+            var command = new CreateAddressCommand { CreateAddressDto = createTask };
+            return HandleResult(await _mediator.Send(command));
+        }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put([FromBody] UpdateAddressDto AddressDto, Guid id)
+        {
+            AddressDto.Id = id;
+            var command = new UpdateAddressCommand { UpdateAddressDto = AddressDto };
+            return HandleResult(await _mediator.Send(command));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var command = new DeleteAddressCommand { Id = id };
+            return HandleResult(await _mediator.Send(command));
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
