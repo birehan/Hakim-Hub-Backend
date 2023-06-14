@@ -8,11 +8,12 @@ using MediatR;
 
 namespace Application.Features.DoctorProfiles.CQRS.Queris
 {
-    public class FilterDoctorProfilesQuery: IRequest<Result<List<DoctorProfileDto>>>
-    {
-        public Guid specialityId{get;set;}
-        public Guid institutionId{get;set;}
-        public DateTime careerStartTime{get;set;}
-        public Guid EducationId{get;set;}
-    }
+    public class FilterDoctorProfilesQuery : IRequest<Result<List<DoctorProfileDto>>>
+{
+    public string? SpecialityName { get; set; }
+    public Guid InstitutionId { get; set; }
+    public DateTime? CareerStartTime { get; set; }
+    public string? EducationName { get; set; }
+}
+
 }
