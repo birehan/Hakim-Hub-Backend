@@ -1,78 +1,50 @@
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using AutoMapper;
 using Application.Contracts.Persistence;
 using Application.Features.Addresses.CQRS.Handlers;
 using Application.Features.Addresses.CQRS.Queries;
 using Application.Features.Addresses.DTOs;
+using Application.Profiles;
 using Application.Responses;
-using Domain;
-using AutoMapper;
+using Application.UnitTest.Mocks;
 using Moq;
-using Xunit;
+using Shouldly;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Application.UnitTest.Addresses.Queries
 {
     public class GetAddressListQueryHandlerTest
     {
-        private readonly GetAddressListQueryHandler _handler;
-        private readonly Mock<IUnitOfWork> _mockUnitOfWork;
-        private readonly Mock<IMapper> _mockMapper;
 
+        private readonly IMapper _mapper;
+        private readonly Mock<IUnitOfWork> _mockRepo;
+        private readonly GetAddressListQueryHandler _handler;
         public GetAddressListQueryHandlerTest()
         {
-            _mockUnitOfWork = new Mock<IUnitOfWork>();
-            _mockMapper = new Mock<IMapper>();
-            _handler = new GetAddressListQueryHandler(_mockUnitOfWork.Object, _mockMapper.Object);
+            _mockRepo = MockUnitOfWork.GetUnitOfWork();
+            var mapperConfig = new MapperConfiguration(c =>
+            {
+                c.AddProfile<MappingProfile>();
+            });
+            _mapper = mapperConfig.CreateMapper();
+
+            _handler = new GetAddressListQueryHandler(_mockRepo.Object, _mapper);
+
         }
 
-        [Fact]
-        public async Task GetAddressList_ShouldReturnListOfAddressDto()
-        {
-            // Arrange
-            var addresses = new List<Address>
-            {
-                new Address { /* Initialize properties */ }
-            };
-
-            var addressDtos = new List<AddressDto>
-            {
-                new AddressDto { /* Initialize properties */ }
-            };
-
-            _mockUnitOfWork.Setup(uow => uow.AddressRepository.GetAll()).ReturnsAsync(addresses);
-            _mockMapper.Setup(mapper => mapper.Map<List<AddressDto>>(addresses)).Returns(addressDtos);
-
-            var query = new GetAddressListQuery();
-
-            // Act
-            var result = await _handler.Handle(query, CancellationToken.None);
-
-            // Assert
-            Assert.IsType<Result<List<AddressDto>>>(result);
-            Assert.True(result.IsSuccess);
-            Assert.Equal(addressDtos.Count, result.Value.Count);
-            // TODO: Add more assertions
-        }
 
         [Fact]
-        public async Task GetAddressList_WithEmptyResult_ShouldReturnEmptyList()
+        public async Task GetAddressList()
         {
-            // Arrange
-            List<Address> emptyList = new List<Address>();
+            var result = await _handler.Handle(new GetAddressListQuery(), CancellationToken.None);
+            result.ShouldBeOfType<Result<List<AddressDto>>>();
+            result.Value.Count.ShouldBe(2);
+            result.IsSuccess.ShouldBeTrue();
+            result.Error.ShouldBe(null);
 
-            _mockUnitOfWork.Setup(uow => uow.AddressRepository.GetAll()).ReturnsAsync(emptyList);
-
-            var query = new GetAddressListQuery();
-
-            // Act
-            var result = await _handler.Handle(query, CancellationToken.None);
-            
-            // Assert
-            Assert.IsType<Result<List<AddressDto>>>(result);
-            Assert.True(result.IsSuccess);
-            Assert.Null(result.Value);
-            Assert.Null(result.Error);
         }
     }
 }

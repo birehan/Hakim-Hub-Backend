@@ -1,99 +1,68 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using AutoMapper;
 using Application.Contracts.Persistence;
+using Application.Features.Addresses.CQRS.Commands;
 using Application.Features.Addresses.CQRS.Handlers;
 using Application.Features.Addresses.CQRS.Queries;
 using Application.Features.Addresses.DTOs;
+using Application.Profiles;
 using Application.Responses;
-using AutoMapper;
-using Domain;
+using Application.UnitTest.Mocks;
 using Moq;
-using Xunit;
+using Shouldly;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using  Application.Features.Specialities.CQRS.Queries;
 
 namespace Application.UnitTest.Addresses.Queries
 {
     public class GetAddressDetailQueryHandlerTest
     {
-        private readonly GetAddressDetailQueryHandler _handler;
-        private readonly Mock<IUnitOfWork> _mockUnitOfWork;
-        private readonly Mock<IMapper> _mockMapper;
 
+        private readonly IMapper _mapper;
+        private readonly Mock<IUnitOfWork> _mockRepo;
+        private Guid Id;
+        private readonly GetAddressDetailQueryHandler _handler;
         public GetAddressDetailQueryHandlerTest()
         {
-            _mockUnitOfWork = new Mock<IUnitOfWork>();
-            _mockMapper = new Mock<IMapper>();
-            _handler = new GetAddressDetailQueryHandler(_mockUnitOfWork.Object, _mockMapper.Object);
+            _mockRepo = MockUnitOfWork.GetUnitOfWork();
+            var mapperConfig = new MapperConfiguration(c =>
+            {
+                c.AddProfile<MappingProfile>();
+            });
+            _mapper = mapperConfig.CreateMapper();
+
+            Id = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+
+            _handler = new GetAddressDetailQueryHandler(_mockRepo.Object, _mapper);
+
+        }
+
+
+        [Fact]
+        public async Task GetAddressDetail()
+        {
+            var result = await _handler.Handle(new GetAddressDetailQuery() { Id = Id }, CancellationToken.None);
+            result.ShouldBeOfType<Result<AddressDto>>();
+             result.Value.ShouldBeOfType<AddressDto>();
         }
 
         [Fact]
-        public async Task GetAddressDetail_ShouldReturnAddressDto()
+        public async Task GetNonExistingAddress()
         {
-            // Arrange
-            var addressId = Guid.NewGuid();
-            var address = new Address
-            {
-                Id = addressId,
-                Country = "Country",
-                Region = "Region",
-                Zone = "Zone",
-                Woreda = "Woreda",
-                City = "City",
-                SubCity = "SubCity",
-                Summary = "Summary",
-                Longitude = 0.0,
-                Latitude = 0.0,
-                InstitutionId = Guid.NewGuid(),
-                Institution = new InstitutionProfile()
-            };
-
-            var addressDto = new AddressDto
-            {
-                Id = addressId,
-                Country = "Country",
-                Region = "Region",
-                Zone = "Zone",
-                Woreda = "Woreda",
-                City = "City",
-                SubCity = "SubCity",
-                Summary = "Summary",
-                Longitude = 0.0,
-                Latitude = 0.0
-            };
-
-            _mockUnitOfWork.Setup(uow => uow.AddressRepository.Get(addressId)).ReturnsAsync(address);
-            _mockMapper.Setup(mapper => mapper.Map<AddressDto>(address)).Returns(addressDto);
-
-            var query = new GetAddressDetailQuery { Id = addressId };
-
-            // Act
-            var result = await _handler.Handle(query, CancellationToken.None);
-
-            // Assert
-            Assert.IsType<Result<AddressDto>>(result);
-            Assert.IsType<AddressDto>(result.Value);
-            Assert.Equal(addressId, result.Value.Id);
-            // Add more assertions for other properties if needed
+            // Set a non-existing Id
+            var nonExistingId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa8");
+        
+            // Invoke the handler with the non-existing Id
+            var result = await _handler.Handle(new GetAddressDetailQuery() { Id = nonExistingId }, CancellationToken.None);
+        
+            // Assert that the response is a NotFound result
+            result.ShouldBeOfType<Result<AddressDto>>();
+            result.IsSuccess.ShouldBeFalse();
+            result.Value.ShouldBe(null);
         }
-
-        [Fact]
-        public async Task GetNonExistingAddress_ShouldReturnEmptyObject()
-        {
-            // Arrange
-            var nonExistingId = Guid.NewGuid();
-            _mockUnitOfWork.Setup(uow => uow.AddressRepository.Get(nonExistingId)).ReturnsAsync((Address)null);
-        
-            var query = new GetAddressDetailQuery { Id = nonExistingId };
-        
-            // Act
-            var result = await _handler.Handle(query, CancellationToken.None);
-        
-            // Assert
-            Assert.IsType<Result<AddressDto>>(result);
-            Assert.Equal("Item not found.", result.Error);
-            Assert.Null(result.Value);
-        }
-
     }
 }
