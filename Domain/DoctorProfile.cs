@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Domain.Common;
 namespace Domain
 {
@@ -19,12 +20,18 @@ namespace Domain
 
         public Guid? MainInstitutionId { get; set; }
 
+        [JsonIgnore]
         public InstitutionProfile? MainInstitution { get; set; }
+        
+        [JsonIgnore]
         public ICollection<InstitutionProfile> Institutions { get; set; } = new List<InstitutionProfile>();
         public ICollection<DoctorAvailability> DoctorAvailabilities { get; set; } = new List<DoctorAvailability>();
         public ICollection<Education> Educations { get; set; } = new List<Education>();
         public ICollection<Experience> Experiences { get; set; } = new List<Experience>();
+
+        [JsonIgnore]
         public ICollection<Speciality> Specialities { get; set; } = new List<Speciality>();
 
+       
     }
 }
