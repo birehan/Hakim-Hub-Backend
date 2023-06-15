@@ -11,7 +11,6 @@ namespace Domain
         public string Summary { get; set; }
         public DateTime EstablishedOn { get; set; }
         public double Rate { get; set; }
-        public Guid AddressId { get; set; }
 
         [JsonIgnore]
         public Address Address { get; set; }

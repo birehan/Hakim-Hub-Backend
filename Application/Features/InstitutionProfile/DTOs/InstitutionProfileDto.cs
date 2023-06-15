@@ -17,8 +17,8 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public bool Status {get; set;}
 
 
-        public IFormFile Logo {get;set;}
-        public IFormFile Banner { get; set; }
+        public Photo Logo {get;set;}
+        public Photo Banner { get; set; }
 
         public InstitutionAvailability InstitutionAvailability {get; set;}
         public Address Address {get; set;}

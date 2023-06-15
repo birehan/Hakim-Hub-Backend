@@ -56,7 +56,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateInstitutionProfileDto createTask)
+        public async Task<IActionResult> Post([FromForm] CreateInstitutionProfileDto createTask)
         {
             var command = new CreateInstitutionProfileCommand { CreateInstitutionProfileDto = createTask };
             return HandleResult(await _mediator.Send(command));
@@ -64,12 +64,13 @@ namespace API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] UpdateInstitutionProfileDto InstitutionProfileDto, Guid id)
+        public async Task<IActionResult> Put([FromForm] UpdateInstitutionProfileDto InstitutionProfileDto, Guid id)
         {
             InstitutionProfileDto.Id = id;
             var command = new UpdateInstitutionProfileCommand { UpdateInstitutionProfileDto = InstitutionProfileDto };
             return HandleResult(await _mediator.Send(command));
         }
+        
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)

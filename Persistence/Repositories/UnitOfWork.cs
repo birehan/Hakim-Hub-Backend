@@ -12,6 +12,7 @@ namespace Persistence.Repositories
         private IDoctorAvailabilityRepository _doctorAvailabilityRepository;
         private IAddressRepository _addressRepository;
         private IInstitutionProfileRepository _institutionProfileRepository;
+        private IPhotoRepository _photoRepository;
 
 
         public UnitOfWork(HakimHubDbContext context)
@@ -46,6 +47,13 @@ namespace Persistence.Repositories
             get
             {
                 return _institutionProfileRepository = new InstitutionProfileRepository(_context);
+            }
+        }
+        public IPhotoRepository PhotoRepository
+        {
+            get
+            {
+                return _photoRepository = new PhotoRepository(_context);
             }
         }
 

@@ -20,7 +20,9 @@ namespace Persistence.Repositories
         public async Task<List<InstitutionProfile>> GetAllPopulated()
         {
             return await _dbContext.Set<InstitutionProfile>()
-                .Include(x => x.Address).AsNoTracking().ToListAsync();
+                .Include(x => x.Address)
+                .Include(x => x.Logo)
+                .Include(x => x.Banner).AsNoTracking().ToListAsync();
         }
 
         public async Task<InstitutionProfile> GetPopulated(Guid id)

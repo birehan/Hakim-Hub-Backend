@@ -6,6 +6,7 @@ namespace Application.Contracts.Persistence
         IDoctorAvailabilityRepository DoctorAvailabilityRepository {get;}
         IAddressRepository AddressRepository {get;}
         IInstitutionProfileRepository InstitutionProfileRepository {get;}
+        IPhotoRepository PhotoRepository {get;}
         Task<int> Save();
 
     }

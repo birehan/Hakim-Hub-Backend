@@ -24,10 +24,8 @@ namespace Application.Features.InstitutionProfiles.DTOs.Validators
             .WithMessage("{PropertyName} is not a valid URL.");
 
         RuleFor(p => p.PhoneNumber)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .Matches(@"^\+\d{1,3}-\d{3}-\d{3}-\d{4}$")
-            .WithMessage("{PropertyName} must be in the format '+[country code]-[area code]-[local code]-[number]'.");
-
+            .NotEmpty().WithMessage("{PropertyName} is required.");
+            
         RuleFor(p => p.Summary)
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .MaximumLength(500).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");

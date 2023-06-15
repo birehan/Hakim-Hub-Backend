@@ -25,6 +25,7 @@ namespace Application.Profiles
 
             CreateMap<CreateAddressDto, Address>().ReverseMap();
             CreateMap<UpdateAddressDto, Address>().ReverseMap();
+            CreateMap<string, Address>().ReverseMap();
             CreateMap<AddressDto, Address>().ReverseMap();
         }
     }

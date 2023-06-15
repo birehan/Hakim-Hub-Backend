@@ -13,8 +13,5 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public DateTime EstablishedOn {get; set;}
         public double Rate {get; set;}
 
-        public IFormFile Logo {get;set;}
-        public IFormFile Banner { get; set; }
-
     }
 }
