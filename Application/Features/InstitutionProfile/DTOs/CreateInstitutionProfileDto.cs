@@ -1,5 +1,6 @@
-using Application.Features.InstitutionProfiles.DTOs;
+using Application.Features.Addresses.DTOs;
 using Domain;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Features.InstitutionProfiles.DTOs
 {
@@ -13,16 +14,12 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public DateTime EstablishedOn {get; set;}
         public double Rate {get; set;}
 
-        public string LogoId {get;set;}
-        public string BannerId { get; set; }
-        public InstitutionAvailability InstitutionAvailability { get; set; }
+        public IFormFile Logo {get;set;}
+        public IFormFile Banner { get; set; }
         public Address Address { get; set; }
 
-
-        public ICollection<DoctorProfile> Doctors { get; set; }
-        public ICollection<Services> Services { get; set; }
-        public ICollection<Photo> Photos { get; set; }
-
-    
+        public Guid? AddressId {get;set;}
+        public string? LogoId {get;set;}
+        public string? BannerId { get; set; }
     }
 }

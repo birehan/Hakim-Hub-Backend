@@ -2,7 +2,7 @@ using Application.Features.InstitutionProfiles.DTOs.Validators;
 using Application.Features.InstitutionProfiles.DTOs;
 using FluentValidation;
 
-namespace Application.Features.Specialities.DTOs.Validators
+namespace Application.Features.InstitutionProfiles.DTOs.Validators
 
 {
     public class UpdateInstitutionProfileDtoValidator : AbstractValidator<UpdateInstitutionProfileDto>

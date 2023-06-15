@@ -42,23 +42,23 @@ namespace Application.Features.InstitutionProfiles.DTOs.Validators
         // RuleFor(p => p.AddressId)
         //     .NotEmpty().WithMessage("{PropertyName} is required.");
 
-        RuleFor(p => p.LogoId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
-        RuleFor(p => p.BannerId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
-        // RuleFor(p => p.InstitutionAvailabilityId)
+        // RuleFor(p => p.LogoId)
         //     .NotEmpty().WithMessage("{PropertyName} is required.");
 
-        RuleFor(p => p.Doctors)
-            .Null().When(p => p.Doctors == null);
+        // RuleFor(p => p.BannerId)
+        //     .NotEmpty().WithMessage("{PropertyName} is required.");
 
-        RuleFor(p => p.Services)
-            .Null().When(p => p.Services == null);
+        // // RuleFor(p => p.InstitutionAvailabilityId)
+        // //     .NotEmpty().WithMessage("{PropertyName} is required.");
 
-        RuleFor(p => p.Photos)
-            .Null().When(p => p.Photos == null);
+        // RuleFor(p => p.Doctors)
+        //     .Null().When(p => p.Doctors == null);
+
+        // RuleFor(p => p.Services)
+        //     .Null().When(p => p.Services == null);
+
+        // RuleFor(p => p.Photos)
+        //     .Null().When(p => p.Photos == null);
 
 
         }

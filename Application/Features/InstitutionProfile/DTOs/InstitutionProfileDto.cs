@@ -1,5 +1,6 @@
 using Application.Features.Common;
 using Domain;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Features.InstitutionProfiles.DTOs
 {
@@ -16,8 +17,8 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public bool Status {get; set;}
 
 
-        public string LogoId {get;set;}
-        public string BannerId { get; set; }
+        public IFormFile Logo {get;set;}
+        public IFormFile Banner { get; set; }
 
         public InstitutionAvailability InstitutionAvailability {get; set;}
         public Address Address {get; set;}
