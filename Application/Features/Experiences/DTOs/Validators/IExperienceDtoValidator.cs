@@ -21,13 +21,11 @@ public class IExperienceDtoValidator : AbstractValidator<IExperienceDto>
             RuleFor(dto => dto.EndDate)
                 .NotEmpty().WithMessage("End date is required.")
                 .GreaterThanOrEqualTo(dto => dto.StartDate).WithMessage("End date must be after or equal to start date.");
-                
+
             RuleFor(x => x.DoctorId)
-                .NotEmpty().WithMessage("Doctor ID is required.")
-                .Must(x => x != Guid.Empty).WithMessage("Invalid Doctor ID.");
+                .NotEmpty().WithMessage("Doctor ID is required.");
 
             RuleFor(x => x.InstitutionId)
-                .NotEmpty().WithMessage("Institution ID is required.")
-                .Must(x => x != Guid.Empty).WithMessage("Invalid Institution ID.");
+                .NotEmpty().WithMessage("Institution ID is required.");
         }
     }
