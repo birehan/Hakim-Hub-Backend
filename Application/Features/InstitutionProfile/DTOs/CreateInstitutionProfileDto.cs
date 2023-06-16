@@ -16,12 +16,5 @@ namespace Application.Features.InstitutionProfiles.DTOs
 
         public IFormFile LogoFile {get;set;}
         public IFormFile BannerFile { get; set; }
-        public string StringAddress { get; set; }
-
-        public Photo? Logo { get; set; }
-        public Photo? Banner { get; set; }
-        public Guid? AddressId {get;set;}
-        public string? LogoId {get;set;}
-        public string? BannerId { get; set; }
     }
 }

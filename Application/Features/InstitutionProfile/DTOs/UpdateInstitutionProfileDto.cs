@@ -17,11 +17,5 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public IFormFile? LogoFile {get;set;}
         public IFormFile? BannerFile { get; set; }
         public ICollection<IFormFile>? PhotoFiles { get; set; }
-
-
-        public Photo? Logo { get; set; }
-        public Photo? Banner { get; set; }
-        public string? StringAddress { get; set; }
-        public ICollection<Photo>? Photos { get; set; }
     }
 }

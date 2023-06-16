@@ -13,7 +13,7 @@ namespace Domain
         public double Rate { get; set; }
 
         [JsonIgnore]
-        public Address Address { get; set; }
+        public Address? Address { get; set; }
         public string LogoId { get; set; }
         [JsonIgnore]
         public Photo Logo { get; set; }

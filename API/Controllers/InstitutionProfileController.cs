@@ -63,7 +63,7 @@ namespace API.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         public async Task<IActionResult> Put([FromForm] UpdateInstitutionProfileDto InstitutionProfileDto, Guid id)
         {
             InstitutionProfileDto.Id = id;
