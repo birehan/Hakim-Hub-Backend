@@ -17,7 +17,7 @@ public class MockEducationRepository
                     GraduationYear = DateTime.Today,
                     Degree = "Masters",
                     DoctorId = Guid.NewGuid(),
-                    InstitutionLogoId = "Addis Ababa Logo"
+                    EducationInstitutionLogoId = "Addis Ababa Logo"
                 },
            new Education
                 {
@@ -27,7 +27,7 @@ public class MockEducationRepository
                     GraduationYear = DateTime.Today,
                     Degree = "Bachelors",
                     DoctorId = Guid.NewGuid(),
-                    InstitutionLogoId = "Addis Ababa Logo"
+                    EducationInstitutionLogoId = "Addis Ababa Logo"
                 }
         };
 

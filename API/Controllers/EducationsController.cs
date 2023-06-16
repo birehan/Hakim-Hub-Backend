@@ -28,7 +28,7 @@ public class EducationsController : BaseApiController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CreateEducationDto createEducationDto)
+    public async Task<IActionResult> Post([FromForm] CreateEducationDto createEducationDto)
     {
 
         var command = new CreateEducationCommand { createEducationDto = createEducationDto };
@@ -36,10 +36,11 @@ public class EducationsController : BaseApiController
     }
 
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put([FromBody] UpdateEducationDto updateEducationDto, Guid id)
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> Put([FromForm] UpdateEducationDto updateEducationDto, Guid id)
     {
         updateEducationDto.Id = id;
+        
         var command = new UpdateEducationCommand { updateEducationDto =  updateEducationDto};
         return HandleResult(await _mediator.Send(command));
     }
@@ -50,7 +51,5 @@ public class EducationsController : BaseApiController
         var command = new DeleteEducationCommand { Id = id };
         return HandleResult(await _mediator.Send(command));
     }
-
-    
 
 }

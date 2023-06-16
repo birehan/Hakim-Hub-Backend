@@ -41,9 +41,7 @@ public class DeleteSpecialityCommandHandlerTest
             Id = Guid.NewGuid(),
             Name = "Oncology",
             Description = "This is a sample description for oncology."
-           
         };
-
         _createHandler = new CreateSpecialityCommandHandler(_mockUnitOfWork.Object, _mapper);
     }
 
@@ -63,6 +61,7 @@ public class DeleteSpecialityCommandHandlerTest
         Assert.IsType<Result<Guid?>>(resultAfterDeletion);
 
     }
+
 
     [Fact]
     public async Task DeleteSpecialityInvalid()

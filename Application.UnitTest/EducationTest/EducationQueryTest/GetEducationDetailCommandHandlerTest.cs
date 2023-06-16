@@ -37,7 +37,7 @@ public class GetEducationDetailCommandHandlerTest
             GraduationYear = DateTime.Today,
             Degree = "Bachelors",
             DoctorId = Guid.NewGuid(),
-            InstitutionLogoId = "Belford Campus"
+            EducationInstitutionLogoId = "Belford Campus"
         };
         EducationDto educationDto = new()
         {
@@ -47,7 +47,7 @@ public class GetEducationDetailCommandHandlerTest
             GraduationYear = DateTime.Today,
             Degree = "Bachelors",
             DoctorId = Guid.NewGuid(),
-            InstitutionLogoId = "Belford Campus"
+            EducationInstitutionLogoId = "Belford Campus"
         };
 
         _mockUnitOfWork.Setup(uow => uow.EducationRepository.Get(educationId)).ReturnsAsync(education);

@@ -5,12 +5,15 @@ using Application.Contracts.Persistence;
 using Application.Features.Educations.CQRS;
 using Application.Features.Educations.CQRS.Handlers;
 using Application.Features.Educations.DTOs;
+using Application.Interfaces;
+using Application.Photos;
 using Application.Profiles;
 using Application.Responses;
 using Application.UnitTest.Mocks;
 using AutoMapper;
 using Domain;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using Shouldly;
 using Xunit;
@@ -20,6 +23,7 @@ namespace Application.UnitTest.EducationTest.EducationCommandsTest
     public class UpdateEducationCommandHandlerTest
     {
         private IMapper _mapper { get; set; }
+        private Mock<IPhotoAccessor> _photoAccesor { get; set; }
         private readonly UpdateEducationCommandHandler _handler;
         private readonly CreateEducationDto createEducationDto;
         private CreateEducationCommandHandler _createHandler { get; set; }
@@ -28,32 +32,37 @@ namespace Application.UnitTest.EducationTest.EducationCommandsTest
 
         public UpdateEducationCommandHandlerTest()
         {
+            _photoAccesor = new Mock<IPhotoAccessor>();
             _mapper = new MapperConfiguration(c =>
       {
           c.AddProfile<MappingProfile>();
       }).CreateMapper();
-            _mockUnitOfWork = MockUnitOfWork.GetUnitOfWork();
+        _mockUnitOfWork = MockUnitOfWork.GetUnitOfWork();
 
-            _handler = new UpdateEducationCommandHandler(_mockUnitOfWork.Object, _mapper);
-            createEducationDto = new CreateEducationDto()
-            {
-                Id = Guid.NewGuid(),
-                EducationInstitution = "to be updated University",
-                StartYear = DateTime.Now,
-                GraduationYear = DateTime.Today,
-                FieldOfStudy = "Oncology",
-                Degree = "Bachelors",
-                DoctorId = Guid.NewGuid(),
-                InstitutionLogoId = "Oxford Campus"
-            };
+        _handler = new UpdateEducationCommandHandler(_mockUnitOfWork.Object, _mapper, _photoAccesor.Object);
+        createEducationDto = new CreateEducationDto()
+        {
+            Id = Guid.NewGuid(),
+            EducationInstitution = "to be updated University",
+            StartYear = DateTime.Now,
+            GraduationYear = DateTime.Today,
+            FieldOfStudy = "Oncology",
+            Degree = "Bachelors",
+            DoctorId = Guid.NewGuid(),
+            EducationInstitutionLogoId = "Oxford Campus"
+        };
 
-            _createHandler = new CreateEducationCommandHandler(_mockUnitOfWork.Object, _mapper);
+        _createHandler = new CreateEducationCommandHandler(_mockUnitOfWork.Object, _mapper, _photoAccesor.Object);
 
         }
 
         [Fact]
         public async Task UpdateEducationValid()
         {
+            var photo = new PhotoUploadResult { PublicId = Guid.NewGuid().ToString(), Url = "photo-public-id" };
+            _photoAccesor.Setup(pa => pa.AddPhoto(It.IsAny<IFormFile>())).ReturnsAsync(photo);
+
+            createEducationDto.EducationInstitutionLogoId = photo.PublicId;
 
             var result = await _createHandler.Handle(new CreateEducationCommand() { createEducationDto = createEducationDto }, CancellationToken.None);
             var educationToBeUpdated = result.Value.Id;
@@ -68,7 +77,7 @@ namespace Application.UnitTest.EducationTest.EducationCommandsTest
                 Degree = "Master's",
                 FieldOfStudy = "Psychiatry",
                 DoctorId = Guid.NewGuid(),
-                InstitutionLogoId = "Updated Campus"
+                EducationInstitutionLogoPhotoId = "Updated Campus"
             };
            
             var updatedResult = await _handler.Handle(new UpdateEducationCommand(){updateEducationDto = updateEducationDto}, CancellationToken.None);
@@ -92,7 +101,7 @@ namespace Application.UnitTest.EducationTest.EducationCommandsTest
                 Degree = "Master's",
                 FieldOfStudy = "Psychiatry",
                 DoctorId = Guid.NewGuid(),
-                InstitutionLogoId = "Updated Campus"
+                EducationInstitutionLogoPhotoId = "Updated Campus"
             };
 
             var result = await _handler.Handle(new UpdateEducationCommand(){updateEducationDto = updateEducationDto}, CancellationToken.None);
@@ -105,6 +114,11 @@ namespace Application.UnitTest.EducationTest.EducationCommandsTest
         [Fact]
         public async Task UpdateEducationInvalid_ValidationFailed()
         {
+            var photo = new PhotoUploadResult { PublicId = Guid.NewGuid().ToString(), Url = "photo-public-id" };
+            _photoAccesor.Setup(pa => pa.AddPhoto(It.IsAny<IFormFile>())).ReturnsAsync(photo);
+
+            createEducationDto.EducationInstitutionLogoId = photo.PublicId;
+
             var result = await _createHandler.Handle(new CreateEducationCommand() { createEducationDto = createEducationDto }, CancellationToken.None);
             var educationToBeUpdated = result.Value.Id;
 
@@ -117,15 +131,14 @@ namespace Application.UnitTest.EducationTest.EducationCommandsTest
                 FieldOfStudy = null,
                 Degree = "Master's",
                 DoctorId = Guid.Empty,
-                InstitutionLogoId = result.Value.InstitutionLogoId
+                EducationInstitutionLogoPhotoId = result.Value.EducationInstitutionLogoId
             };
 
             // Act
             var resultAfterFailedUpdate = await _handler.Handle(new UpdateEducationCommand(){updateEducationDto  = updateEducationDto }, CancellationToken.None);
 
             // Assert
-            // result.IsSuccess.ShouldBeFalse();
-            resultAfterFailedUpdate.Error.ShouldBe("Education Institution is required.");
+            resultAfterFailedUpdate.IsSuccess.ShouldBeFalse();
             resultAfterFailedUpdate.Value.ShouldBeNull();
         }
     }

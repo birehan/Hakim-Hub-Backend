@@ -3,6 +3,8 @@ using Application.Features.DoctorAvailabilities.DTOs;
 using AutoMapper;
 using Domain;
 using Application.Features.Educations.DTOs;
+using Microsoft.AspNetCore.Http;
+using Application.Photos;
 
 namespace Application.Profiles
 {
@@ -21,6 +23,7 @@ namespace Application.Profiles
             CreateMap<CreateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();
             CreateMap<UpdateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();
             CreateMap<DoctorAvailability, DoctorAvailabilityDto>();
+
         }
     }
 }

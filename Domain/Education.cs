@@ -9,6 +9,6 @@ public class Education : BaseDomainEntity
     public string FieldOfStudy { get; set; }
     public Guid DoctorId { get; set; }
     public DoctorProfile Doctor { get; set; }
-    public string? InstitutionLogoId { get; set; }
-    public Photo? InstitutionLogo { get; set; }
+    public string? EducationInstitutionLogoId { get; set; }
+    public Photo? EducationInstitutionLogo { get; set; }
 }

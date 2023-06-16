@@ -101,9 +101,9 @@ namespace Persistence
 
             // 
             modelBuilder.Entity<Education>()
-            .HasOne(e => e.InstitutionLogo)
+            .HasOne(e => e.EducationInstitutionLogo)
             .WithOne()
-            .HasForeignKey<Education>(e => e.InstitutionLogoId)
+            .HasForeignKey<Education>(e => e.EducationInstitutionLogoId)
             .OnDelete(DeleteBehavior.Cascade);
             // 
             modelBuilder.Entity<InstitutionProfile>()
