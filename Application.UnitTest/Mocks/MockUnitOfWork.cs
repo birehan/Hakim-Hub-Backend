@@ -17,7 +17,7 @@ namespace Application.UnitTest.Mocks
         {
             var mockUow = new Mock<IUnitOfWork>();
             var mockInstitutionAvailabilityRepo =  MockInstitutionAvailabilityRepository.GetInstitutionAvailabilityRepository();
-            var mockDoctorAvailabilityRepository = MockDoctorAvailabilityRepository.GetDoctorAvailabilityRepository();
+            var mockDoctorAvailabilityRepo = MockDoctorAvailabilityRepository.GetDoctorAvailabilityRepository();
             mockUow.Setup(r => r.InstitutionAvailabilityRepository).Returns(mockInstitutionAvailabilityRepo.Object);
             mockUow.Setup(r => r.DoctorAvailabilityRepository).Returns(mockDoctorAvailabilityRepo.Object);
             mockUow.Setup(r => r.Save()).ReturnsAsync(1);

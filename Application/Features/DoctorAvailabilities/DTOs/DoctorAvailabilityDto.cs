@@ -14,5 +14,9 @@ namespace Application.Features.DoctorAvailabilities.DTOs
 
         public Guid DoctorId { get; set; }
 
+        public Guid InstitutionId { get; set; }
+
+        public Guid SpecialityId { get; set; }
+
     }
 }

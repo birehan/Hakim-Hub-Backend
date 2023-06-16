@@ -26,13 +26,13 @@ namespace Application.Features.DoctorAvailabilities.CQRS.Handlers
         {
 
             var validator = new CreateDoctorAvailabilityDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.DoctorAvailabilityDto);
+            var validationResult = await validator.ValidateAsync(request.CreateDoctorAvailabilityDto);
 
             if (!validationResult.IsValid)
                 return Result<Guid>.Failure(validationResult.Errors[0].ErrorMessage);
 
 
-            var doctorAvailability = _mapper.Map<DoctorAvailability>(request.DoctorAvailabilityDto);
+            var doctorAvailability = _mapper.Map<DoctorAvailability>(request.CreateDoctorAvailabilityDto);
             await _unitOfWork.DoctorAvailabilityRepository.Add(doctorAvailability);
 
             if (await _unitOfWork.Save() > 0)

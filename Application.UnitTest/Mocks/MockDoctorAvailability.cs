@@ -14,71 +14,84 @@ namespace Application.UnitTest.Mocks
         {
             var DoctorAvailabilities = new List<DoctorAvailability>
             {
-                new Availability
+                new DoctorAvailability
                 {
-                    StartDay = DayOfWeek.Monday,
-                    EndDay = DayOfWeek.Sunday,
-                    Opening = "2:00AM",
-                    Closing = "4:00PM",
+                    
+                    Id = Guid.NewGuid(),
+                    Day = DayOfWeek.Friday,
+                    StartTime = "2:00 AM",
+                    EndTime = "3:00 PM",
                     TwentyFourHours = true,
+                    StartDay = DayOfWeek.Tuesday,
+                    EndDay = DayOfWeek.Thursday,
+
+                    DoctorId = Guid.NewGuid(),
                     InstitutionId = Guid.NewGuid(),
-                    Id = Guid.NewGuid()
+                    SpecialityId = Guid.NewGuid(),
+        
+                    
                 },
 
-                new InstitutionAvailability
+                new DoctorAvailability
                 {
-                    StartDay = DayOfWeek.Monday,
-                    EndDay = DayOfWeek.Sunday,
-                    Opening = "1:00AM",
-                    Closing = "7:00PM",
-                    TwentyFourHours = false,
+                    Id = Guid.NewGuid(),
+                    Day = DayOfWeek.Friday,
+                    StartTime = "2:00 AM",
+                    EndTime = "3:00 PM",
+                    TwentyFourHours = true,
+                    StartDay = DayOfWeek.Tuesday,
+                    EndDay = DayOfWeek.Thursday,
+
+                    DoctorId = Guid.NewGuid(),
                     InstitutionId = Guid.NewGuid(),
-                    Id = Guid.NewGuid()
+                    SpecialityId = Guid.NewGuid(),
                 }
             };
 
-            var mockRepo = new Mock<IInstitutionAvailabilityRepository>();
+            var mockRepo = new Mock<IDoctorAvailabilityRepository>();
 
-            mockRepo.Setup(r => r.GetAll()).ReturnsAsync(InstitutionAvailabilities);
+            mockRepo.Setup(r => r.GetAll()).ReturnsAsync(DoctorAvailabilities);
 
-            mockRepo.Setup(r => r.Add(It.IsAny<InstitutionAvailability>())).ReturnsAsync((InstitutionAvailability institutionAvailability) =>
+            mockRepo.Setup(r => r.Add(It.IsAny<DoctorAvailability>())).ReturnsAsync((DoctorAvailability doctorAvailability) =>
             {
-                institutionAvailability.Id = Guid.NewGuid();
-                InstitutionAvailabilities.Add(institutionAvailability);
-                return institutionAvailability;
+                doctorAvailability.Id = Guid.NewGuid();
+                DoctorAvailabilities.Add(doctorAvailability);
+                return doctorAvailability;
             });
 
-            mockRepo.Setup(r => r.Update(It.IsAny<InstitutionAvailability>())).Callback((InstitutionAvailability institutionAvailability) =>
+            mockRepo.Setup(r => r.Update(It.IsAny<DoctorAvailability>())).Callback((DoctorAvailability doctorAvailability) =>
             {
-                var existingAvailability = InstitutionAvailabilities.FirstOrDefault(r => r.Id == institutionAvailability.Id);
+                var existingAvailability = DoctorAvailabilities.FirstOrDefault(r => r.Id == doctorAvailability.Id);
                 if (existingAvailability != null)
                 {
-                    existingAvailability.StartDay = institutionAvailability.StartDay;
-                    existingAvailability.EndDay = institutionAvailability.EndDay;
-                    existingAvailability.Opening = institutionAvailability.Opening;
-                    existingAvailability.Closing = institutionAvailability.Closing;
-                    existingAvailability.TwentyFourHours = institutionAvailability.TwentyFourHours;
-                    existingAvailability.InstitutionId = institutionAvailability.InstitutionId;
+                    existingAvailability.Day = doctorAvailability.Day;
+                    existingAvailability.StartDay = doctorAvailability.StartDay;  
+                    existingAvailability.EndDay = doctorAvailability.EndDay;
+                    existingAvailability.StartTime = doctorAvailability.StartTime;
+                    existingAvailability.EndTime = doctorAvailability.EndTime;
+                    existingAvailability.TwentyFourHours = doctorAvailability.TwentyFourHours;
+                    existingAvailability.InstitutionId = doctorAvailability.InstitutionId;
+                    existingAvailability.DoctorId = doctorAvailability.DoctorId;
                 }
             });
 
-            mockRepo.Setup(r => r.Delete(It.IsAny<InstitutionAvailability>())).Callback((InstitutionAvailability institutionAvailability) =>
+            mockRepo.Setup(r => r.Delete(It.IsAny<DoctorAvailability>())).Callback((DoctorAvailability doctorAvailability) =>
             {
-                var existingAvailability = InstitutionAvailabilities.FirstOrDefault(r => r.Id == institutionAvailability.Id);
+                var existingAvailability = DoctorAvailabilities.FirstOrDefault(r => r.Id == doctorAvailability.Id);
                 if (existingAvailability != null)
                 {
-                    InstitutionAvailabilities.Remove(existingAvailability);
+                    DoctorAvailabilities.Remove(existingAvailability);
                 }
             });
 
             mockRepo.Setup(r => r.Exists(It.IsAny<Guid>())).ReturnsAsync((Guid id) =>
             {
-                return InstitutionAvailabilities.Any(r => r.Id == id);
+                return DoctorAvailabilities.Any(r => r.Id == id);
             });
 
             mockRepo.Setup(r => r.Get(It.IsAny<Guid>())).ReturnsAsync((Guid id) =>
             {
-                return InstitutionAvailabilities.FirstOrDefault(r => r.Id == id);
+                return DoctorAvailabilities.FirstOrDefault(r => r.Id == id);
             });
 
             return mockRepo;

@@ -29,7 +29,7 @@ namespace API.Controllers
         public async Task<IActionResult> Post([FromBody] CreateDoctorAvailabilityDto createTask)
         {
 
-            var command = new CreateDoctorAvailabilityCommand { DoctorAvailabilityDto = createTask };
+            var command = new CreateDoctorAvailabilityCommand { CreateDoctorAvailabilityDto = createTask };
             return HandleResult(await _mediator.Send(command));
         }
 
@@ -38,7 +38,7 @@ namespace API.Controllers
         public async Task<IActionResult> Put([FromBody] UpdateDoctorAvailabilityDto doctorAvailabilityDto, Guid id)
         {
             doctorAvailabilityDto.Id = id;
-            var command = new UpdateDoctorAvailabilityCommand { DoctorAvailabilityDto = doctorAvailabilityDto };
+            var command = new UpdateDoctorAvailabilityCommand { UpdateDoctorAvailabilityDto = doctorAvailabilityDto };
             return HandleResult(await _mediator.Send(command));
         }
 

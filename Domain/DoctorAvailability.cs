@@ -15,10 +15,10 @@ namespace Domain
         public Guid DoctorId { get; set; }
         public DoctorProfile Doctor { get; set; }
 
-        // public Guid InstitutionId { get; set; }
-        // public InstitutionProfile Institution { get; set; }
+        public Guid InstitutionId { get; set; }
+        public InstitutionProfile Institution { get; set; }
 
-        // public Guid SpecialityId { get; set; }
-        // public Speciality Speciality { get; set; }
+        public Guid SpecialityId { get; set; }
+        public Speciality Speciality { get; set; }
     }
 }
