@@ -21,16 +21,16 @@ namespace Application.Features.InstitutionAvailabilities.CQRS.Handlers
         public async Task<Result<Unit>> Handle(UpdateInstitutionAvailabilityCommand request, CancellationToken cancellationToken)
         {
             var validator = new UpdateInstitutionAvailabillityDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.InstitutionAvailabilityDto);
+            var validationResult = await validator.ValidateAsync(request.UpdateInstitutionAvailabilityDto);
 
             if (!validationResult.IsValid)
                 return Result<Unit>.Failure(validationResult.Errors[0].ErrorMessage);
 
 
-            var institutionAvailability = await _unitOfWork.InstitutionAvailabilityRepository.Get(request.InstitutionAvailabilityDto.Id);
+            var institutionAvailability = await _unitOfWork.InstitutionAvailabilityRepository.Get(request.UpdateInstitutionAvailabilityDto.Id);
             if (institutionAvailability == null) return null;
 
-            _mapper.Map(request.InstitutionAvailabilityDto, institutionAvailability);
+            _mapper.Map(request.UpdateInstitutionAvailabilityDto, institutionAvailability);
             await _unitOfWork.InstitutionAvailabilityRepository.Update(institutionAvailability);
 
             if (await _unitOfWork.Save() > 0)
