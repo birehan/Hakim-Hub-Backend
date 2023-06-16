@@ -7,7 +7,7 @@ namespace Application.Features.InstitutionAvailabilities.DTOs
         public string Opening { get; set; }
         public string Closing { get; set; }
         public bool TwentyFourHours { get; set; }
-       
         public Guid InstitutionId { get; set; }
+    
     }
 }
