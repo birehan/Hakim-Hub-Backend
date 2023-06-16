@@ -75,26 +75,25 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<double>("Latitude")
+                    b.Property<double?>("Latitude")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("Longitude")
+                    b.Property<double?>("Longitude")
                         .HasColumnType("double precision");
 
                     b.Property<string>("Region")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("SubCity")
-                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Summary")
                         .HasColumnType("text");
 
                     b.Property<string>("Woreda")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Zone")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -111,17 +110,18 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<int>("Day")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("DoctorId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("EndDay")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid?>("InstitutionProfileId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("EndTime")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp without time zone");
@@ -129,8 +129,9 @@ namespace Persistence.Migrations
                     b.Property<int>("StartDay")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<string>("StartTime")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("TwentyFourHours")
                         .HasColumnType("boolean");
@@ -138,8 +139,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
-
-                    b.HasIndex("InstitutionProfileId");
 
                     b.ToTable("DoctorAvailabilities");
                 });
@@ -150,28 +149,37 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("About")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CareerStartTime")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<Guid?>("MainInstitutionId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("PhotoId")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("timestamp without time zone");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("MainInstitutionId");
 
                     b.HasIndex("PhotoId")
                         .IsUnique();
@@ -188,12 +196,16 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Degree")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid>("DoctorId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("EducationInstitution")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("FieldOfStudy")
                         .IsRequired()
@@ -202,16 +214,11 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("GraduationYear")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("InstitutionName")
-                        .IsRequired()
+                    b.Property<string>("InstitutionLogoId")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("PhotoId")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<DateTime>("StartYear")
                         .HasColumnType("timestamp without time zone");
@@ -220,7 +227,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.HasIndex("PhotoId")
+                    b.HasIndex("InstitutionLogoId")
                         .IsUnique();
 
                     b.ToTable("Educations");
@@ -234,10 +241,6 @@ namespace Persistence.Migrations
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<Guid>("DoctorId")
                         .HasColumnType("uuid");
@@ -273,14 +276,15 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Closing")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("EndDay")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("InstitutionId")
                         .HasColumnType("uuid");
@@ -288,18 +292,20 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Opening")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("StartDay")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("TwentyFourHours")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InstitutionId");
+                    b.HasIndex("InstitutionId")
+                        .IsUnique();
 
                     b.ToTable("InstitutionAvailabilities");
                 });
@@ -318,10 +324,12 @@ namespace Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("BranchName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("EstablishedOn")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("InstitutionName")
@@ -336,22 +344,16 @@ namespace Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Rate")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<double>("Rate")
+                        .HasColumnType("double precision");
 
                     b.Property<string>("Summary")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Website")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -373,7 +375,16 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("BannerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("DoctorProfileId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("InstitutionProfileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("LogoId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Url")
@@ -409,6 +420,9 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ServiceName")
+                        .IsUnique();
+
                     b.ToTable("Services");
                 });
 
@@ -422,7 +436,6 @@ namespace Persistence.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("LastModifiedDate")
@@ -435,24 +448,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Specialities");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("9ba779c8-6a83-4432-9ae7-23f6fa072370"),
-                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Sample Content",
-                            LastModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "title"
-                        },
-                        new
-                        {
-                            Id = new Guid("692a6108-464d-480e-b7ba-7f8f9bc87736"),
-                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Sample Content 2",
-                            LastModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "tiltle 2"
-                        });
                 });
 
             modelBuilder.Entity("InstitutionProfileServices", b =>
@@ -508,20 +503,22 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.InstitutionProfile", null)
-                        .WithMany("DoctorAvailabilities")
-                        .HasForeignKey("InstitutionProfileId");
-
                     b.Navigation("Doctor");
                 });
 
             modelBuilder.Entity("Domain.DoctorProfile", b =>
                 {
+                    b.HasOne("Domain.InstitutionProfile", "MainInstitution")
+                        .WithMany()
+                        .HasForeignKey("MainInstitutionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Domain.Photo", "Photo")
                         .WithOne()
                         .HasForeignKey("Domain.DoctorProfile", "PhotoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("MainInstitution");
 
                     b.Navigation("Photo");
                 });
@@ -536,9 +533,8 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.Photo", "InstitutionLogo")
                         .WithOne()
-                        .HasForeignKey("Domain.Education", "PhotoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Domain.Education", "InstitutionLogoId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Doctor");
 
@@ -554,7 +550,7 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.InstitutionProfile", "Institution")
-                        .WithMany("Experiences")
+                        .WithMany()
                         .HasForeignKey("InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -567,8 +563,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.InstitutionAvailability", b =>
                 {
                     b.HasOne("Domain.InstitutionProfile", "Institution")
-                        .WithMany("InstitutionAvailabilities")
-                        .HasForeignKey("InstitutionId")
+                        .WithOne("InstitutionAvailability")
+                        .HasForeignKey("Domain.InstitutionAvailability", "InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -642,11 +638,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.InstitutionProfile", b =>
                 {
-                    b.Navigation("DoctorAvailabilities");
-
-                    b.Navigation("Experiences");
-
-                    b.Navigation("InstitutionAvailabilities");
+                    b.Navigation("InstitutionAvailability")
+                        .IsRequired();
 
                     b.Navigation("Photos");
                 });
