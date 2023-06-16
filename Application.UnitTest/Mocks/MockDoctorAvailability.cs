@@ -21,10 +21,6 @@ namespace Application.UnitTest.Mocks
                     Day = DayOfWeek.Friday,
                     StartTime = "2:00 AM",
                     EndTime = "3:00 PM",
-                    TwentyFourHours = true,
-                    StartDay = DayOfWeek.Tuesday,
-                    EndDay = DayOfWeek.Thursday,
-
                     DoctorId = Guid.NewGuid(),
                     InstitutionId = Guid.NewGuid(),
                     SpecialityId = Guid.NewGuid(),
@@ -38,10 +34,6 @@ namespace Application.UnitTest.Mocks
                     Day = DayOfWeek.Friday,
                     StartTime = "2:00 AM",
                     EndTime = "3:00 PM",
-                    TwentyFourHours = true,
-                    StartDay = DayOfWeek.Tuesday,
-                    EndDay = DayOfWeek.Thursday,
-
                     DoctorId = Guid.NewGuid(),
                     InstitutionId = Guid.NewGuid(),
                     SpecialityId = Guid.NewGuid(),
@@ -65,11 +57,8 @@ namespace Application.UnitTest.Mocks
                 if (existingAvailability != null)
                 {
                     existingAvailability.Day = doctorAvailability.Day;
-                    existingAvailability.StartDay = doctorAvailability.StartDay;  
-                    existingAvailability.EndDay = doctorAvailability.EndDay;
                     existingAvailability.StartTime = doctorAvailability.StartTime;
                     existingAvailability.EndTime = doctorAvailability.EndTime;
-                    existingAvailability.TwentyFourHours = doctorAvailability.TwentyFourHours;
                     existingAvailability.InstitutionId = doctorAvailability.InstitutionId;
                     existingAvailability.DoctorId = doctorAvailability.DoctorId;
                 }
