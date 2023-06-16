@@ -6,6 +6,6 @@ namespace Application.Features.InstitutionAvailabilities.CQRS.Commands
 {
     public class CreateInstitutionAvailabilityCommand : IRequest<Result<Guid>>
     {
-        public CreateInstitutionAvailabilityDto InstitutionAvailabilityDto { get; set; }
+        public CreateInstitutionAvailabilityDto CreateInstitutionAvailabilityDto { get; set; }
     }
 }

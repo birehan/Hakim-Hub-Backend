@@ -6,7 +6,7 @@ namespace Application.Features.DoctorAvailabilities.DTOs.Validators
     {
         public IDoctorAvailabilityDtoValidator()
         {
-            RuleFor(p => p.InstitutionId)
+            RuleFor(p => p.DoctorId)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull();
 

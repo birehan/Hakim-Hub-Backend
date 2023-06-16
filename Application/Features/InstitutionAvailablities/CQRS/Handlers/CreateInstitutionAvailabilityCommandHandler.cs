@@ -26,17 +26,18 @@ namespace Application.Features.InstitutionAvailabilities.CQRS.Handlers
         {
 
             var validator = new CreateInstitutionAvailabilityDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.InstitutionAvailabilityDto);
+            var validationResult = await validator.ValidateAsync(request.CreateInstitutionAvailabilityDto);
 
             if (!validationResult.IsValid)
                 return Result<Guid>.Failure(validationResult.Errors[0].ErrorMessage);
 
 
-            var institutionAvailability = _mapper.Map<InstitutionAvailability>(request.InstitutionAvailabilityDto);
+            var institutionAvailability = _mapper.Map<InstitutionAvailability>(request.CreateInstitutionAvailabilityDto);
             await _unitOfWork.InstitutionAvailabilityRepository.Add(institutionAvailability);
 
             if (await _unitOfWork.Save() > 0)
                 return Result<Guid>.Success(institutionAvailability.Id);
+                // return Result<Unit>.Success(Unit.Value);
 
             return Result<Guid>.Failure("Creation Failed");
 

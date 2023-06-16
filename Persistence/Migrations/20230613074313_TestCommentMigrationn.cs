@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class TestCommentMigration : Migration
+    public partial class TestCommentMigrationn : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,13 +15,14 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Country = table.Column<string>(type: "text", nullable: false),
-                    Region = table.Column<string>(type: "text", nullable: false),
-                    Zone = table.Column<string>(type: "text", nullable: false),
-                    Woreda = table.Column<string>(type: "text", nullable: false),
+                    Region = table.Column<string>(type: "text", nullable: true),
+                    Zone = table.Column<string>(type: "text", nullable: true),
+                    Woreda = table.Column<string>(type: "text", nullable: true),
                     City = table.Column<string>(type: "text", nullable: false),
-                    SubCity = table.Column<string>(type: "text", nullable: false),
-                    Longitude = table.Column<double>(type: "double precision", nullable: false),
-                    Latitude = table.Column<double>(type: "double precision", nullable: false),
+                    SubCity = table.Column<string>(type: "text", nullable: true),
+                    Summary = table.Column<string>(type: "text", nullable: true),
+                    Longitude = table.Column<double>(type: "double precision", nullable: true),
+                    Latitude = table.Column<double>(type: "double precision", nullable: true),
                     InstitutionId = table.Column<Guid>(type: "uuid", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
@@ -52,7 +53,7 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -62,20 +63,23 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DoctorProfiles",
+                name: "DoctorAvailabilities",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    FullName = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    PhotoId = table.Column<string>(type: "text", nullable: false),
-                    TimeStamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Day = table.Column<int>(type: "integer", nullable: false),
+                    StartTime = table.Column<string>(type: "text", nullable: false),
+                    EndTime = table.Column<string>(type: "text", nullable: false),
+                    TwentyFourHours = table.Column<bool>(type: "boolean", nullable: false),
+                    StartDay = table.Column<int>(type: "integer", nullable: false),
+                    EndDay = table.Column<int>(type: "integer", nullable: false),
+                    DoctorId = table.Column<Guid>(type: "uuid", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DoctorProfiles", x => x.Id);
+                    table.PrimaryKey("PK_DoctorAvailabilities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,110 +93,9 @@ namespace Persistence.Migrations
                 {
                     table.PrimaryKey("PK_DoctorProfileSpeciality", x => new { x.DoctorsId, x.SpecialitiesId });
                     table.ForeignKey(
-                        name: "FK_DoctorProfileSpeciality_DoctorProfiles_DoctorsId",
-                        column: x => x.DoctorsId,
-                        principalTable: "DoctorProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_DoctorProfileSpeciality_Specialities_SpecialitiesId",
                         column: x => x.SpecialitiesId,
                         principalTable: "Specialities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DoctorAvailabilities",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    TwentyFourHours = table.Column<bool>(type: "boolean", nullable: false),
-                    StartDay = table.Column<int>(type: "integer", nullable: false),
-                    EndDay = table.Column<int>(type: "integer", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    DoctorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    InstitutionProfileId = table.Column<Guid>(type: "uuid", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DoctorAvailabilities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DoctorAvailabilities_DoctorProfiles_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "DoctorProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DoctorProfileInstitutionProfile",
-                columns: table => new
-                {
-                    DoctorsId = table.Column<Guid>(type: "uuid", nullable: false),
-                    InstitutionsId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DoctorProfileInstitutionProfile", x => new { x.DoctorsId, x.InstitutionsId });
-                    table.ForeignKey(
-                        name: "FK_DoctorProfileInstitutionProfile_DoctorProfiles_DoctorsId",
-                        column: x => x.DoctorsId,
-                        principalTable: "DoctorProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Educations",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    InstitutionName = table.Column<string>(type: "text", nullable: false),
-                    StartYear = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    GraduationYear = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    FieldOfStudy = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    DoctorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PhotoId = table.Column<string>(type: "text", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Educations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Educations_DoctorProfiles_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "DoctorProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Experiences",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Position = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    DoctorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    InstitutionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Experiences", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Experiences_DoctorProfiles_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "DoctorProfiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -202,11 +105,11 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    TwentyFourHours = table.Column<bool>(type: "boolean", nullable: false),
                     StartDay = table.Column<int>(type: "integer", nullable: false),
                     EndDay = table.Column<int>(type: "integer", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Opening = table.Column<string>(type: "text", nullable: false),
+                    Closing = table.Column<string>(type: "text", nullable: false),
+                    TwentyFourHours = table.Column<bool>(type: "boolean", nullable: false),
                     InstitutionId = table.Column<Guid>(type: "uuid", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
@@ -240,12 +143,12 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     InstitutionName = table.Column<string>(type: "text", nullable: false),
-                    BranchName = table.Column<string>(type: "text", nullable: false),
-                    Website = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
+                    BranchName = table.Column<string>(type: "text", nullable: true),
+                    Website = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
                     Summary = table.Column<string>(type: "text", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Rate = table.Column<string>(type: "text", nullable: false),
+                    EstablishedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Rate = table.Column<double>(type: "double precision", nullable: false),
                     AddressId = table.Column<Guid>(type: "uuid", nullable: false),
                     LogoId = table.Column<string>(type: "text", nullable: false),
                     BannerId = table.Column<string>(type: "text", nullable: false),
@@ -269,7 +172,10 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Url = table.Column<string>(type: "text", nullable: false),
-                    InstitutionProfileId = table.Column<Guid>(type: "uuid", nullable: true)
+                    InstitutionProfileId = table.Column<Guid>(type: "uuid", nullable: true),
+                    DoctorProfileId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LogoId = table.Column<Guid>(type: "uuid", nullable: true),
+                    BannerId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -282,13 +188,122 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Specialities",
-                columns: new[] { "Id", "DateCreated", "Description", "LastModifiedDate", "Name" },
-                values: new object[,]
+            migrationBuilder.CreateTable(
+                name: "DoctorProfiles",
+                columns: table => new
                 {
-                    { new Guid("692a6108-464d-480e-b7ba-7f8f9bc87736"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sample Content 2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "tiltle 2" },
-                    { new Guid("9ba779c8-6a83-4432-9ae7-23f6fa072370"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sample Content", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "title" }
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
+                    About = table.Column<string>(type: "text", nullable: true),
+                    Gender = table.Column<int>(type: "integer", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    PhotoId = table.Column<string>(type: "text", nullable: true),
+                    CareerStartTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    MainInstitutionId = table.Column<Guid>(type: "uuid", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoctorProfiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DoctorProfiles_InstitutioProfiles_MainInstitutionId",
+                        column: x => x.MainInstitutionId,
+                        principalTable: "InstitutioProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_DoctorProfiles_Photos_PhotoId",
+                        column: x => x.PhotoId,
+                        principalTable: "Photos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DoctorProfileInstitutionProfile",
+                columns: table => new
+                {
+                    DoctorsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InstitutionsId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoctorProfileInstitutionProfile", x => new { x.DoctorsId, x.InstitutionsId });
+                    table.ForeignKey(
+                        name: "FK_DoctorProfileInstitutionProfile_DoctorProfiles_DoctorsId",
+                        column: x => x.DoctorsId,
+                        principalTable: "DoctorProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DoctorProfileInstitutionProfile_InstitutioProfiles_Institut~",
+                        column: x => x.InstitutionsId,
+                        principalTable: "InstitutioProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Educations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    EducationInstitution = table.Column<string>(type: "text", nullable: false),
+                    StartYear = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    GraduationYear = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Degree = table.Column<string>(type: "text", nullable: false),
+                    FieldOfStudy = table.Column<string>(type: "text", nullable: false),
+                    DoctorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InstitutionLogoId = table.Column<string>(type: "text", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Educations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Educations_DoctorProfiles_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "DoctorProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Educations_Photos_InstitutionLogoId",
+                        column: x => x.InstitutionLogoId,
+                        principalTable: "Photos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Experiences",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Position = table.Column<string>(type: "text", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    DoctorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InstitutionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Experiences", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Experiences_DoctorProfiles_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "DoctorProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Experiences_InstitutioProfiles_InstitutionId",
+                        column: x => x.InstitutionId,
+                        principalTable: "InstitutioProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -297,14 +312,14 @@ namespace Persistence.Migrations
                 column: "DoctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DoctorAvailabilities_InstitutionProfileId",
-                table: "DoctorAvailabilities",
-                column: "InstitutionProfileId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_DoctorProfileInstitutionProfile_InstitutionsId",
                 table: "DoctorProfileInstitutionProfile",
                 column: "InstitutionsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoctorProfiles_MainInstitutionId",
+                table: "DoctorProfiles",
+                column: "MainInstitutionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DoctorProfiles_PhotoId",
@@ -323,9 +338,9 @@ namespace Persistence.Migrations
                 column: "DoctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Educations_PhotoId",
+                name: "IX_Educations_InstitutionLogoId",
                 table: "Educations",
-                column: "PhotoId",
+                column: "InstitutionLogoId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -341,7 +356,8 @@ namespace Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_InstitutionAvailabilities_InstitutionId",
                 table: "InstitutionAvailabilities",
-                column: "InstitutionId");
+                column: "InstitutionId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_InstitutionProfileServices_ServicesId",
@@ -371,42 +387,25 @@ namespace Persistence.Migrations
                 table: "Photos",
                 column: "InstitutionProfileId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_DoctorProfiles_Photos_PhotoId",
-                table: "DoctorProfiles",
-                column: "PhotoId",
-                principalTable: "Photos",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+            migrationBuilder.CreateIndex(
+                name: "IX_Services_ServiceName",
+                table: "Services",
+                column: "ServiceName",
+                unique: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_DoctorAvailabilities_InstitutioProfiles_InstitutionProfileId",
+                name: "FK_DoctorAvailabilities_DoctorProfiles_DoctorId",
                 table: "DoctorAvailabilities",
-                column: "InstitutionProfileId",
-                principalTable: "InstitutioProfiles",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_DoctorProfileInstitutionProfile_InstitutioProfiles_Institut~",
-                table: "DoctorProfileInstitutionProfile",
-                column: "InstitutionsId",
-                principalTable: "InstitutioProfiles",
+                column: "DoctorId",
+                principalTable: "DoctorProfiles",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Educations_Photos_PhotoId",
-                table: "Educations",
-                column: "PhotoId",
-                principalTable: "Photos",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Experiences_InstitutioProfiles_InstitutionId",
-                table: "Experiences",
-                column: "InstitutionId",
-                principalTable: "InstitutioProfiles",
+                name: "FK_DoctorProfileSpeciality_DoctorProfiles_DoctorsId",
+                table: "DoctorProfileSpeciality",
+                column: "DoctorsId",
+                principalTable: "DoctorProfiles",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
