@@ -16,7 +16,8 @@ using Moq;
 using Shouldly;
 using Xunit;
 
-namespace YourNamespace.UnitTest.Addresses.Commands
+
+namespace Application.UnitTest.Addresses.Commands
 {
     public class UpdateAddressCommandHandlerTests
     {

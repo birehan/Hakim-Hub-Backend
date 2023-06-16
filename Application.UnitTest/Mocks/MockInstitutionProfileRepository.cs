@@ -1,11 +1,10 @@
+using Application.Contracts.Persistence;
 using Domain;
-using Domain.Common;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application.Contracts.Persistence;
-using Moq;
 
 namespace Application.UnitTest.Mocks
 {
@@ -20,12 +19,11 @@ namespace Application.UnitTest.Mocks
                     Id = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
                     InstitutionName = "Institution 1",
                     BranchName = "Branch 1",
-                    Website = "Website 1",
+                    Website = "www.Website.com",
                     PhoneNumber = "Phone 1",
                     Summary = "Summary 1",
-                    EstablishedOn = DateTime.Now,
+                    EstablishedOn = DateTime.Now.AddDays(-10),
                     Rate = 4.5,
-                    AddressId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
                     LogoId = "LogoId 1",
                     BannerId = "BannerId 1"
                 },
@@ -34,12 +32,11 @@ namespace Application.UnitTest.Mocks
                     Id = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa7"),
                     InstitutionName = "Institution 2",
                     BranchName = "Branch 2",
-                    Website = "Website 2",
+                    Website = "www.Website.com",
                     PhoneNumber = "Phone 2",
                     Summary = "Summary 2",
-                    EstablishedOn = DateTime.Now,
+                    EstablishedOn = DateTime.Now.AddDays(-10),
                     Rate = 3.8,
-                    AddressId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa7"),
                     LogoId = "LogoId 2",
                     BannerId = "BannerId 2"
                 }
@@ -53,35 +50,30 @@ namespace Application.UnitTest.Mocks
             {
                 institutionProfile.Id = Guid.NewGuid();
                 institutionProfiles.Add(institutionProfile);
+                MockUnitOfWork.changes += 1;
                 return institutionProfile;
             });
 
-            mockRepo.Setup(r => r.Update(It.IsAny<InstitutionProfile>())).Callback((InstitutionProfile institutionProfile) =>
+            mockRepo.Setup(r => r.Update(It.IsAny<InstitutionProfile>())).Callback((InstitutionProfile profile) =>
             {
-                var existingProfile = institutionProfiles.FirstOrDefault(p => p.Id == institutionProfile.Id);
-                if (existingProfile != null)
-                {
-                    existingProfile.InstitutionName = institutionProfile.InstitutionName;
-                    existingProfile.BranchName = institutionProfile.BranchName;
-                    existingProfile.Website = institutionProfile.Website;
-                    existingProfile.PhoneNumber = institutionProfile.PhoneNumber;
-                    existingProfile.Summary = institutionProfile.Summary;
-                    existingProfile.EstablishedOn = institutionProfile.EstablishedOn;
-                    existingProfile.Rate = institutionProfile.Rate;
-                    existingProfile.AddressId = institutionProfile.AddressId;
-                    existingProfile.LogoId = institutionProfile.LogoId;
-                    existingProfile.BannerId = institutionProfile.BannerId;
-                }
+                var newProfiles = institutionProfiles.Where((r) => r.Id != profile.Id);
+                institutionProfiles = newProfiles.ToList();
+                institutionProfiles.Add(profile);
+                MockUnitOfWork.changes += 1;
             });
 
             mockRepo.Setup(r => r.Delete(It.IsAny<InstitutionProfile>())).Callback((InstitutionProfile institutionProfile) =>
             {
-                institutionProfiles.RemoveAll(p => p.Id == institutionProfile.Id);
+                var existingProfile = institutionProfiles.FirstOrDefault(p => p.Id == institutionProfile.Id);
+                if (existingProfile != null)
+                {
+                    institutionProfiles.Remove(existingProfile);
+                }
             });
 
-            mockRepo.Setup(r => r.Get(It.IsAny<Guid>())).ReturnsAsync((Guid id) =>
+            mockRepo.Setup(r => r.Get(It.IsAny<Guid>())).ReturnsAsync((Guid Id) =>
             {
-                return institutionProfiles.FirstOrDefault(p => p.Id == id);
+                return institutionProfiles.FirstOrDefault((r) => r.Id == Id);
             });
 
             return mockRepo;
