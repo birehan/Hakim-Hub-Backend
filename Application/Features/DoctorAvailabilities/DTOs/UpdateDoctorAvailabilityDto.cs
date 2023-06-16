@@ -13,5 +13,9 @@ namespace Application.Features.DoctorAvailabilities.DTOs
         public DayOfWeek EndDay {get; set;}
 
         public Guid DoctorId { get; set; }
+
+        public Guid InstitutionId { get; set; }
+
+        public Guid SpecialityId { get; set; }
     }
 }

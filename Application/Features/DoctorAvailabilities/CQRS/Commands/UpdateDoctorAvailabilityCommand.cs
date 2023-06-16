@@ -7,7 +7,7 @@ namespace Application.Features.DoctorAvailabilities.CQRS.Commands
 {
     public class UpdateDoctorAvailabilityCommand : IRequest<Result<Unit>>
     {
-        public UpdateDoctorAvailabilityDto DoctorAvailabilityDto { get; set; }
+        public UpdateDoctorAvailabilityDto UpdateDoctorAvailabilityDto { get; set; }
 
     }
 }

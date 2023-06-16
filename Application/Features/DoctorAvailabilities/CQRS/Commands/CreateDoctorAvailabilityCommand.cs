@@ -6,6 +6,6 @@ namespace Application.Features.DoctorAvailabilities.CQRS.Commands
 {
     public class CreateDoctorAvailabilityCommand : IRequest<Result<Guid>>
     {
-        public CreateDoctorAvailabilityDto DoctorAvailabilityDto { get; set; }
+        public CreateDoctorAvailabilityDto CreateDoctorAvailabilityDto { get; set; }
     }
 }
