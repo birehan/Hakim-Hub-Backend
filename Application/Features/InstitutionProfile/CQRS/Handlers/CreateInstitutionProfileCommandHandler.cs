@@ -41,7 +41,8 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
             }
             var uploadedLogo = await _photoAccessor.AddPhoto(request.CreateInstitutionProfileDto.LogoFile);
             var uploadedBanner = await _photoAccessor.AddPhoto(request.CreateInstitutionProfileDto.BannerFile);
-            
+            var InstitutionProfile = _mapper.Map<InstitutionProfile>(request.CreateInstitutionProfileDto);
+
 
             Guid logoId = Guid.NewGuid();
             Photo logo = new Photo { Id = logoId.ToString(), Url = uploadedLogo.Url };
@@ -49,7 +50,6 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
             Photo banner = new Photo { Id = bannerId.ToString(), Url = uploadedBanner.Url };
 
 
-            var InstitutionProfile = _mapper.Map<InstitutionProfile>(request.CreateInstitutionProfileDto);
             InstitutionProfile.Logo = logo;
             InstitutionProfile.Banner = banner;
             InstitutionProfile.BannerId = uploadedBanner.PublicId;

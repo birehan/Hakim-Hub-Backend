@@ -43,8 +43,6 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
                 var uploadedLogo = await _photoAccessor.AddPhoto(request.UpdateInstitutionProfileDto.LogoFile);
                 Guid logoId = Guid.NewGuid();
                 Photo logo = new Photo { Id = logoId.ToString(), Url = uploadedLogo.Url };
-                await _unitOfWork.PhotoRepository.Add(logo);
-                if (await _unitOfWork.Save() <= 0) return Result<Unit>.Failure("Update Failed");
                 InstitutionProfile.Logo = logo;
             }
 
@@ -53,8 +51,6 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
                 var uploadedBanner = await _photoAccessor.AddPhoto(request.UpdateInstitutionProfileDto.BannerFile);
                 Guid bannerId = Guid.NewGuid();
                 Photo banner = new Photo { Id = bannerId.ToString(), Url = uploadedBanner.Url };
-                await _unitOfWork.PhotoRepository.Add(banner);
-                if (await _unitOfWork.Save() <= 0) return Result<Unit>.Failure("Update Failed");
                 InstitutionProfile.Banner = banner;
             }
 
@@ -68,8 +64,6 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
                     Guid photoId = Guid.NewGuid();
 
                     Photo photo = new Photo { Id = photoId.ToString(), Url = uploadedFile.Url, InstitutionProfileId = InstitutionProfile.Id };
-                    await _unitOfWork.PhotoRepository.Add(photo);
-
                     if (await _unitOfWork.Save() <= 0) return Result<Unit>.Failure("Update Failed");
                     InstitutionProfile.Photos.Add(photo);
                 }

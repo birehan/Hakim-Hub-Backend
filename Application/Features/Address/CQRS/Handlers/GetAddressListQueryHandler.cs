@@ -20,7 +20,7 @@ namespace Application.Features.Addresses.CQRS.Handlers
 
         public async Task<Result<List<AddressDto>>> Handle(GetAddressListQuery request, CancellationToken cancellationToken)
         {
-            var Addresses = await _unitOfWork.AddressRepository.GetAll();
+            var Addresses = await _unitOfWork.AddressRepository.GetAllPopulated();
 
             if (Addresses == null) return null;
 

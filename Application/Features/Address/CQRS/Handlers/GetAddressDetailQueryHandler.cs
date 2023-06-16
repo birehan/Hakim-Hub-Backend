@@ -22,7 +22,7 @@ namespace Application.Features.Addresses.CQRS.Handlers
 
         public async Task<Result<AddressDto>> Handle(GetAddressDetailQuery request, CancellationToken cancellationToken)
         {
-            var Address = await _unitOfWork.AddressRepository.Get(request.Id);
+            var Address = await _unitOfWork.AddressRepository.GetPopulated(request.Id);
 
             if (Address == null) return Result<AddressDto>.Failure(error: "Item not found.");
 ;

@@ -14,5 +14,19 @@ namespace Persistence.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<List<Address>> GetAllPopulated()
+        {
+            return await _dbContext.Set<Address>()
+                .Include(x => x.Institution)
+                .AsNoTracking().ToListAsync();
+        }
+
+        public async Task<Address> GetPopulated(Guid id)
+        {
+            return await _dbContext.Set<Address>()
+                .Include(x => x.Institution)
+                .FirstOrDefaultAsync(b => b.Id == id);
+        }
+
     }
 }
