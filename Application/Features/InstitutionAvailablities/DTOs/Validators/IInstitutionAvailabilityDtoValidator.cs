@@ -12,11 +12,11 @@ namespace Application.Features.InstitutionAvailabilities.DTOs.Validators
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull();
                 
-            RuleFor(p => p.StartTime)
+            RuleFor(p => p.Opening)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull();
             
-            RuleFor(p => p.EndTime)
+            RuleFor(p => p.Closing)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull();
 
