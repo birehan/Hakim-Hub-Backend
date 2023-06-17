@@ -7,6 +7,7 @@ using MediatR;
 using Domain;
 using Application.Features.Addresses.CQRS.Commands;
 using Application.Features.Addresses.DTOs.Validators;
+using Application.Features.InstitutionProfiles.DTOs;
 
 namespace Application.Features.Addresses.CQRS.Handlers
 {
@@ -32,13 +33,22 @@ namespace Application.Features.Addresses.CQRS.Handlers
             if (!validationResult.IsValid)
                 return Result<Guid>.Failure(validationResult.Errors[0].ErrorMessage);
 
+            InstitutionProfile institution = await _unitOfWork.InstitutionProfileRepository.GetPopulatedInstitution(request.CreateAddressDto.InstitutionId);
 
-            var Address = _mapper.Map<Address>(request.CreateAddressDto);
-            await _unitOfWork.AddressRepository.Add(Address);
+            if(institution != null)
+            {
+                if (institution.Address != null)
+                {
+                    return Result<Guid>.Failure(institution.InstitutionName+" has exiting address.");
+                }
 
-            if (await _unitOfWork.Save() > 0)
-                return Result<Guid>.Success(Address.Id);
+                var Address = _mapper.Map<Address>(request.CreateAddressDto);
+                await _unitOfWork.AddressRepository.Add(Address);
 
+                if (await _unitOfWork.Save() > 0)
+                    return Result<Guid>.Success(Address.Id);
+            }
+               
             return Result<Guid>.Failure("Creation Failed");
 
         }

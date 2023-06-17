@@ -15,11 +15,7 @@ namespace Domain
 
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
-<<<<<<< HEAD
-        public Guid? InstitutionId {get; set;}
-=======
         public Guid InstitutionId {get; set;}
->>>>>>> d90788f (feat(crud-biruk): done with the cruds about to pull)
 
         // One to one relation reference
         public InstitutionProfile Institution {get; set;}

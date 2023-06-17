@@ -20,21 +20,9 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
 
         public async Task<Result<InstitutionProfileDto>> Handle(GetInstitutionProfileDetailQuery request, CancellationToken cancellationToken)
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            var InstitutionProfile = await _unitOfWork.InstitutionProfileRepository.GetPopulated(request.Id);
+            var InstitutionProfile = await _unitOfWork.InstitutionProfileRepository.GetPopulatedInstitution(request.Id);
 
             if (InstitutionProfile == null) return Result<InstitutionProfileDto>.Failure(error: "Item not found.");
-=======
-            var InstitutionProfile = await _unitOfWork.InstitutionProfileRepository.Get(request.Id);
-
-            if (InstitutionProfile == null) return null;
->>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
-=======
-            var InstitutionProfile = await _unitOfWork.InstitutionProfileRepository.GetPopulated(request.Id);
-
-            if (InstitutionProfile == null) return Result<InstitutionProfileDto>.Failure(error: "Item not found.");
->>>>>>> 95d003c (fix(clean-biruk): clean up)
 
             return Result<InstitutionProfileDto>.Success(_mapper.Map<InstitutionProfileDto>(InstitutionProfile));
         }

@@ -29,36 +29,12 @@ namespace Persistence
            .IsUnique();
 
             // address to institution
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             modelBuilder.Entity<InstitutionProfile>()
-<<<<<<< HEAD
             .HasOne(p => p.Address)
             .WithOne(a => a.Institution)
-            .HasForeignKey<Address>(a => a.InstitutionId);
-=======
-            .HasOne(e => e.Address)
-            .WithOne(d => d.Institution)
-=======
-            modelBuilder.Entity<Address>()
-            .HasOne(e => e.Institution)
-            .WithOne(d => d.Address)
->>>>>>> 2e3d14f (feat(crud-biruk): add endpoints for address and InstitutionProfile)
-            .HasForeignKey<Address>(e => e.InstitutionId)
-=======
-            modelBuilder.Entity<InstitutionProfile>()
-<<<<<<< HEAD
-            .HasOne(e => e.Address)
-            .WithOne(d => d.Institution)
-            .HasForeignKey<InstitutionProfile>(e => e.AddressId)
->>>>>>> 79f95ec (feat(search-biruk): add search and filter for institutionProfile)
+            .HasForeignKey<Address>(a => a.InstitutionId)
             .OnDelete(DeleteBehavior.Cascade);
->>>>>>> d90788f (feat(crud-biruk): done with the cruds about to pull)
-=======
-            .HasOne(p => p.Address)
-            .WithOne(a => a.Institution)
-            .HasForeignKey<Address>(a => a.InstitutionId);
->>>>>>> 95d003c (fix(clean-biruk): clean up)
 
             // doctor profile to phot
             modelBuilder.Entity<DoctorProfile>()

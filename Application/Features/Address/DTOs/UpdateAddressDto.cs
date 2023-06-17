@@ -12,14 +12,7 @@ namespace Application.Features.Addresses.DTOs
         public string SubCity { get; set; }
         public double Longitude { get; set;}
         public double Latitude { get; set;}
-<<<<<<< HEAD
-<<<<<<< HEAD
         public string Summary { get; set; }
-=======
->>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
-=======
-        public string Summary { get; set; }
->>>>>>> d90788f (feat(crud-biruk): done with the cruds about to pull)
 
         public Guid InstitutionId {get; set;}
     }

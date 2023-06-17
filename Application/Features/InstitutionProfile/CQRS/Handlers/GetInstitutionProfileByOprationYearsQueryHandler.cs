@@ -21,16 +21,7 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
         public async Task<Result<List<InstitutionProfileDto>>> Handle(GetInstitutionProfileByOprationYearsQuery request, CancellationToken cancellationToken)
         {
             var InstitutionProfile = await _unitOfWork.InstitutionProfileRepository.GetByYears(request.Years);
-<<<<<<< HEAD
-<<<<<<< HEAD
             if (InstitutionProfile == null) return Result<List<InstitutionProfileDto>>.Failure(error: "Item not found.");
-=======
-            Console.WriteLine(InstitutionProfile);
-            if (InstitutionProfile == null) return null;
->>>>>>> 2e3d14f (feat(crud-biruk): add endpoints for address and InstitutionProfile)
-=======
-            if (InstitutionProfile == null) return Result<List<InstitutionProfileDto>>.Failure(error: "Item not found.");
->>>>>>> 95d003c (fix(clean-biruk): clean up)
 
             return Result<List<InstitutionProfileDto>>.Success(_mapper.Map<List<InstitutionProfileDto>>(InstitutionProfile));
         }

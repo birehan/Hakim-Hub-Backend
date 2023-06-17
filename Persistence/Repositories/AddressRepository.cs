@@ -1,13 +1,6 @@
 using Application.Contracts.Persistence;
 using Domain;
-<<<<<<< HEAD
-<<<<<<< HEAD
 using Microsoft.EntityFrameworkCore;
-=======
->>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
-=======
-using Microsoft.EntityFrameworkCore;
->>>>>>> 2e3d14f (feat(crud-biruk): add endpoints for address and InstitutionProfile)
 
 namespace Persistence.Repositories
 {
@@ -21,7 +14,6 @@ namespace Persistence.Repositories
             _dbContext = dbContext;
         }
 
-<<<<<<< HEAD
         public async Task<List<Address>> GetAllPopulated()
         {
             return await _dbContext.Set<Address>()
@@ -36,7 +28,5 @@ namespace Persistence.Repositories
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
-=======
->>>>>>> 4db4375 (fix(institution): changes some attributes from institution)
     }
 }

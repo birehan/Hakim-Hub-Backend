@@ -3,6 +3,7 @@ using Application.Features.Addresses.CQRS.Commands;
 using Application.Features.Addresses.CQRS.Queries;
 using Application.Features.Addresses.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -16,17 +17,14 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<AddressDto>>> Get()
         {
             return HandleResult(await _mediator.Send(new GetAddressListQuery()));
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 371b067 (test(address-biruk): add tests for address commands)
-
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateAddressDto createTask)
         {
@@ -35,7 +33,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-
+        [AllowAnonymous]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] UpdateAddressDto AddressDto, Guid id)
         {
@@ -43,7 +41,7 @@ namespace API.Controllers
             var command = new UpdateAddressCommand { UpdateAddressDto = AddressDto };
             return HandleResult(await _mediator.Send(command));
         }
-
+        [AllowAnonymous]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -51,11 +49,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-<<<<<<< HEAD
-=======
->>>>>>> 95d003c (fix(clean-biruk): clean up)
-=======
->>>>>>> 371b067 (test(address-biruk): add tests for address commands)
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
