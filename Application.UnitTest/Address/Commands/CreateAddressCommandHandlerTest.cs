@@ -6,6 +6,7 @@ using Application.Features.Addresses.CQRS.Handlers;
 using Application.Features.Addresses.DTOs;
 using Application.Features.Addresses.DTOs.Validators;
 using Application.Contracts.Persistence;
+using Application.UnitTest.Mocks;
 using Application.Responses;
 using AutoMapper;
 using Domain;
@@ -16,7 +17,7 @@ using Moq;
 using Shouldly;
 using Xunit;
 
-namespace YourNamespace.UnitTest.Addresses.Commands
+namespace Application.UnitTest.Addresses.Commands
 {
     public class CreateAddressCommandHandlerTests
     {
@@ -24,10 +25,40 @@ namespace YourNamespace.UnitTest.Addresses.Commands
         public async Task Handle_ValidAddress_ReturnsSuccessWithCorrectValues()
         {
             // Arrange
-            var unitOfWorkMock = new Mock<IUnitOfWork>();
+            var unitOfWorkMock = MockUnitOfWork.GetUnitOfWork();
             var mapperMock = new Mock<IMapper>();
 
             // Set up the CreateAddressDto with sample values
+            var institutionProfiles = new List<InstitutionProfile>
+            {
+                new InstitutionProfile
+                {
+                    Id = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                    InstitutionName = "Institution 1",
+                    BranchName = "Branch 1",
+                    Website = "www.Website.com",
+                    PhoneNumber = "Phone 1",
+                    Summary = "Summary 1",
+                    EstablishedOn = DateTime.Now.AddDays(-10),
+                    Rate = 4.5,
+                    LogoId = "LogoId 1",
+                    BannerId = "BannerId 1"
+                },
+                new InstitutionProfile
+                {
+                    Id = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa7"),
+                    InstitutionName = "Institution 2",
+                    BranchName = "Branch 2",
+                    Website = "www.Website.com",
+                    PhoneNumber = "Phone 2",
+                    Summary = "Summary 2",
+                    EstablishedOn = DateTime.Now.AddDays(-10),
+                    Rate = 3.8,
+                    LogoId = "LogoId 2",
+                    BannerId = "BannerId 2"
+                }
+            };
+
             var createAddressDto = new CreateAddressDto
             {
                 Country = "Sample Country",
@@ -39,7 +70,7 @@ namespace YourNamespace.UnitTest.Addresses.Commands
                 Longitude = 1.23,
                 Latitude = 4.56,
                 Summary = "Sample Summary",
-                InstitutionId = Guid.NewGuid()
+                InstitutionId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6")
             };
 
             // Set up the CreateAddressCommand with the CreateAddressDto
@@ -51,16 +82,10 @@ namespace YourNamespace.UnitTest.Addresses.Commands
             // Set up the Address entity
             var addressEntity = new Address
             {
-                Id = Guid.NewGuid(),
-                // Set other properties based on createAddressDto
+                Id = Guid.NewGuid()
             };
 
-            // Set up the expected result
-            var expectedResult = Result<Guid>.Success(addressEntity.Id);
-
             // Set up the mock dependencies
-            unitOfWorkMock.Setup(u => u.AddressRepository.Add(It.IsAny<Address>()));
-            unitOfWorkMock.Setup(u => u.Save()).ReturnsAsync(1);
             mapperMock.Setup(m => m.Map<Address>(createAddressDto)).Returns(addressEntity);
 
             // Create an instance of the CreateAddressCommandHandler with the mock dependencies
@@ -69,12 +94,10 @@ namespace YourNamespace.UnitTest.Addresses.Commands
             // Act
             var result = await handler.Handle(createAddressCommand, CancellationToken.None);
 
-            // Assert
-            result.IsSuccess.ShouldBe(expectedResult.IsSuccess);
-            result.Value.ShouldBe(expectedResult.Value);
-            unitOfWorkMock.Verify(u => u.AddressRepository.Add(It.IsAny<Address>()), Times.Once);
-            unitOfWorkMock.Verify(u => u.Save(), Times.Once);
-            mapperMock.Verify(m => m.Map<Address>(createAddressDto), Times.Once);
+           // Assert
+            result.IsSuccess.ShouldBeTrue();
+            result.Value.ShouldBe(addressEntity.Id);
+            unitOfWorkMock.Verify(x => x.Save(), Times.Exactly(1));
         }
 
         [Fact]

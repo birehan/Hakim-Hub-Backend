@@ -48,11 +48,14 @@ namespace Application.UnitTest.Mocks
             var mockRepo = new Mock<IAddressRepository>();
 
             mockRepo.Setup(r => r.GetAll()).ReturnsAsync(addresses);
+            mockRepo.Setup(r => r.GetAllPopulated()).ReturnsAsync(addresses);
+
 
             mockRepo.Setup(r => r.Add(It.IsAny<Address>())).ReturnsAsync((Address address) =>
             {
                 address.Id = Guid.NewGuid();
                 addresses.Add(address);
+                MockUnitOfWork.changes += 1;
                 return address;
             });
 

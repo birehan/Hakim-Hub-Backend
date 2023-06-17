@@ -43,7 +43,7 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
                 InstitutionName = "Sample Institution",
                 // Set other properties accordingly
             };
-            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.GetPopulated(institutionProfileId))
+            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.GetPopulatedInstitution(institutionProfileId))
                 .ReturnsAsync(institutionProfile);
 
             var query = new GetInstitutionProfileDetailQuery { Id = institutionProfileId };
@@ -65,7 +65,7 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
         {
             // Arrange
             var nonExistingId = Guid.NewGuid();
-            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.GetPopulated(nonExistingId))
+            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.GetPopulatedInstitution(nonExistingId))
                 .ReturnsAsync((InstitutionProfile)null);
 
             var query = new GetInstitutionProfileDetailQuery { Id = nonExistingId };

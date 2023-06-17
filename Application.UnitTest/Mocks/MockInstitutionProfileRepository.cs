@@ -76,6 +76,11 @@ namespace Application.UnitTest.Mocks
                 return institutionProfiles.FirstOrDefault((r) => r.Id == Id);
             });
 
+            mockRepo.Setup(r => r.GetPopulatedInstitution(It.IsAny<Guid>())).ReturnsAsync((Guid Id) =>
+            {
+                return institutionProfiles.FirstOrDefault((r) => r.Id == Id);
+            });
+
             return mockRepo;
         }
     }

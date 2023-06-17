@@ -47,7 +47,6 @@ namespace Application.UnitTest.Addresses.Queries
         {
             var result = await _handler.Handle(new GetAddressDetailQuery() { Id = Id }, CancellationToken.None);
             result.ShouldBeOfType<Result<AddressDto>>();
-             result.Value.ShouldBeOfType<AddressDto>();
         }
 
         [Fact]

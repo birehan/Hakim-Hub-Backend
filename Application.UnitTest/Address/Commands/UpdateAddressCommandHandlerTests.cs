@@ -16,12 +16,8 @@ using Moq;
 using Shouldly;
 using Xunit;
 
-<<<<<<< HEAD
 
 namespace Application.UnitTest.Addresses.Commands
-=======
-namespace YourNamespace.UnitTest.Addresses.Commands
->>>>>>> 371b067 (test(address-biruk): add tests for address commands)
 {
     public class UpdateAddressCommandHandlerTests
     {
