@@ -19,8 +19,6 @@ namespace Application.Features.DoctorProfiles.DTOs.Validators
             RuleFor(p => p.FullName)
             .NotNull()
             .WithMessage("{PropertyName} is required")
-            .NotEmpty()
-            .WithMessage("{PropertyName} must be present")
             .MaximumLength(50)
             .WithMessage("{PropertyName} must be less than {PropertyValue}");
 
