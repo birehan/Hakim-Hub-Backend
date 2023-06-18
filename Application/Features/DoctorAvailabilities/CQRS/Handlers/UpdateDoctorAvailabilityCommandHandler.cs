@@ -21,16 +21,16 @@ namespace Application.Features.DoctorAvailabilities.CQRS.Handlers
         public async Task<Result<Unit>> Handle(UpdateDoctorAvailabilityCommand request, CancellationToken cancellationToken)
         {
             var validator = new UpdateDoctorAvailabillityDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.DoctorAvailabilityDto);
+            var validationResult = await validator.ValidateAsync(request.UpdateDoctorAvailabilityDto);
 
             if (!validationResult.IsValid)
                 return Result<Unit>.Failure(validationResult.Errors[0].ErrorMessage);
 
 
-            var doctorAvailability = await _unitOfWork.DoctorAvailabilityRepository.Get(request.DoctorAvailabilityDto.Id);
+            var doctorAvailability = await _unitOfWork.DoctorAvailabilityRepository.Get(request.UpdateDoctorAvailabilityDto.Id);
             if (doctorAvailability == null) return null;
 
-            _mapper.Map(request.DoctorAvailabilityDto, doctorAvailability);
+            _mapper.Map(request.UpdateDoctorAvailabilityDto, doctorAvailability);
             await _unitOfWork.DoctorAvailabilityRepository.Update(doctorAvailability);
 
             if (await _unitOfWork.Save() > 0)

@@ -2,6 +2,7 @@ using Application.Features.Specialities.DTOs;
 using Application.Features.DoctorAvailabilities.DTOs;
 using AutoMapper;
 using Domain;
+using Application.Features.InstitutionAvailabilities.DTOs;
 
 using Application.Features.InstitutionProfiles.DTOs;
 using Application.Features.Addresses.DTOs;
@@ -23,6 +24,10 @@ namespace Application.Profiles
             CreateMap<CreateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();
             CreateMap<UpdateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();
             CreateMap<DoctorAvailability, DoctorAvailabilityDto>();
+
+            CreateMap<CreateInstitutionAvailabilityDto, InstitutionAvailability>().ReverseMap();
+            CreateMap<UpdateInstitutionAvailabilityDto, InstitutionAvailability>().ReverseMap();
+            CreateMap<InstitutionAvailability, InstitutionAvailabilityDto>();
             
             CreateMap<CreateInstitutionProfileDto, InstitutionProfile>().ReverseMap();
             CreateMap<UpdateInstitutionProfileDto, InstitutionProfile>().ReverseMap();

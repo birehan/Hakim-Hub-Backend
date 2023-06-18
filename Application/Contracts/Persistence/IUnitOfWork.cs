@@ -4,6 +4,7 @@ namespace Application.Contracts.Persistence
     {
         ISpecialityRepository SpecialityRepository { get; }
         IDoctorAvailabilityRepository DoctorAvailabilityRepository {get;}
+        IInstitutionAvailabilityRepository InstitutionAvailabilityRepository{get;}
         IAddressRepository AddressRepository {get;}
         IInstitutionProfileRepository InstitutionProfileRepository {get;}
         IExperienceRepository ExperienceRepository { get; }

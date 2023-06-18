@@ -12,9 +12,11 @@ namespace Persistence
         {
             services.AddDbContext<HakimHubDbContext>(opt =>
             opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+          
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISpecialityRepository, SpecialityRepository>();
             services.AddScoped<IDoctorAvailabilityRepository, DoctorAvailabilityRepository>();
+            services.AddScoped<IInstitutionAvailabilityRepository, InstitutionAvailabilityRepository>();
             services.AddScoped<IExperienceRepository, ExperienceRepository>();
             services.AddScoped<IServiceRepository, ServiceRepository>();
 
