@@ -53,6 +53,8 @@ namespace Persistence.Repositories
             get
             {
                 return _institutionProfileRepository = new InstitutionProfileRepository(_context);
+            }
+        }
 
         public IExperienceRepository ExperienceRepository
         {

@@ -24,7 +24,7 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public Address Address {get; set;}
 
         public ICollection<DoctorProfile> Doctors { get; set; }
-        public ICollection<Services> Services { get; set; }
+        public ICollection<Service> Services { get; set; }
         public ICollection<Photo> Photos { get; set; }
 
     }

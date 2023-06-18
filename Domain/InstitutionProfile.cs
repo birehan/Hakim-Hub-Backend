@@ -23,7 +23,7 @@ namespace Domain
         public ICollection<DoctorProfile> Doctors { get; set; } = new List<DoctorProfile>();
 
         [JsonIgnore]
-        public ICollection<Services> Services { get; set; } = new List<Services>();
+        public ICollection<Service> Services { get; set; } = new List<Service>();
         [JsonIgnore]
         public ICollection<Photo> Photos { get; set; } = new List<Photo>();
         [JsonIgnore]
