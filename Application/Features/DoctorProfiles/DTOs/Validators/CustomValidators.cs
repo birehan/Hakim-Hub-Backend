@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Features.DoctorProfiles.DTOs.Validators
 {
@@ -16,19 +17,18 @@ namespace Application.Features.DoctorProfiles.DTOs.Validators
                 .WithMessage("{PropertyName} must be in the format 'YYYY-MM-DD'");
         }
 
-        public static IRuleBuilderOptions<T, Photo> IsValidPhotoExtension<T>(this IRuleBuilder<T, Photo> ruleBuilder)
+         public static bool IsValidFileExtension(IFormFile doctorPhoto)
+    {
+        if (doctorPhoto == null)
         {
-            return ruleBuilder.Must(photo => IsValidPhotoExtension(photo.Url))
-                .WithMessage("{PropertyName} must have a valid file extension");
+            return true; // Skip validation if file is not provided
         }
 
-        private static bool IsValidPhotoExtension(string photoFileName)
-        {
-            string[] validExtensions = { ".jpg", ".jpeg", ".png", ".gif" };
-            string fileExtension = Path.GetExtension(photoFileName)?.ToLower();
+        var validExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
 
-            return validExtensions.Contains(fileExtension);
-        }
+        var extension = Path.GetExtension(doctorPhoto.FileName);
+        return validExtensions.Contains(extension.ToLower());
+    }
     }
 
 
