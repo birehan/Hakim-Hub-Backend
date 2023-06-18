@@ -29,10 +29,11 @@ namespace Persistence
            .IsUnique();
 
             // address to institution
+
             modelBuilder.Entity<InstitutionProfile>()
-            .HasOne(e => e.Address)
-            .WithOne(d => d.Institution)
-            .HasForeignKey<InstitutionProfile>(e => e.AddressId)
+            .HasOne(p => p.Address)
+            .WithOne(a => a.Institution)
+            .HasForeignKey<Address>(a => a.InstitutionId)
             .OnDelete(DeleteBehavior.Cascade);
 
             // doctor profile to phot
