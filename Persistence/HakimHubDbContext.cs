@@ -20,7 +20,7 @@ namespace Persistence
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(HakimHubDbContext).Assembly);
 
             // Unqiue service name
-            modelBuilder.Entity<Services>()
+            modelBuilder.Entity<Service>()
              .HasIndex(s => s.ServiceName)
              .IsUnique();
 
@@ -29,10 +29,11 @@ namespace Persistence
            .IsUnique();
 
             // address to institution
+
             modelBuilder.Entity<InstitutionProfile>()
-            .HasOne(e => e.Address)
-            .WithOne(d => d.Institution)
-            .HasForeignKey<InstitutionProfile>(e => e.AddressId)
+            .HasOne(p => p.Address)
+            .WithOne(a => a.Institution)
+            .HasForeignKey<Address>(a => a.InstitutionId)
             .OnDelete(DeleteBehavior.Cascade);
 
             // doctor profile to phot
@@ -161,7 +162,7 @@ namespace Persistence
         public DbSet<Experience> Experiences { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Address> Address { get; set; }
-        public DbSet<Services> Services { get; set; }
+        public DbSet<Service> Services { get; set; }
         public DbSet<InstitutionProfile> InstitutioProfiles { get; set; }
         public DbSet<InstitutionAvailability> InstitutionAvailabilities { get; set; }
         public DbSet<DoctorAvailability> DoctorAvailabilities { get; set; }

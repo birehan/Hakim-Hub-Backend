@@ -1,10 +1,16 @@
-using Application.Features.Specialities.DTOs;
-using Application.Features.DoctorAvailabilities.DTOs;
 using AutoMapper;
 using Domain;
-using Application.Features.Educations.DTOs;
 using Microsoft.AspNetCore.Http;
 using Application.Photos;
+using Application.Features.Educations.DTOs;
+using Application.Features.InstitutionAvailabilities.DTOs;
+using Application.Features.InstitutionProfiles.DTOs;
+using Application.Features.Addresses.DTOs;
+using Application.Features.Experiences.DTOs;
+using Application.Features.Services.DTOs;
+using Application.Features.Specialities.DTOs;
+using Application.Features.DoctorAvailabilities.DTOs;
+
 
 namespace Application.Profiles
 {
@@ -25,6 +31,25 @@ namespace Application.Profiles
             CreateMap<UpdateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();
             CreateMap<DoctorAvailability, DoctorAvailabilityDto>();
 
+            CreateMap<CreateInstitutionAvailabilityDto, InstitutionAvailability>().ReverseMap();
+            CreateMap<UpdateInstitutionAvailabilityDto, InstitutionAvailability>().ReverseMap();
+            CreateMap<InstitutionAvailability, InstitutionAvailabilityDto>();
+            
+            CreateMap<CreateInstitutionProfileDto, InstitutionProfile>().ReverseMap();
+            CreateMap<UpdateInstitutionProfileDto, InstitutionProfile>().ReverseMap();
+            CreateMap<InstitutionProfileDto, InstitutionProfile>().ReverseMap();
+
+            CreateMap<CreateAddressDto, Address>().ReverseMap();
+            CreateMap<UpdateAddressDto, Address>().ReverseMap();
+            CreateMap<AddressDto, Address>().ReverseMap();
+
+            CreateMap<CreateExperienceDto, Experience>().ReverseMap();
+            CreateMap<UpdateExperienceDto, Experience>().ReverseMap();
+            CreateMap<Experience, ExperienceDto>();
+
+            CreateMap<CreateServiceDto, Service>().ReverseMap();
+            CreateMap<UpdateServiceDto, Service>().ReverseMap();
+            CreateMap<ServiceDto, Service>().ReverseMap();
         }
     }
 }

@@ -11,6 +11,14 @@ namespace Persistence.Repositories
         private ISpecialityRepository _specialityRepository;
         private IEducationRepository _educationRepository;
         private IDoctorAvailabilityRepository _doctorAvailabilityRepository;
+        private IInstitutionAvailabilityRepository _institutionAvailabilityRepository;
+
+        private IAddressRepository _addressRepository;
+        private IInstitutionProfileRepository _institutionProfileRepository;
+
+        private IExperienceRepository _experienceRepository;
+        private IServiceRepository _serviceRepository;
+
 
 
 
@@ -39,6 +47,45 @@ namespace Persistence.Repositories
             get
             {
                 return _doctorAvailabilityRepository = new DoctorAvailabilityRepository(_context);
+            }
+        }
+
+        public IInstitutionAvailabilityRepository InstitutionAvailabilityRepository
+        {
+            get
+            {
+                return _institutionAvailabilityRepository = new InstitutionAvailabilityRepository(_context);
+            }
+        }
+
+        public IAddressRepository AddressRepository
+        {
+            get
+            {
+                return _addressRepository = new AddressRepository(_context);
+            }
+        }
+
+        public IInstitutionProfileRepository InstitutionProfileRepository
+        {
+            get
+            {
+                return _institutionProfileRepository = new InstitutionProfileRepository(_context);
+            }
+        }
+
+        public IExperienceRepository ExperienceRepository
+        {
+            get
+            {
+                return _experienceRepository ??= new ExperienceRepository(_context);
+            }
+        }
+        public IServiceRepository ServiceRepository
+        {
+            get
+            {
+                return _serviceRepository ??= new ServiceRepository(_context);
             }
         }
 

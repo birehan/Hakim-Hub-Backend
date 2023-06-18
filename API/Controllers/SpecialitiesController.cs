@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SpecialitiesManagement.API.Controllers
+namespace API.Controllers
 {
     public class SpecialitiesController : BaseApiController
     {
@@ -17,6 +17,7 @@ namespace SpecialitiesManagement.API.Controllers
             _mediator = mediator;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<List<SpecialityDto>>> Get()
