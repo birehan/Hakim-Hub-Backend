@@ -12,12 +12,6 @@ public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand,
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-    private IServiceRepository @object;
-
-    public CreateServiceCommandHandler(IServiceRepository @object)
-    {
-        this.@object = @object;
-    }
 
     public CreateServiceCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -46,9 +40,6 @@ public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand,
 
         }
 
-    public Task Handle(CreateServiceCommand command, Func<object?, object?, bool> referenceEquals)
-    {
-        throw new NotImplementedException();
-    }
+   
 }
 
