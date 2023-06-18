@@ -3,6 +3,7 @@ using Application.Features.Specialities.CQRS.Commands;
 using Application.Features.Specialities.CQRS.Queries;
 using Application.Features.Specialities.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SpecialitiesManagement.API.Controllers
@@ -17,6 +18,7 @@ namespace SpecialitiesManagement.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<List<SpecialityDto>>> Get()
         {
             return HandleResult(await _mediator.Send(new GetSpecialityListQuery()));
@@ -32,7 +34,7 @@ namespace SpecialitiesManagement.API.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         public async Task<IActionResult> Put([FromBody] UpdateSpecialityDto specialityDto, Guid id)
         {
             specialityDto.Id = id;
@@ -46,7 +48,8 @@ namespace SpecialitiesManagement.API.Controllers
             var command = new DeleteSpecialityCommand { Id = id };
             return HandleResult(await _mediator.Send(command));
         }
-
+        
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {

@@ -3,6 +3,7 @@ using Application.Features.Educations.CQRS;
 using Application.Features.Educations.CQRS.Queries;
 using Application.Features.Educations.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -16,11 +17,14 @@ public class EducationsController : BaseApiController
         _mediator = mediator;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<List<EducationDto>>> Get()
     {
         return HandleResult(await _mediator.Send(new GetEducationListQuery()));
     }
+    
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(Guid id)
     {
