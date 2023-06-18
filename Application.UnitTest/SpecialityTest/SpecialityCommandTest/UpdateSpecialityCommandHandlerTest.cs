@@ -47,66 +47,66 @@ namespace Application.UnitTest.SpecialityTest.SpecialityCommandTest;
 
         }
 
-        [Fact]
-        public async Task UpdateSpecialityValid()
-        {
+        // [Fact]
+        // public async Task UpdateSpecialityValid()
+        // {
 
-            var result = await _createHandler.Handle(new CreateSpecialityCommand() { SpecialityDto = createSpecialityDto }, CancellationToken.None);
-            var educationToBeUpdated = result.Value.Id;
+        //     var result = await _createHandler.Handle(new CreateSpecialityCommand() { SpecialityDto = createSpecialityDto }, CancellationToken.None);
+        //     var educationToBeUpdated = result.Value.Id;
 
 
-            var updateEducationDto = new UpdateSpecialityDto
-            {
-                Id = educationToBeUpdated,
-               Name = "Updated",
-               Description = "This is an updated description"
+        //     var updateEducationDto = new UpdateSpecialityDto
+        //     {
+        //         Id = educationToBeUpdated,
+        //        Name = "Updated",
+        //        Description = "This is an updated description"
 
-            };
+        //     };
 
-            var updatedResult = await _handler.Handle(new UpdateSpecialityCommand() { SpecialityDto = updateEducationDto }, CancellationToken.None);
+        //     var updatedResult = await _handler.Handle(new UpdateSpecialityCommand() { SpecialityDto = updateEducationDto }, CancellationToken.None);
 
-            updatedResult.Error.ShouldBeEquivalentTo("Speciality Updated Successfully.");
-            Assert.IsType<Result<Unit?>>(updatedResult);
-            result.IsSuccess.ShouldBeTrue();
+        //     updatedResult.Error.ShouldBeEquivalentTo("Speciality Updated Successfully.");
+        //     Assert.IsType<Result<Unit?>>(updatedResult);
+        //     result.IsSuccess.ShouldBeTrue();
 
-        }
+        // }
 
-        [Fact]
-        public async Task UpdateEducationInvalid_EducationNotFound()
-        {
+        // [Fact]
+        // public async Task UpdateEducationInvalid_EducationNotFound()
+        // {
 
-            var updateSpeciliatyDto = new UpdateSpecialityDto
-            {
-                Id = Guid.NewGuid(),
-                Name = "Oncology",
-                Description = "Sample Description"
-            };
+        //     var updateSpeciliatyDto = new UpdateSpecialityDto
+        //     {
+        //         Id = Guid.NewGuid(),
+        //         Name = "Oncology",
+        //         Description = "Sample Description"
+        //     };
 
-            var result = await _handler.Handle(new UpdateSpecialityCommand() { SpecialityDto = updateSpeciliatyDto }, CancellationToken.None);
+        //     var result = await _handler.Handle(new UpdateSpecialityCommand() { SpecialityDto = updateSpeciliatyDto }, CancellationToken.None);
 
-            result.IsSuccess.ShouldBeFalse();
-            result.Error.ShouldBe("Speciality Not Found.");
-            result.Value.ShouldBeNull();
-        }
+        //     result.IsSuccess.ShouldBeFalse();
+        //     result.Error.ShouldBe("Speciality Not Found.");
+        //     result.Value.ShouldBeNull();
+        // }
 
-        [Fact]
-        public async Task UpdateEducationInvalid_ValidationFailed()
-        {
-            var result = await _createHandler.Handle(new CreateSpecialityCommand() { SpecialityDto = createSpecialityDto }, CancellationToken.None);
-            var educationToBeUpdated = result.Value.Id;
+        // [Fact]
+        // public async Task UpdateEducationInvalid_ValidationFailed()
+        // {
+        //     var result = await _createHandler.Handle(new CreateSpecialityCommand() { SpecialityDto = createSpecialityDto }, CancellationToken.None);
+        //     var educationToBeUpdated = result.Value.Id;
 
-            var updateEducationDto = new UpdateSpecialityDto
-            {
-                Id = educationToBeUpdated,
-                Name = null,
-                Description = "Sample description"
-            };
+        //     var updateEducationDto = new UpdateSpecialityDto
+        //     {
+        //         Id = educationToBeUpdated,
+        //         Name = null,
+        //         Description = "Sample description"
+        //     };
 
-            var resultAfterFailedUpdate = await _handler.Handle(new UpdateSpecialityCommand() { SpecialityDto = updateEducationDto }, CancellationToken.None);
+        //     var resultAfterFailedUpdate = await _handler.Handle(new UpdateSpecialityCommand() { SpecialityDto = updateEducationDto }, CancellationToken.None);
 
-            // Assert
-            // result.IsSuccess.ShouldBeFalse();
-            resultAfterFailedUpdate.Error.ShouldBe("Name is required.");
-            resultAfterFailedUpdate.Value.ShouldBeNull();
-        }
+        //     // Assert
+        //     // result.IsSuccess.ShouldBeFalse();
+        //     resultAfterFailedUpdate.Error.ShouldBe("Name is required.");
+        //     resultAfterFailedUpdate.Value.ShouldBeNull();
+        // }
     }

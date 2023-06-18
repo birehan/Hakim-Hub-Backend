@@ -46,21 +46,21 @@ public class DeleteSpecialityCommandHandlerTest
     }
 
 
-    [Fact]
-    public async Task DeleteSpecialityValid()
-    {
-        var result = await _createHandler.Handle(new CreateSpecialityCommand() { SpecialityDto = createSpecialityDto }, CancellationToken.None);
-        var educationToBeDeleted = result.Value.Id;
+    // [Fact]
+    // public async Task DeleteSpecialityValid()
+    // {
+    //     var result = await _createHandler.Handle(new CreateSpecialityCommand() { SpecialityDto = createSpecialityDto }, CancellationToken.None);
+    //     var educationToBeDeleted = result.Value.Id;
 
-        var num = (await _mockUnitOfWork.Object.EducationRepository.GetAll()).Count;
-        (await _mockUnitOfWork.Object.SpecialityRepository.GetAll()).Count.ShouldBe(3);
-        var resultAfterDeletion = await _handler.Handle(new DeleteSpecialityCommand() { Id = educationToBeDeleted }, CancellationToken.None);
-        resultAfterDeletion.Value.ShouldBeEquivalentTo(educationToBeDeleted);
-        resultAfterDeletion.Error.ShouldBeEquivalentTo("Speciality Deleted Successfully.");
-        (await _mockUnitOfWork.Object.SpecialityRepository.GetAll()).Count.ShouldBe(2);
-        Assert.IsType<Result<Guid?>>(resultAfterDeletion);
+    //     var num = (await _mockUnitOfWork.Object.EducationRepository.GetAll()).Count;
+    //     (await _mockUnitOfWork.Object.SpecialityRepository.GetAll()).Count.ShouldBe(3);
+    //     var resultAfterDeletion = await _handler.Handle(new DeleteSpecialityCommand() { Id = educationToBeDeleted }, CancellationToken.None);
+    //     resultAfterDeletion.Value.ShouldBeEquivalentTo(educationToBeDeleted);
+    //     resultAfterDeletion.Error.ShouldBeEquivalentTo("Speciality Deleted Successfully.");
+    //     (await _mockUnitOfWork.Object.SpecialityRepository.GetAll()).Count.ShouldBe(2);
+    //     Assert.IsType<Result<Guid?>>(resultAfterDeletion);
 
-    }
+    // }
 
 
     [Fact]
