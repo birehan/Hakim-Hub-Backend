@@ -24,7 +24,7 @@ namespace SpecialitiesManagement.API.Controllers
             return HandleResult(await _mediator.Send(new GetSpecialityListQuery()));
         }
 
-
+        
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateSpecialityDto createTask)
         {
@@ -32,7 +32,7 @@ namespace SpecialitiesManagement.API.Controllers
             var command = new CreateSpecialityCommand { SpecialityDto = createTask };
             return HandleResult(await _mediator.Send(command));
         }
-
+      
 
         [HttpPatch("{id}")]
         public async Task<IActionResult> Put([FromBody] UpdateSpecialityDto specialityDto, Guid id)
@@ -42,13 +42,15 @@ namespace SpecialitiesManagement.API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
+    
         [HttpDelete("{id}")]
+
         public async Task<IActionResult> Delete(Guid id)
         {
             var command = new DeleteSpecialityCommand { Id = id };
             return HandleResult(await _mediator.Send(command));
         }
-        
+
         [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)

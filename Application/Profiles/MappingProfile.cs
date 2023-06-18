@@ -19,6 +19,7 @@ namespace Application.Profiles
             CreateMap<CreateEducationDto, Education>().ReverseMap();
             CreateMap<UpdateEducationDto, Education>().ReverseMap();
             CreateMap<Education, EducationDto>().ReverseMap();
+            CreateMap<Education, GetEducationInstitutionNameAndLogoDto>().ReverseMap();
 
             CreateMap<CreateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();
             CreateMap<UpdateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();

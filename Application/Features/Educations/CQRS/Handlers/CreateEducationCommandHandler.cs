@@ -64,8 +64,8 @@ public class CreateEducationCommandHandler: IRequestHandler<CreateEducationComma
                 response.IsSuccess = false;
                 response.Error = "Create Education Failed.";
             }
-        return response;
-        }
+                return response;
+            }
         else{
             response.Value = null;
             response.IsSuccess = false;

@@ -23,6 +23,13 @@ public class EducationsController : BaseApiController
     {
         return HandleResult(await _mediator.Send(new GetEducationListQuery()));
     }
+
+    [AllowAnonymous]
+    [HttpGet("GetEducationInstitutionNameAndLogo")]
+    public async Task<ActionResult<List<GetEducationInstitutionNameAndLogoDto>>> GetEducationInstitutionNameAndLogo()
+    {
+        return HandleResult(await _mediator.Send(new GetEducationInstitutionNameAndLogoQuery()));
+    }
     
     [AllowAnonymous]
     [HttpGet("{id}")]
@@ -31,6 +38,7 @@ public class EducationsController : BaseApiController
         return HandleResult(await _mediator.Send(new GetEducationDetailQuery { Id = id }));
     }
 
+    
     [HttpPost]
     public async Task<IActionResult> Post([FromForm] CreateEducationDto createEducationDto)
     {
@@ -39,7 +47,7 @@ public class EducationsController : BaseApiController
         return HandleResult(await _mediator.Send(command));
     }
 
-
+   
     [HttpPatch("{id}")]
     public async Task<IActionResult> Put([FromForm] UpdateEducationDto updateEducationDto, Guid id)
     {
@@ -49,6 +57,7 @@ public class EducationsController : BaseApiController
         return HandleResult(await _mediator.Send(command));
     }
 
+    
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
