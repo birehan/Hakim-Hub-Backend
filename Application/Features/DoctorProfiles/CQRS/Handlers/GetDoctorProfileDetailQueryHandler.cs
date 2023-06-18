@@ -25,7 +25,7 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
         public async Task<Result<DoctorProfileDetailDto>> Handle(GetDoctorProfileDetialQuery request, CancellationToken cancellationToken)
         {
             var response = new Result<DoctorProfileDetailDto>();
-            var doctorProfile = await _unitOfWork.DoctorProfileRepository.GetDoctor(request.Id);
+            var doctorProfile = await _unitOfWork.DoctorProfileRepository.GetDoctorProfileDetail(request.Id);
             if (doctorProfile is null)
             {
                 var error = new NotFoundException(nameof(doctorProfile), request.Id);

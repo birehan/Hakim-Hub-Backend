@@ -28,7 +28,7 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
             {
                 var response = new Result<List<DoctorProfileDto>>();
                 var doctorProfiles = await _unitOfWork.DoctorProfileRepository.FilterDoctors(request.InstitutionId, request.SpecialityName,request.CareerStartTime,request.EducationName);
-                if (doctorProfiles == null || doctorProfiles.Count == 0)
+                if (doctorProfiles is null || doctorProfiles.Count == 0)
                 {
                     response.IsSuccess = false;
                     response.Error = "not found";

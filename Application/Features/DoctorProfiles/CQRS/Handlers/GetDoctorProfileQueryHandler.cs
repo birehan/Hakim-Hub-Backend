@@ -12,36 +12,29 @@ using Application.Exceptions;
 
 namespace Application.Features.DoctorProfiles.CQRS.Handlers
 {
-    public class GetDoctorProfileQueryHandler : IRequestHandler<GetDoctorProfileQuery, Result<DoctorProfileDto>>
+   public class GetDoctorProfileQueryHandler : IRequestHandler<GetDoctorProfileQuery, Result<DoctorProfileDto>>
+{
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+
+    public GetDoctorProfileQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        public GetDoctorProfileQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
-        public async Task<Result<DoctorProfileDto>> Handle(GetDoctorProfileQuery request, CancellationToken cancellationToken)
-        {
-            var response = new Result<DoctorProfileDto>();
-            var doctorProfile = await _unitOfWork.DoctorProfileRepository.Get(request.Id);
-            if (doctorProfile is null)
-            {
-                var error = new NotFoundException(nameof(doctorProfile), request.Id);
-                response.IsSuccess = false;
-                response.Error = $"{error}";
-                return response;
-
-
-            }
-            else
-            {
-                response.IsSuccess = true;
-                response.Value = _mapper.Map<DoctorProfileDto>(doctorProfile);
-                return response;
-            }
-
-
-        }
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
+
+    public async Task<Result<DoctorProfileDto>> Handle(GetDoctorProfileQuery request, CancellationToken cancellationToken)
+    {
+        var doctorProfile = await _unitOfWork.DoctorProfileRepository.GetDoctorProfile(request.Id);
+
+        if (doctorProfile == null)
+        {
+            return Result<DoctorProfileDto>.Failure("${new NotFoundException(nameof(doctorProfile), request.Id}");
+        }
+
+        var doctorProfileDto = _mapper.Map<DoctorProfileDto>(doctorProfile);
+        return Result<DoctorProfileDto>.Success(doctorProfileDto);
+    }
+}
+
 }

@@ -1,6 +1,7 @@
 using Application.Contracts.Persistence;
 using Application.Features.DoctorProfiles.CQRS.Commands;
 using Application.Features.DoctorProfiles.DTOs.Validators;
+using Application.Interfaces;
 using Application.Responses;
 using AutoMapper;
 using Domain;
@@ -12,40 +13,48 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IPhotoAccessor _photoAccessor;
 
-        public CreateDoctorProfileCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateDoctorProfileCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IPhotoAccessor photoAccessor)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _photoAccessor = photoAccessor;
         }
+
         public async Task<Result<Guid>> Handle(CreateDoctorProfileCommand request, CancellationToken cancellationToken)
         {
-            var response = new Result<Guid>();
             var validator = new CreateDoctorProfileDtoValidator();
             var validationResult = await validator.ValidateAsync(request.CreateDoctorProfileDto);
-
             if (!validationResult.IsValid)
             {
-                response.IsSuccess = false;
-                response.Error = string.Join(Environment.NewLine, validationResult.Errors.Select(e => e.ErrorMessage));
-                return response;
+                return Result<Guid>.Failure(string.Join(Environment.NewLine, validationResult.Errors.Select(e => e.ErrorMessage)));
             }
 
             var doctorProfile = _mapper.Map<DoctorProfile>(request.CreateDoctorProfileDto);
-            await _unitOfWork.DoctorProfileRepository.Add(doctorProfile);
 
+            if (request.CreateDoctorProfileDto.DoctorPhoto != null)
+            {
+                var photoUploadResult = await _photoAccessor.AddPhoto(request.CreateDoctorProfileDto.DoctorPhoto);
+                if (photoUploadResult == null)
+                {
+                    return Result<Guid>.Failure("photo upload failed");
+                }
+
+                doctorProfile.Photo = new Photo
+                {
+                    Id = photoUploadResult.PublicId,
+                    Url = photoUploadResult.Url
+                };
+            }
+
+            await _unitOfWork.DoctorProfileRepository.Add(doctorProfile);
             if (await _unitOfWork.Save() == 0)
             {
-                response.IsSuccess = false;
-                response.Error = "Server error";
-                return response;
+                return Result<Guid>.Failure("Server error");
             }
-            else
-            {
-                response.IsSuccess = true;
-                response.Value = doctorProfile.Id; // Assuming doctorProfile.Id is the identifier
-                return response;
-            }
+
+            return Result<Guid>.Success(doctorProfile.Id);
         }
     }
 }

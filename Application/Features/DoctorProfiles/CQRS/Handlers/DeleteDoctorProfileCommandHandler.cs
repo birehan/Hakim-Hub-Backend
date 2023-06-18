@@ -3,6 +3,7 @@ using Application.Contracts.Persistence;
 using Application.Exceptions;
 using Application.Features.DoctorProfiles.CQRS.Commands;
 using Application.Responses;
+using AutoMapper;
 using MediatR;
 
 namespace Application.Features.DoctorProfiles.CQRS.Handlers
@@ -10,16 +11,18 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
     public class DeleteDoctorProfileCommandHandler : IRequestHandler<DeleteDoctorProfileCommand, Result<Unit>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public DeleteDoctorProfileCommandHandler(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public DeleteDoctorProfileCommandHandler(IUnitOfWork unitOfWork,IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper =mapper;
         }
 
         public async Task<Result<Unit>> Handle(DeleteDoctorProfileCommand request, CancellationToken cancellationToken)
         {
             var response = new Result<Unit>();
-            var doctorProfile = await _unitOfWork.DoctorProfileRepository.Get(request.Id);
-            if (doctorProfile is null)
+            var doctorProfile = await _unitOfWork.DoctorProfileRepository.GetDoctorProfile(request.Id);
+            if (doctorProfile == null)
             {
 
                 response.IsSuccess = false;
