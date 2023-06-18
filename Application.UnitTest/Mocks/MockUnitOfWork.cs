@@ -39,8 +39,15 @@ namespace Application.UnitTest.Mocks
                 return temp;
             });
 
+            var mockDoctorProfileRepo = MockDoctorProfileRepository.GetDoctorProfileRepository();
+            mockUow.Setup(uow=>uow.DoctorProfileRepository).Returns(mockDoctorProfileRepo.Object);
             return mockUow;
         
+
+            
         }
+        
+
+
     }
 }
