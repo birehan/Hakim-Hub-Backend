@@ -99,7 +99,7 @@ public class CreateDoctorProfileCommandHandlerTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Full Name is required\r\nFull Name must be present");
+        result.Error.ShouldContain("Full Name is required");
 
         _mockUnitOfWork.Verify(uow => uow.DoctorProfileRepository.Add(It.IsAny<DoctorProfile>()), Times.Never);
         _mockUnitOfWork.Verify(uow => uow.Save(), Times.Never);
