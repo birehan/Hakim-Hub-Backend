@@ -15,6 +15,9 @@ namespace Persistence
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISpecialityRepository, SpecialityRepository>();
             services.AddScoped<IDoctorAvailabilityRepository, DoctorAvailabilityRepository>();
+            services.AddScoped<IExperienceRepository, ExperienceRepository>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
+
             return services;
         }
 
