@@ -7,4 +7,5 @@ public class Photo
     public Guid? DoctorProfileId { get; set; }
     public Guid? LogoId { get; set; }
     public Guid? BannerId { get; set; }
+    public Guid? EducationInstitutionLogoId { get; set; }
 }

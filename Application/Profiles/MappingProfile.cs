@@ -1,14 +1,15 @@
-using Application.Features.Specialities.DTOs;
-using Application.Features.DoctorAvailabilities.DTOs;
 using AutoMapper;
 using Domain;
+using Microsoft.AspNetCore.Http;
+using Application.Photos;
+using Application.Features.Educations.DTOs;
 using Application.Features.InstitutionAvailabilities.DTOs;
-
 using Application.Features.InstitutionProfiles.DTOs;
 using Application.Features.Addresses.DTOs;
-
 using Application.Features.Experiences.DTOs;
 using Application.Features.Services.DTOs;
+using Application.Features.Specialities.DTOs;
+using Application.Features.DoctorAvailabilities.DTOs;
 
 
 namespace Application.Profiles
@@ -19,7 +20,12 @@ namespace Application.Profiles
         {
             CreateMap<CreateSpecialityDto, Speciality>().ReverseMap();
             CreateMap<UpdateSpecialityDto, Speciality>().ReverseMap();
-            CreateMap<Speciality, SpecialityDto>();
+            CreateMap<Speciality, SpecialityDto>().ReverseMap();
+
+            CreateMap<CreateEducationDto, Education>().ReverseMap();
+            CreateMap<UpdateEducationDto, Education>().ReverseMap();
+            CreateMap<Education, EducationDto>().ReverseMap();
+            CreateMap<Education, GetEducationInstitutionNameAndLogoDto>().ReverseMap();
 
             CreateMap<CreateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();
             CreateMap<UpdateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();

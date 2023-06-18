@@ -16,6 +16,10 @@ namespace Application.UnitTest.Mocks
         public static Mock<IUnitOfWork> GetUnitOfWork()
         {
             var mockUow = new Mock<IUnitOfWork>();
+          
+
+            var mockSpecialityRepo = MockSpecialityRepository.GetSpecialityRepository();
+            var mockEducationRepo = MockEducationRepository.GetEducationRepository();
             var mockInstitutionAvailabilityRepo =  MockInstitutionAvailabilityRepository.GetInstitutionAvailabilityRepository();
             var mockDoctorAvailabilityRepo = MockDoctorAvailabilityRepository.GetDoctorAvailabilityRepository();
             var mockAddressRepo = MockAddressRepository.GetAddressRepository();
@@ -25,6 +29,8 @@ namespace Application.UnitTest.Mocks
             mockUow.Setup(r => r.DoctorAvailabilityRepository).Returns(mockDoctorAvailabilityRepo.Object);
             mockUow.Setup(r => r.AddressRepository).Returns(mockAddressRepo.Object);
             mockUow.Setup(r => r.InstitutionProfileRepository).Returns(mockInstitutionProfileRepo.Object);
+            mockUow.Setup(r => r.EducationRepository).Returns(mockEducationRepo.Object);
+            mockUow.Setup(r => r.SpecialityRepository).Returns(mockSpecialityRepo.Object);
 
             mockUow.Setup(r => r.Save()).ReturnsAsync(() =>
             {
@@ -36,7 +42,5 @@ namespace Application.UnitTest.Mocks
             return mockUow;
         
         }
-          
-
     }
 }

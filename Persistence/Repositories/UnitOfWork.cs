@@ -9,6 +9,7 @@ namespace Persistence.Repositories
 
 
         private ISpecialityRepository _specialityRepository;
+        private IEducationRepository _educationRepository;
         private IDoctorAvailabilityRepository _doctorAvailabilityRepository;
         private IInstitutionAvailabilityRepository _institutionAvailabilityRepository;
 
@@ -31,6 +32,14 @@ namespace Persistence.Repositories
             get
             {
                 return _specialityRepository ??= new SpecialityRepository(_context);
+            }
+        }
+
+        public IEducationRepository EducationRepository
+        {
+            get
+            {
+                return _educationRepository ??= new EducationRepository(_context);
             }
         }
         public IDoctorAvailabilityRepository DoctorAvailabilityRepository
