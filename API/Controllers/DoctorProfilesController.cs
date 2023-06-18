@@ -13,7 +13,7 @@ using static Domain.DoctorProfile;
 
 namespace API.Controllers
 {
-    [Route("api/institutions/[Controller]")]
+    [Route("api/[Controller]")]
     public class DoctorProfilesController : BaseApiController
     {
         [HttpGet("{id}")]
@@ -47,44 +47,8 @@ namespace API.Controllers
             var response = await Mediator.Send(query);
             return HandleResult<List<DoctorProfileDto>>(response);
         }
-
-
-
-        [HttpGet("institution/{institutionId}")]
-        public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesByInstitutionId(Guid institutionId)
-        {
-            var query = new GetDoctorProfileListByInstitutionIdQuery { InstitutionId = institutionId };
-            var response = await Mediator.Send(query);
-            return HandleResult<List<DoctorProfileDto>>(response);
-        }
-
-        [HttpGet("gender")]
-        public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesByGender(GenderType gender)
-        {
-            var query = new GetDoctorProfileListByGenderQuery { Gender = gender };
-            var response = await Mediator.Send(query);
-            return HandleResult<List<DoctorProfileDto>>(response);
-        }
-        [HttpGet("exprience/{careerStartTime}")]
-        public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesByCareerStartTime(DateTime careerStartTime)
-        {
-            var query = new GetDoctorProfileListByCareerStartTimeQuery { CareerStartTime = careerStartTime };
-            var response = await Mediator.Send(query);
-            return HandleResult<List<DoctorProfileDto>>(response);
-
-
-        }
-        [HttpGet("speciality/{specialityId}/gender/{gender}")]
-        public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesBySpecialityIdAndGender(Guid specialityId, GenderType gender)
-        {
-
-            var query = new GetDoctorProfileListBySpecialityAndGenderQuery { specialityId = specialityId, Gender = gender };
-            var response = await Mediator.Send(query);
-            return HandleResult<List<DoctorProfileDto>>(response);
-
-        }
         [HttpPost("createDoctorProfile")]
-        public async Task<ActionResult<Guid>> Post([FromBody] CreateDoctorProfileDto createDoctorProfileDto)
+        public async Task<ActionResult<Guid>> Post([FromForm] CreateDoctorProfileDto createDoctorProfileDto)
         {
             var command = new CreateDoctorProfileCommand { CreateDoctorProfileDto = createDoctorProfileDto };
             var response = await Mediator.Send(command);
@@ -92,7 +56,7 @@ namespace API.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult<Unit>> Update([FromBody] UpdateDoctorProfileDto updateDoctorProfileDto)
+        public async Task<ActionResult<Unit>> Update([FromForm] UpdateDoctorProfileDto updateDoctorProfileDto)
         {
             var command = new UpdateDoctorProfileCommand { updateDoctorProfileDto = updateDoctorProfileDto };
             var response = await Mediator.Send(command);
