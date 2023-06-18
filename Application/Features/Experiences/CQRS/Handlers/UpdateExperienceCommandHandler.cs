@@ -20,7 +20,7 @@ public class UpdateExperienceCommandHandler  : IRequestHandler<UpdateExperienceC
 
         public async Task<Result<Unit>> Handle(UpdateExperienceCommand request, CancellationToken cancellationToken)
         {
-            var validator = new UpdateExperienceDtoValidator();
+            var validator = new UpdateExperienceDtoValidator(_unitOfWork);
             var validationResult = await validator.ValidateAsync(request.ExperienceDto);
 
             if (!validationResult.IsValid)

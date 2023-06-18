@@ -12,9 +12,14 @@ public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand,
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+    private IServiceRepository @object;
 
+    public CreateServiceCommandHandler(IServiceRepository @object)
+    {
+        this.@object = @object;
+    }
 
-        public CreateServiceCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    public CreateServiceCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -24,7 +29,7 @@ public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand,
         public async Task<Result<Guid>> Handle(CreateServiceCommand request, CancellationToken cancellationToken)
         {
 
-            var validator = new CreateServiceDtoValidator();
+            var validator = new CreateServiceDtoValidator(_unitOfWork);
             var validationResult = await validator.ValidateAsync(request.ServiceDto);
 
             if (!validationResult.IsValid)
@@ -40,6 +45,10 @@ public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand,
             return Result<Guid>.Failure("Creation Failed");
 
         }
-    }
 
+    public Task Handle(CreateServiceCommand command, Func<object?, object?, bool> referenceEquals)
+    {
+        throw new NotImplementedException();
+    }
+}
 

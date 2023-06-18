@@ -20,7 +20,7 @@ public class UpdateServiceCommandHandler  : IRequestHandler<UpdateServiceCommand
 
         public async Task<Result<Unit>> Handle(UpdateServiceCommand request, CancellationToken cancellationToken)
         {
-            var validator = new UpdateServiceDtoValidator();
+            var validator = new UpdateServiceDtoValidator(_unitOfWork);
             var validationResult = await validator.ValidateAsync(request.ServiceDto);
 
             if (!validationResult.IsValid)

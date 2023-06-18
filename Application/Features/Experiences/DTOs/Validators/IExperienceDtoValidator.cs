@@ -1,11 +1,17 @@
 using FluentValidation;
+using Application.Contracts.Persistence;
 
 namespace Application.Features.Experiences.DTOs.Validators;
 
 public class IExperienceDtoValidator : AbstractValidator<IExperienceDto>
     {
-        public IExperienceDtoValidator()
+
+        private readonly IUnitOfWork _unitOfWork;
+
+        public IExperienceDtoValidator(IUnitOfWork unitOfWork)
         {
+            _unitOfWork = unitOfWork;
+
             RuleFor(dto => dto.Position)
                 .NotEmpty().WithMessage("Position is required.")
                 .MaximumLength(100).WithMessage("Position must not exceed 100 characters.");
@@ -27,5 +33,16 @@ public class IExperienceDtoValidator : AbstractValidator<IExperienceDto>
 
             RuleFor(x => x.InstitutionId)
                 .NotEmpty().WithMessage("Institution ID is required.");
+
+                // RuleFor(p => p.DoctorId)
+                //                 .NotEmpty().WithMessage("Doctor ID is required.");
+
+                // .MustAsync(async (doctorId, token) =>
+                // {
+                //     var existingUser = await _unitOfWork.
+
+                //     return existingUser == null;
+                // })
+                // .WithMessage("{PropertyName} does not exist!");
         }
     }

@@ -24,7 +24,7 @@ public class CreateExperienceCommandHandler : IRequestHandler<CreateExperienceCo
         public async Task<Result<Guid>> Handle(CreateExperienceCommand request, CancellationToken cancellationToken)
         {
 
-            var validator = new CreateExperienceDtoValidator();
+            var validator = new CreateExperienceDtoValidator(_unitOfWork);
             var validationResult = await validator.ValidateAsync(request.ExperienceDto);
 
             if (!validationResult.IsValid)

@@ -1,11 +1,15 @@
+using Application.Contracts.Persistence;
 using FluentValidation;
 
 namespace Application.Features.Experiences.DTOs.Validators;
 
 public class CreateExperienceDtoValidator : AbstractValidator<CreateExperienceDto>
     {
-        public CreateExperienceDtoValidator()
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CreateExperienceDtoValidator(IUnitOfWork unitOfWork )
         {
-            Include(new IExperienceDtoValidator());
+            _unitOfWork = unitOfWork;
+            Include(new IExperienceDtoValidator(_unitOfWork));
         }
     }

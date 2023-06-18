@@ -1,11 +1,16 @@
+using Application.Contracts.Persistence;
 using FluentValidation;
 
 namespace Application.Features.Services.DTOs.Validators;
 
 public class CreateServiceDtoValidator : AbstractValidator<CreateServiceDto>
     {
-        public CreateServiceDtoValidator()
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CreateServiceDtoValidator(IUnitOfWork unitOfWork)
         {
-            Include(new IServiceDtoValidator());
+            _unitOfWork = unitOfWork;
+
+            Include(new IServiceDtoValidator(_unitOfWork));
         }
     }

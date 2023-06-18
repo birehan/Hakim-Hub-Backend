@@ -1,12 +1,17 @@
+using Application.Contracts.Persistence;
 using FluentValidation;
 
 namespace Application.Features.Services.DTOs.Validators;
 
 public class UpdateServiceDtoValidator : AbstractValidator<UpdateServiceDto>
     {
-        public UpdateServiceDtoValidator()
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UpdateServiceDtoValidator(IUnitOfWork unitOfWork)
         {
-            Include(new IServiceDtoValidator());
+            _unitOfWork = unitOfWork;
+
+            Include(new IServiceDtoValidator(_unitOfWork));
             
             RuleFor(dto => dto.Id).NotNull().WithMessage("{PropertyName} must be present");
 
