@@ -56,6 +56,13 @@ namespace Application.Profiles
 
             CreateMap<DoctorProfile,DoctorProfileDto>().ReverseMap();
             CreateMap<DoctorProfile,DoctorProfileDetailDto>().ReverseMap();
+            CreateMap<DoctorProfile,CreateDoctorProfileDto>().ReverseMap();
+            CreateMap<DoctorProfile,UpdateDoctorProfileDto>().ReverseMap();
+            CreateMap<CreateDoctorProfileDto, DoctorProfile>().ReverseMap();
+            CreateMap<UpdateDoctorProfileDto,DoctorProfile>().ReverseMap();
+
+
+           
         }
     }
 }
