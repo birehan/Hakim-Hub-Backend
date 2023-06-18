@@ -9,13 +9,4 @@ public interface IDoctorProfileDto
         public DateTime CareerStartTime {get;set;}
         public GenderType Gender{get;set;}
         
-        // public PhotoDto Photo {get;set;}
-
-        // public ICollection<InstitutionProfileDto> Institutions {get;set;}
-
-        // public InstitutionProfileDto MainInstitution {get;set;}
-
-        // public ICollection<EducationDto> Educations { get; set; }
-        // public ICollection<ExperienceDto> Experiences { get; set; }
-        // public ICollection<SpecialityDto> Specialities { get; set; }
     }
