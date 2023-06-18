@@ -142,7 +142,7 @@ namespace Persistence
 
                     institutionProfile.Photos = photos;
 
-                    var services = new List<Services>();
+                    var services = new List<Service>();
                     foreach (var serviceData in institution.Services)
                     {
                         // Check if the service with the same name already exists
@@ -156,7 +156,7 @@ namespace Persistence
                         }
                         else
                         {
-                            var service = new Services
+                            var service = new Service
                             {
                                 Id = Guid.NewGuid(),
                                 ServiceName = serviceData.ServiceName,
@@ -249,5 +249,4 @@ namespace Persistence
         }
     }
 }
-
 

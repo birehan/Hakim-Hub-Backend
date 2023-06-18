@@ -3,9 +3,10 @@ using Application.Features.Specialities.CQRS.Commands;
 using Application.Features.Specialities.CQRS.Queries;
 using Application.Features.Specialities.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SpecialitiesManagement.API.Controllers
+namespace API.Controllers
 {
     public class SpecialitiesController : BaseApiController
     {
@@ -16,6 +17,7 @@ namespace SpecialitiesManagement.API.Controllers
             _mediator = mediator;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<SpecialityDto>>> Get()
         {
@@ -47,6 +49,7 @@ namespace SpecialitiesManagement.API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
