@@ -37,6 +37,6 @@ namespace Application.UnitTest.Mocks
         
         }
           
-        }
+
     }
 }

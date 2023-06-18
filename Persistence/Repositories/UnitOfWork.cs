@@ -46,6 +46,8 @@ namespace Persistence.Repositories
             get
             {
                 return _institutionAvailabilityRepository = new InstitutionAvailabilityRepository(_context);
+            }
+        }
 
         public IAddressRepository AddressRepository
         {
