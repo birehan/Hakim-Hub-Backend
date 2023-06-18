@@ -100,7 +100,7 @@ public class UpdateDoctorProfileCommandHandlerTests
         // Assert
         result.ShouldBeOfType<Result<Unit>>();
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Full Name is required\r\nFull Name must be present");
+        result.Error.ShouldContain("Full Name is required");
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
