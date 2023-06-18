@@ -2,6 +2,7 @@ using Application.Features.Services.CQRS.Commands;
 using Application.Features.Services.CQRS.Queries;
 using Application.Features.Services.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -37,7 +38,8 @@ public class ServicesController : BaseApiController
         var command = new DeleteServiceCommand { Id = id };
         return HandleResult(await _mediator.Send(command));
     }
-    
+            
+    [AllowAnonymous]
     [HttpGet("institution/{institutionId}")]
     public async Task<IActionResult> GetServiceByInstitution(Guid institutionId)
     {
@@ -46,6 +48,7 @@ public class ServicesController : BaseApiController
 
     }
 
+    [AllowAnonymous]
     [HttpGet("{serviceName}")]
     public async Task<IActionResult> GetServiceByName(string serviceName)
     {
