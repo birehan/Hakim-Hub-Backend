@@ -16,14 +16,6 @@ namespace Application.Features.DoctorProfiles.DTOs.Validators
         {
             _unitOfWork = unitOfWork;
 
-            RuleFor(p => p.Id)
-            .MustAsync(async (id, cancellationToken) =>
-            {
-                var exists = await _unitOfWork.DoctorProfileRepository.Exists(id);
-                return exists;
-            })
-            .WithMessage("{PropertyName} must exist");
-
             RuleFor(p => p.FullName)
             .NotNull()
             .WithMessage("{PropertyName} is required")
@@ -52,19 +44,17 @@ namespace Application.Features.DoctorProfiles.DTOs.Validators
            .WithMessage("{PropertyName} must be present")
            .YearMonthDate();
 
+            RuleFor(p => p.DoctorPhoto)
+                   .Must(CustomValidators.IsValidFileExtension)
+                   .WithMessage("{PropertyName} must have a valid file extension");
+
             RuleFor(p => p.Gender)
            .NotNull()
            .WithMessage("{PropertyName} is required")
            .NotEmpty()
            .WithMessage("{PropertyName} must be present")
-           .Must(gender => gender == GenderType.Male || gender == GenderType.Female)
+           .Must(gender => gender == GenderType.Male.ToString().ToLower() || gender == GenderType.Female.ToString().ToLower())
            .WithMessage("{PropertyName} must be 'male' or 'female'");
-
-            //    RuleFor(p=>p.PhotoId)
-            //    .MustAsync(async (phototId,CancellationToken)=>{
-            //     var exists = await _unitOfWork.PhotoRepository.Exists(phototId);
-            //     return exists;
-            //    }).WithMessage("{PropertyName} must exist");
 
 
 
