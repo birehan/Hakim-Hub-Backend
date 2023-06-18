@@ -10,8 +10,14 @@ namespace Persistence.Repositories
 
         private ISpecialityRepository _specialityRepository;
         private IDoctorAvailabilityRepository _doctorAvailabilityRepository;
+
         private IAddressRepository _addressRepository;
         private IInstitutionProfileRepository _institutionProfileRepository;
+
+        private IExperienceRepository _experienceRepository;
+        private IServiceRepository _serviceRepository;
+
+
 
 
         public UnitOfWork(HakimHubDbContext context)
@@ -33,6 +39,7 @@ namespace Persistence.Repositories
                 return _doctorAvailabilityRepository = new DoctorAvailabilityRepository(_context);
             }
         }
+
         public IAddressRepository AddressRepository
         {
             get
@@ -46,6 +53,19 @@ namespace Persistence.Repositories
             get
             {
                 return _institutionProfileRepository = new InstitutionProfileRepository(_context);
+
+        public IExperienceRepository ExperienceRepository
+        {
+            get
+            {
+                return _experienceRepository ??= new ExperienceRepository(_context);
+            }
+        }
+        public IServiceRepository ServiceRepository
+        {
+            get
+            {
+                return _serviceRepository ??= new ServiceRepository(_context);
             }
         }
 
