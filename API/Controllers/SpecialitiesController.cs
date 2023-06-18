@@ -19,7 +19,6 @@ namespace API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [AllowAnonymous]
         public async Task<ActionResult<List<SpecialityDto>>> Get()
         {
             return HandleResult(await _mediator.Send(new GetSpecialityListQuery()));
