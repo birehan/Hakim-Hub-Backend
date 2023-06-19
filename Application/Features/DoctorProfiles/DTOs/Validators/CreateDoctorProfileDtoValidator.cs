@@ -35,9 +35,9 @@ namespace Application.Features.DoctorProfiles.DTOs.Validators
             .YearMonthDate();
 
 
-            RuleFor(p => p.DoctorPhoto)
-                 .Must(CustomValidators.IsValidFileExtension)
-                 .WithMessage("{PropertyName} must have a valid file extension");
+            // RuleFor(p => p.DoctorPhoto)
+            //      .Must(CustomValidators.IsValidFileExtension)
+            //      .WithMessage("{PropertyName} must have a valid file extension");
 
             RuleFor(p => p.Gender)
                 .NotNull()

@@ -26,15 +26,16 @@ namespace Application.Features.DoctorProfiles.DTOs.Validators
             RuleFor(dto => dto.Email)
             .NotEmpty().EmailAddress()
             .WithMessage("Email is required and should be a valid email address");
-            
-            RuleFor(dto => dto.PhotoId)
-            .NotEmpty().WithMessage("PhotoId is required");
-            RuleFor(dto => dto.CareerStartTime)
-            .NotEmpty().WithMessage("CareerStartTime is required");
-            RuleFor(dto => dto.MainInstitutionId)
-            .NotEmpty().WithMessage("MainInstitutionId is required");
-           
-           
+
+            // RuleFor(dto => dto.PhotoId)
+            // .NotEmpty().WithMessage("PhotoId is required");
+
+            // RuleFor(dto => dto.CareerStartTime)
+            // .NotEmpty().WithMessage("CareerStartTime is required");
+            // RuleFor(dto => dto.MainInstitutionId)
+            // .NotEmpty().WithMessage("MainInstitutionId is required");
+
+
         }
     }
 

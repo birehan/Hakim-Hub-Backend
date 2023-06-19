@@ -8,6 +8,7 @@ using Application.Features.DoctorProfiles.DTOs;
 using Application.Responses;
 using Domain;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Domain.DoctorProfile;
 
@@ -16,6 +17,7 @@ namespace API.Controllers
     [Route("api/[Controller]")]
     public class DoctorProfilesController : BaseApiController
     {
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<Result<DoctorProfileDetailDto>>> GetDoctorProfileDetail(Guid id)
         {
@@ -26,6 +28,7 @@ namespace API.Controllers
 
         }
 
+
         [HttpGet("specialities/{specialityId}")]
         public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesBySpecialityID(Guid specialityId)
         {
@@ -33,19 +36,19 @@ namespace API.Controllers
             var response = await Mediator.Send(query);
             return HandleResult<List<DoctorProfileDto>>(response);
         }
-
+        [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<List<DoctorProfileDto>>> FilterDoctors(string? specialityName, string? educationName, DateTime? careerStartTime, Guid institutionId)
+        public async Task<ActionResult<List<DoctorProfileDetailDto>>> FilterDoctors(string? specialityName, string? educationName, int experienceYears, Guid institutionId)
         {
             var query = new FilterDoctorProfilesQuery
             {
                 SpecialityName = specialityName,
                 EducationName = educationName,
-                CareerStartTime = careerStartTime,
+                ExperienceYears = experienceYears,
                 InstitutionId = institutionId
             };
             var response = await Mediator.Send(query);
-            return HandleResult<List<DoctorProfileDto>>(response);
+            return HandleResult<List<DoctorProfileDetailDto>>(response);
         }
         [HttpPost("createDoctorProfile")]
         public async Task<ActionResult<Guid>> Post([FromForm] CreateDoctorProfileDto createDoctorProfileDto)

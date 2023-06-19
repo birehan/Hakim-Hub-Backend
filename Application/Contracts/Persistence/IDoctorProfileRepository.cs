@@ -18,7 +18,7 @@ namespace Application.Contracts.Persistence
         public Task<List<DoctorProfile>> GetDoctorProfileByInstitutionId(Guid InstitutionId);
 
         public Task<List<DoctorProfile>> GetDoctorProfileByCareerStartTime(DateTime careerStartTime);
-        public Task<List<DoctorProfile>> FilterDoctors(Guid? institutionId, string? specialityName = null, DateTime? careerStartTime = null, string? educationInstitutionName = null);
+        public Task<List<DoctorProfile>> FilterDoctors(Guid? institutionId, string? specialityName = null, int experienceYears = -1, string? educationInstitutionName = null);
         
     }
 }

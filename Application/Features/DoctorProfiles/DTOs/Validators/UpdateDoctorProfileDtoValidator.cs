@@ -35,16 +35,16 @@ namespace Application.Features.DoctorProfiles.DTOs.Validators
             .WithMessage("{PropertyName} must be present")
             .EmailAddress();
 
-            RuleFor(p => p.CareerStartTime)
-           .NotNull()
-           .WithMessage("{PropertyName} is required")
-           .NotEmpty()
-           .WithMessage("{PropertyName} must be present")
-           .YearMonthDate();
+        //     RuleFor(p => p.CareerStartTime)
+        //    .NotNull()
+        //    .WithMessage("{PropertyName} is required")
+        //    .NotEmpty()
+        //    .WithMessage("{PropertyName} must be present")
+        //    .YearMonthDate();
 
-            RuleFor(p => p.DoctorPhoto)
-                   .Must(CustomValidators.IsValidFileExtension)
-                   .WithMessage("{PropertyName} must have a valid file extension");
+        //     RuleFor(p => p.DoctorPhoto)
+        //            .Must(CustomValidators.IsValidFileExtension)
+        //            .WithMessage("{PropertyName} must have a valid file extension");
 
             RuleFor(p => p.Gender)
            .NotNull()

@@ -86,15 +86,25 @@ namespace Application.Profiles
             CreateMap<UpdateServiceDto, Service>().ReverseMap();
             CreateMap<ServiceDto, Service>().ReverseMap();
 
-            CreateMap<DoctorProfile,DoctorProfileDto>().ReverseMap();
-            CreateMap<DoctorProfile,DoctorProfileDetailDto>().ReverseMap();
-            CreateMap<DoctorProfile,CreateDoctorProfileDto>().ReverseMap();
-            CreateMap<DoctorProfile,UpdateDoctorProfileDto>().ReverseMap();
+            CreateMap<DoctorProfile, DoctorProfileDto>().ReverseMap();
+            CreateMap<DoctorProfile, DoctorProfileDetailDto>()
+            .ForMember(x => x.PhotoUrl, o => o.MapFrom(s => s.Photo.Url))
+            .ForMember(x => x.MainInstitutionName, o => o.MapFrom(s => s.MainInstitution.InstitutionName))
+
+                         .ForMember(
+               dest => dest.Specialities,
+               opt => opt.MapFrom(src => src.Specialities.Select(Speciality => Speciality.Name).ToList())
+           )
+               .ForMember(dest => dest.YearsOfExperience, opt => opt.MapFrom(src => CalculateYearsOfExperience(src.CareerStartTime)))
+
+            .ReverseMap();
+            CreateMap<DoctorProfile, CreateDoctorProfileDto>().ReverseMap();
+            CreateMap<DoctorProfile, UpdateDoctorProfileDto>().ReverseMap();
             CreateMap<CreateDoctorProfileDto, DoctorProfile>().ReverseMap();
-            CreateMap<UpdateDoctorProfileDto,DoctorProfile>().ReverseMap();
+            CreateMap<UpdateDoctorProfileDto, DoctorProfile>().ReverseMap();
 
 
-           
+
         }
         private static int CalculateYearsOfExperience(DateTime careerStartTime)
         {
