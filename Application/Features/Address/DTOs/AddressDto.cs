@@ -11,13 +11,12 @@ namespace Application.Features.Addresses.DTOs
         public string Woreda { get; set; }
         public string City { get; set; }
         public string SubCity { get; set; }
-        public double Longitude { get; set;}
-        public double Latitude { get; set;}
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
         public string Summary { get; set; }
 
 
-        public string InstitutionId {get; set;}
-        public InstitutionProfile Institution {get; set;}
+        public string InstitutionId { get; set; }
 
     }
 }

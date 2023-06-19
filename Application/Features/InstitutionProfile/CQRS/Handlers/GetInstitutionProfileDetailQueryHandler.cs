@@ -7,7 +7,7 @@ using Application.Features.InstitutionProfiles.DTOs;
 
 namespace Application.Features.InstitutionProfiles.CQRS.Handlers
 {
-    public class GetInstitutionProfileDetailQueryHandler : IRequestHandler<GetInstitutionProfileDetailQuery, Result<InstitutionProfileDto>>
+    public class GetInstitutionProfileDetailQueryHandler : IRequestHandler<GetInstitutionProfileDetailQuery, Result<InstitutionProfileDetailDto>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -18,13 +18,13 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
             _mapper = mapper;
         }
 
-        public async Task<Result<InstitutionProfileDto>> Handle(GetInstitutionProfileDetailQuery request, CancellationToken cancellationToken)
+        public async Task<Result<InstitutionProfileDetailDto>> Handle(GetInstitutionProfileDetailQuery request, CancellationToken cancellationToken)
         {
             var InstitutionProfile = await _unitOfWork.InstitutionProfileRepository.GetPopulatedInstitution(request.Id);
 
-            if (InstitutionProfile == null) return Result<InstitutionProfileDto>.Failure(error: "Item not found.");
+            if (InstitutionProfile == null) return Result<InstitutionProfileDetailDto>.Failure(error: "Item not found.");
 
-            return Result<InstitutionProfileDto>.Success(_mapper.Map<InstitutionProfileDto>(InstitutionProfile));
+            return Result<InstitutionProfileDetailDto>.Success(_mapper.Map<InstitutionProfileDetailDto>(InstitutionProfile));
         }
     }
 }

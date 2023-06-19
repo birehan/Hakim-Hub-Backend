@@ -22,6 +22,9 @@ namespace Persistence.Repositories
             return await _dbContext.Set<InstitutionProfile>()
                 .Include(x => x.Address)
                 .Include(x => x.Logo)
+                .Include(x => x.Banner)
+                .Include(x => x.InstitutionAvailability)
+                .Include(x => x.Services)
                 .Include(x => x.Banner).AsNoTracking().ToListAsync();
         }
 
@@ -34,7 +37,11 @@ namespace Persistence.Repositories
                 .Include(x => x.Services)
                 .Include(x => x.Photos)
                 .Include(x => x.InstitutionAvailability)
-                .Include(x => x.Doctors).FirstOrDefaultAsync(b => b.Id == id);
+                .Include(x => x.Doctors)
+                    .ThenInclude(doctor => doctor.Photo) // Include the Photo of each Doctor
+                .Include(x => x.Doctors)
+                    .ThenInclude(doctor => doctor.Specialities) // Include the Specialities of each Doctor
+                .FirstOrDefaultAsync(b => b.Id == id);
         }
         public async Task<List<InstitutionProfile>> GetByYears(int years)
         {
@@ -119,19 +126,19 @@ namespace Persistence.Repositories
                 .Include(x => x.InstitutionAvailability)
                 .Include(x => x.Logo)
                 .Include(x => x.Banner);
-        
+
             if (!string.IsNullOrEmpty(institutionName))
             {
                 string searchTerm = institutionName.ToLower();
                 query = query.Where(x => x.InstitutionName.ToLower().Contains(searchTerm));
             }
-        
+
             return await query.ToListAsync();
         }
 
 
 
-        
+
         private static bool IsTimeWithinRange(string opening, string closing, TimeSpan currentTime)
         {
             if (TimeSpan.TryParseExact(opening, "hh\\:mm", CultureInfo.InvariantCulture, out var openingTime) &&
@@ -141,11 +148,11 @@ namespace Persistence.Repositories
             }
             return false;
         }
-        
-        
 
 
-        
-        
+
+
+
+
     }
 }

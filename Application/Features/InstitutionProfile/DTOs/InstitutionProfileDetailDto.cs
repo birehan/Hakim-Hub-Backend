@@ -7,7 +7,7 @@ using Application.Features.Services.DTOs;
 
 namespace Application.Features.InstitutionProfiles.DTOs
 {
-    public class InstitutionProfileDto : BaseDto, IInstitutionProfileDto
+    public class InstitutionProfileDetailDto : BaseDto, IInstitutionProfileDto
     {
         public string InstitutionName { get; set; }
         public string BranchName { get; set; }
@@ -25,5 +25,11 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public InstitutionAvailabilityDto InstitutionAvailability { get; set; }
         public AddressDto Address { get; set; }
         public ICollection<string> Services { get; set; }
+
+        public ICollection<string> Photos { get; set; }
+
+        public ICollection<InstitutionDoctorDto> Doctors { get; set; }
+
+
     }
 }

@@ -1,6 +1,3 @@
-using Domain;
-using Microsoft.AspNetCore.Http;
-
 namespace Application.Features.InstitutionProfiles.DTOs
 {
     public interface IInstitutionProfileDto
