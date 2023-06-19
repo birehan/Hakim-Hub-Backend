@@ -23,8 +23,9 @@ namespace Application.UnitTest.Mocks
             var mockInstitutionAvailabilityRepo =  MockInstitutionAvailabilityRepository.GetInstitutionAvailabilityRepository();
             var mockDoctorAvailabilityRepo = MockDoctorAvailabilityRepository.GetDoctorAvailabilityRepository();
             var mockAddressRepo = MockAddressRepository.GetAddressRepository();
+            
             var mockInstitutionProfileRepo = MockInstitutionProfileRepository.GetInstitutionProfileRepository();
-          
+
             mockUow.Setup(r => r.InstitutionAvailabilityRepository).Returns(mockInstitutionAvailabilityRepo.Object);
             mockUow.Setup(r => r.DoctorAvailabilityRepository).Returns(mockDoctorAvailabilityRepo.Object);
             mockUow.Setup(r => r.AddressRepository).Returns(mockAddressRepo.Object);
@@ -39,8 +40,10 @@ namespace Application.UnitTest.Mocks
                 return temp;
             });
 
+            var mockDoctorProfileRepo = MockDoctorProfileRepository.GetDoctorProfileRepository();
+            mockUow.Setup(uow=>uow.DoctorProfileRepository).Returns(mockDoctorProfileRepo.Object);
             return mockUow;
-        
         }
     }
 }
+

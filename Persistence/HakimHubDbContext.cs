@@ -68,8 +68,6 @@ namespace Persistence
             .HasForeignKey(e => e.DoctorId)
             .OnDelete(DeleteBehavior.Cascade);
 
-
-
             // doctor to institution
             modelBuilder.Entity<DoctorProfile>()
             .HasMany(e => e.Institutions)
