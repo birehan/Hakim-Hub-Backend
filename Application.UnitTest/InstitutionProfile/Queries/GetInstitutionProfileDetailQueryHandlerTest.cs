@@ -24,7 +24,7 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
         {
             _mapper = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<InstitutionProfile, InstitutionProfileDto>();
+                cfg.CreateMap<InstitutionProfile, InstitutionProfileDetailDto>();
                 // Add mappings for other types if needed
             }).CreateMapper();
 
@@ -33,7 +33,7 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
         }
 
         [Fact]
-        public async Task Handle_ValidId_ReturnsInstitutionProfileDto()
+        public async Task Handle_ValidId_ReturnsInstitutionProfileDetailDto()
         {
             // Arrange
             var institutionProfileId = Guid.NewGuid();
@@ -53,10 +53,10 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<Result<InstitutionProfileDto>>(result);
+            Assert.IsType<Result<InstitutionProfileDetailDto>>(result);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
-            Assert.IsType<InstitutionProfileDto>(result.Value);
+            Assert.IsType<InstitutionProfileDetailDto>(result.Value);
             //TODO: Perform additional assertions
         }
 
@@ -75,7 +75,7 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<Result<InstitutionProfileDto>>(result);
+            Assert.IsType<Result<InstitutionProfileDetailDto>>(result);
             Assert.False(result.IsSuccess);
             Assert.Null(result.Value);
         }
