@@ -139,7 +139,8 @@ namespace Persistence.Repositories
                 .Include(x => x.Services)
                 .Include(x => x.InstitutionAvailability)
                 .Include(x => x.Logo)
-                .Include(x => x.Banner);
+                .Include(x => x.Banner)
+                .Include(x => x.Address);
 
             if (!string.IsNullOrEmpty(institutionName))
             {

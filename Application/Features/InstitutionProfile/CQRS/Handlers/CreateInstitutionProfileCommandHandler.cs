@@ -41,6 +41,7 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
             }
             var uploadedLogo = await _photoAccessor.AddPhoto(request.CreateInstitutionProfileDto.LogoFile);
             var uploadedBanner = await _photoAccessor.AddPhoto(request.CreateInstitutionProfileDto.BannerFile);
+            if (uploadedBanner == null || uploadedLogo == null) return Result<Guid>.Failure("Unable to upload logo/banner");
             var InstitutionProfile = _mapper.Map<InstitutionProfile>(request.CreateInstitutionProfileDto);
 
             Guid logoId = Guid.NewGuid();
