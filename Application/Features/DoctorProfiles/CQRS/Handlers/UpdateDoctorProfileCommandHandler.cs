@@ -63,7 +63,7 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
 
             await _unitOfWork.DoctorProfileRepository.Update(doctorProfile);
 
-            if (await _unitOfWork.Save() <= 0)
+            if (await _unitOfWork.Save() == 0)
             {
                 return Result<Unit>.Failure("Server error");
             }
