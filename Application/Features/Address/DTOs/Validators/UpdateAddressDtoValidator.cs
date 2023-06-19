@@ -10,7 +10,9 @@ namespace Application.Features.Addresses.DTOs.Validators
             Include(new IAddressDtoValidator());
 
             RuleFor(p => p.Id).NotNull().WithMessage("{PropertyName} must be present");
-
+            RuleFor(p => p.InstitutionId)
+                .NotEmpty().WithMessage("{PropertyName} is required.")
+                .NotNull();
         }
     }
 }

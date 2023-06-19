@@ -77,9 +77,14 @@ namespace Application.UnitTest.Mocks
                 }
             });
 
-            mockRepo.Setup(r => r.Delete(It.IsAny<Address>())).Callback((Address address) =>
+            mockRepo.Setup(r => r.Delete(It.IsAny<Address>())).Callback((Address Address) =>
             {
-                addresses.RemoveAll(a => a.Id == address.Id);
+                Console.WriteLine(Address.Id);
+                var existingAddress = addresses.FirstOrDefault(p => p.Id == Address.Id);
+                if (existingAddress != null)
+                {
+                    addresses.Remove(existingAddress);
+                }
             });
 
             mockRepo.Setup(r => r.Get(It.IsAny<Guid>())).ReturnsAsync((Guid id) =>
