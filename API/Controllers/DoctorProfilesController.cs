@@ -37,12 +37,12 @@ namespace API.Controllers
             return HandleResult<List<DoctorProfileDto>>(response);
         }
         [AllowAnonymous]
-        [HttpGet]
-        public async Task<ActionResult<List<DoctorProfileDetailDto>>> FilterDoctors(string? specialityName, string? educationName, int experienceYears, Guid institutionId)
+        [HttpPost]
+        public async Task<ActionResult<List<DoctorProfileDetailDto>>> FilterDoctors(ICollection<string>? specialityNames = null, string? educationName = "", int experienceYears = -1, Guid institutionId = new Guid())
         {
             var query = new FilterDoctorProfilesQuery
             {
-                SpecialityName = specialityName,
+                SpecialityNames = specialityNames,
                 EducationName = educationName,
                 ExperienceYears = experienceYears,
                 InstitutionId = institutionId

@@ -27,8 +27,8 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
             public async Task<Result<List<DoctorProfileDetailDto>>> Handle(FilterDoctorProfilesQuery request, CancellationToken cancellationToken)
             {
                 var response = new Result<List<DoctorProfileDetailDto>>();
-                var doctorProfiles = await _unitOfWork.DoctorProfileRepository.FilterDoctors(request.InstitutionId, request.SpecialityName,request.ExperienceYears,request.EducationName);
-                if (doctorProfiles is null || doctorProfiles.Count == 0)
+                var doctorProfiles = await _unitOfWork.DoctorProfileRepository.FilterDoctors(request.InstitutionId, request.SpecialityNames,request.ExperienceYears,request.EducationName);
+                if (doctorProfiles is null)
                 {
                     response.IsSuccess = false;
                     response.Error = "not found";
