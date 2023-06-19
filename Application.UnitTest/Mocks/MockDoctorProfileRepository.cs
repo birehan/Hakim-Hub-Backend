@@ -38,9 +38,7 @@ namespace Application.UnitTest.Mocks
                                 PhoneNumber = "123-456-7890",
                                 Summary = "A leading hospital providing excellent healthcare services.",
                                 EstablishedOn = DateTime.Parse("1980-01-01"),
-                                Rate = 4.5,
-                                AddressId = Guid.NewGuid(),
-                                LogoId = "logo1",
+                                Rate = 4.5,                                LogoId = "logo1",
                                 BannerId = "banner1"
                             }
                         },
@@ -113,7 +111,6 @@ namespace Application.UnitTest.Mocks
                                 Summary = "Providing quality healthcare services to the community.",
                                 EstablishedOn = DateTime.Parse("1995-07-20"),
                                 Rate = 4.2,
-                                AddressId = Guid.NewGuid(),
                                 LogoId = "logo3",
                                 BannerId = "banner3"
                             }
@@ -212,7 +209,6 @@ namespace Application.UnitTest.Mocks
                                 Summary = "Promoting holistic health and well-being.",
                                 EstablishedOn = DateTime.Parse("2005-03-10"),
                                 Rate = 4.6,
-                                AddressId = Guid.NewGuid(),
                                 LogoId = "logo4",
                                 BannerId = "banner4"
                             }
@@ -362,6 +358,7 @@ namespace Application.UnitTest.Mocks
                     doctor.Id = new Guid();
                     doctorProfiles.Add(doctor);
                     MockUnitOfWork.changes +=1;
+                    MockUnitOfWork.changes += 1;
                     return doctor;
                     
                     });
@@ -375,6 +372,7 @@ namespace Application.UnitTest.Mocks
                     {
                         doctorProfiles.Remove(existingDoctor);
                         doctorProfiles.Add(updatedDoctor);
+                        MockUnitOfWork.changes += 1;
                     }
 
                 });
@@ -386,6 +384,7 @@ namespace Application.UnitTest.Mocks
                         if (existingDoctor != null)
                         {
                             doctorProfiles.Remove(existingDoctor);
+                            MockUnitOfWork.changes += 1;
                         }
                     });
 
