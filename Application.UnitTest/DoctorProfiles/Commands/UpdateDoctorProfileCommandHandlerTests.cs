@@ -67,11 +67,10 @@ public class UpdateDoctorProfileCommandHandlerTests
         });
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
-        Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", result.Error);
-
         // Assert
-        result.ShouldBeOfType<Result<Unit>>();
         result.IsSuccess.ShouldBeTrue();
+        result.ShouldBeOfType<Result<Unit>>();
+        
     }
 
     [Fact]
@@ -209,6 +208,7 @@ public class UpdateDoctorProfileCommandHandlerTests
         // Assert
         result.ShouldBeOfType<Result<Unit>>();
         result.IsSuccess.ShouldBeTrue();
+       
     }
 
     [Fact]
