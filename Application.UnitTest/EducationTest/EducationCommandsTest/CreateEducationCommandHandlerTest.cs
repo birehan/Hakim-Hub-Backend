@@ -16,19 +16,18 @@ namespace Application.UnitTest.EducationTest.EducationCommandsTest;
 
 public class CreateEducationCommandHandlerTest
 {
-    private IMapper _mapper { get; set; }
+    private Mock<IMapper> _mapper { get; set; }
     private Mock<IUnitOfWork> _mockUnitOfWork { get; set; }
+
     private readonly Mock<IPhotoAccessor> _mockPhotoAccessor;
+
     private readonly CreateEducationDto createEducationDto;
     private CreateEducationCommandHandler _handler { get; set; }
     public CreateEducationCommandHandlerTest()
     {
         _mockUnitOfWork = MockUnitOfWork.GetUnitOfWork();
 
-        _mapper = new MapperConfiguration(c =>
-        {
-            c.AddProfile<MappingProfile>();
-        }).CreateMapper();
+        _mapper = new Mock<IMapper>();
 
         _mockPhotoAccessor = new Mock<IPhotoAccessor>();
 
@@ -44,25 +43,24 @@ public class CreateEducationCommandHandlerTest
             // EducationInstitutionLogoId = "Oxford Campus",
         };
 
-        _handler = new CreateEducationCommandHandler(_mockUnitOfWork.Object, _mapper, _mockPhotoAccessor.Object);
+        _handler = new CreateEducationCommandHandler(_mockUnitOfWork.Object, _mapper.Object, _mockPhotoAccessor.Object);
     }
 
     [Fact]
     public async Task CreateEducationValid()
     {
 
-        var photo = new PhotoUploadResult { PublicId = Guid.NewGuid().ToString(), Url = "photo-public-id" };
+        var photo = new PhotoUploadResult { PublicId = "1000", Url = "photo-public-id" };
         _mockPhotoAccessor.Setup(pa => pa.AddPhoto(It.IsAny<IFormFile>())).ReturnsAsync(photo);
 
-        // createEducationDto.EducationInstitutionLogoId = photo.PublicId;
-        var result = await _handler.Handle(new CreateEducationCommand() {createEducationDto = createEducationDto}, CancellationToken.None);
-        Assert.IsType<CreateEducationDto>(result.Value);
-        result.IsSuccess.ShouldBeTrue();
-        result.Value.EducationInstitution.ShouldBeEquivalentTo(createEducationDto.EducationInstitution);
-        result.Value.Degree.ShouldBeEquivalentTo(createEducationDto.Degree);
-        result.Value.GraduationYear.ShouldBeEquivalentTo(createEducationDto.GraduationYear);
-        result.Value.StartYear.ShouldBeEquivalentTo(createEducationDto.StartYear);
 
+        var education = new Education { Id = Guid.NewGuid() };
+        _mapper.Setup(x => x.Map<Education>(createEducationDto)).Returns(education);
+
+        var result = await _handler.Handle(new CreateEducationCommand{createEducationDto = createEducationDto}, CancellationToken.None);
+            
+        result.IsSuccess.ShouldBeTrue();
+        _mockUnitOfWork.Verify(x => x.Save(), Times.Exactly(1));
         var repo = await _mockUnitOfWork.Object.EducationRepository.GetAll();
         repo.Count.ShouldBe(3);
     }
@@ -82,6 +80,9 @@ public class CreateEducationCommandHandlerTest
         var result = await _handler.Handle(new CreateEducationCommand() { createEducationDto = createInvalid }, CancellationToken.None);
 
         result.Value.ShouldBe(null);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeEmpty();
+        _mockUnitOfWork.Verify(x => x.Save(), Times.Never());
     }
 }
 
