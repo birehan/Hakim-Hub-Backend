@@ -11,5 +11,5 @@ public interface IEducationDto
     public DateTime GraduationYear { get; set; }
     public string Degree { get; set; }
     public string FieldOfStudy { get; set; }
-    public Guid DoctorId { get; set; }
+    
 }

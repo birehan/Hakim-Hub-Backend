@@ -32,8 +32,8 @@ namespace Application.UnitTest.InstitutionAvailabilities.CQRS.Handlers
             {
                 CreateInstitutionAvailabilityDto = new CreateInstitutionAvailabilityDto
                 {
-                    StartDay = DayOfWeek.Monday,
-                    EndDay = DayOfWeek.Sunday,
+                    StartDay = "Monday",
+                    EndDay = "Sunday",
                     Opening = "2:00AM",
                     Closing = "4:00PM",
                     TwentyFourHours = true,

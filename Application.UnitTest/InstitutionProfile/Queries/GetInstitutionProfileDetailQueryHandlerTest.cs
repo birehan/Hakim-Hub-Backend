@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
+using Application.UnitTest.Mocks;
 using Application.Contracts.Persistence;
 using Application.Features.InstitutionProfiles.CQRS.Handlers;
 using Application.Features.InstitutionProfiles.CQRS.Queries;
@@ -25,10 +26,10 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
             _mapper = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<InstitutionProfile, InstitutionProfileDetailDto>();
-                // Add mappings for other types if needed
+                cfg.CreateMap<Education, EducationalInstitutionDto>();
             }).CreateMapper();
 
-            _mockUnitOfWork = new Mock<IUnitOfWork>();
+            _mockUnitOfWork = MockUnitOfWork.GetUnitOfWork();
             _handler = new GetInstitutionProfileDetailQueryHandler(_mockUnitOfWork.Object, _mapper);
         }
 
@@ -36,20 +37,19 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
         public async Task Handle_ValidId_ReturnsInstitutionProfileDetailDto()
         {
             // Arrange
-            var institutionProfileId = Guid.NewGuid();
+            var institutionProfileId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa7");
             var institutionProfile = new InstitutionProfile
             {
                 Id = institutionProfileId,
-                InstitutionName = "Sample Institution",
-                // Set other properties accordingly
+                InstitutionName = "Sample Institution"
             };
-            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.GetPopulatedInstitution(institutionProfileId))
-                .ReturnsAsync(institutionProfile);
+            
 
             var query = new GetInstitutionProfileDetailQuery { Id = institutionProfileId };
 
             // Act
             var result = await _handler.Handle(query, CancellationToken.None);
+            
 
             // Assert
             Assert.NotNull(result);
@@ -65,8 +65,6 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
         {
             // Arrange
             var nonExistingId = Guid.NewGuid();
-            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.GetPopulatedInstitution(nonExistingId))
-                .ReturnsAsync((InstitutionProfile)null);
 
             var query = new GetInstitutionProfileDetailQuery { Id = nonExistingId };
 

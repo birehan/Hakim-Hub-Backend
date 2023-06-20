@@ -17,7 +17,7 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public DateTime EstablishedOn { get; set; }
         public double Rate { get; set; }
 
-        public bool Status { get; set; }
+        public string Status { get; set; }
         public string LogoUrl { get; set; }
         public string BannerUrl { get; set; }
 

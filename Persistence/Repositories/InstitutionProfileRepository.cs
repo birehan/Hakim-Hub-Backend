@@ -81,11 +81,6 @@ namespace Persistence.Repositories
                 .Include(x => x.Doctors)
                     .ThenInclude(doctor => doctor.Specialities);
 
-            // if (serviceNames != null && serviceNames.Any())
-            // {
-            //     query = query.Where(x => x.Services.Any(service => serviceNames.Contains(service.ServiceName)));
-            // }
-
             foreach (string serviceName in serviceNames)
             {
                 if (!string.IsNullOrEmpty(serviceName))

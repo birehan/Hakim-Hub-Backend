@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Http;
         public string Degree { get; set; }
         public string FieldOfStudy { get; set; }
         public Guid DoctorId { get; set; }
-        public string? EducationInstitutionLogoId { get; set; }
         public IFormFile EducationInstitutionLogoFile { get; set; }
     
     }

@@ -68,21 +68,19 @@ namespace Application.UnitTest.Features.InstitutionAvailabilities.CQRS.Handlers
             {
                 new InstitutionAvailabilityDto
                 {
-                    StartDay = DayOfWeek.Monday,
-                    EndDay = DayOfWeek.Sunday,
+                    StartDay = "Monday",
+                    EndDay = "Sunday",
                     Opening = "2:00AM",
                     Closing = "4:00PM",
-                    TwentyFourHours = true,
-                    InstitutionId = Guid.NewGuid()
+                    TwentyFourHours = true
                 },
                 new InstitutionAvailabilityDto
                 {
-                    StartDay = DayOfWeek.Monday,
-                    EndDay = DayOfWeek.Sunday,
+                    StartDay = "Monday",
+                    EndDay = "Sunday",
                     Opening = "1:00AM",
                     Closing = "7:00PM",
-                    TwentyFourHours = false,
-                    InstitutionId = Guid.NewGuid()
+                    TwentyFourHours = false
                 }
             };
 

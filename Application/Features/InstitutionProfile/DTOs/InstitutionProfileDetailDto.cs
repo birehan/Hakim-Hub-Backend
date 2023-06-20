@@ -17,8 +17,8 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public DateTime EstablishedOn { get; set; }
         public double Rate { get; set; }
 
-        public bool Status { get; set; }
-        public ICollection<EducationalInstitutionDto> AllEducationalInstitutions;
+        public string Status { get; set; }
+        public ICollection<EducationalInstitutionDto> AllEducationalInstitutions { get; set; }
         public ICollection<string> AllSpecialities { get; set; }
 
         public string LogoUrl { get; set; }

@@ -49,7 +49,7 @@ namespace Application.UnitTest.EducationTest.EducationCommandsTest
             FieldOfStudy = "Oncology",
             Degree = "Bachelors",
             DoctorId = Guid.NewGuid(),
-            EducationInstitutionLogoId = "Oxford Campus"
+            // EducationInstitutionLogoId = "Oxford Campus"
         };
 
         _createHandler = new CreateEducationCommandHandler(_mockUnitOfWork.Object, _mapper, _photoAccesor.Object);
@@ -62,7 +62,7 @@ namespace Application.UnitTest.EducationTest.EducationCommandsTest
             var photo = new PhotoUploadResult { PublicId = Guid.NewGuid().ToString(), Url = "photo-public-id" };
             _photoAccesor.Setup(pa => pa.AddPhoto(It.IsAny<IFormFile>())).ReturnsAsync(photo);
 
-            createEducationDto.EducationInstitutionLogoId = photo.PublicId;
+            // createEducationDto.EducationInstitutionLogoUrl = photo.PublicUrl;
 
             var result = await _createHandler.Handle(new CreateEducationCommand() { createEducationDto = createEducationDto }, CancellationToken.None);
             var educationToBeUpdated = result.Value.Id;
@@ -117,7 +117,7 @@ namespace Application.UnitTest.EducationTest.EducationCommandsTest
             var photo = new PhotoUploadResult { PublicId = Guid.NewGuid().ToString(), Url = "photo-public-id" };
             _photoAccesor.Setup(pa => pa.AddPhoto(It.IsAny<IFormFile>())).ReturnsAsync(photo);
 
-            createEducationDto.EducationInstitutionLogoId = photo.PublicId;
+            // createEducationDto.EducationInstitutionLogoUrl = photo.Url;
 
             var result = await _createHandler.Handle(new CreateEducationCommand() { createEducationDto = createEducationDto }, CancellationToken.None);
             var educationToBeUpdated = result.Value.Id;
@@ -131,7 +131,7 @@ namespace Application.UnitTest.EducationTest.EducationCommandsTest
                 FieldOfStudy = null,
                 Degree = "Master's",
                 DoctorId = Guid.Empty,
-                EducationInstitutionLogoPhotoId = result.Value.EducationInstitutionLogoId
+                // EducationInstitutionLogoPhotoUrl = result.Value.EducationInstitutionLogoUrl
             };
 
             // Act

@@ -42,8 +42,8 @@ namespace Application.UnitTest.Features.InstitutionAvailabilities.CQRS.Handlers
             var institutionAvailabilityDto = new UpdateInstitutionAvailabilityDto
             {
                 Id = Guid.NewGuid(),
-                  StartDay = DayOfWeek.Monday,
-                    EndDay = DayOfWeek.Sunday,
+                  StartDay = "Monday",
+                    EndDay = "Sunday",
                     Opening = "2:00AM",
                     Closing = "4:00PM",
                     TwentyFourHours = true,
