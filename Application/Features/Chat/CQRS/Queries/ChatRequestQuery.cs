@@ -1,5 +1,11 @@
-namespace Application.Features.Chat.CQRS.Queries;
+using Application.Features.Chat.DTOs;
+using Application.Responses;
+using MediatR;
 
-public class ChatRequestQuery
+namespace Application.Features.Chat.CQRS.Queries
 {
+    public class ChatRequestQuery : IRequest<Result<ChatResponseDto>>
+    {
+        public ChatRequestDto ChatRequestDto {get; set;}
+    }
 }

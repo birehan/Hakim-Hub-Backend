@@ -1,15 +1,15 @@
 using Application.Features.Chat.Models;
+using Application.Features.DoctorProfiles.DTOs;
+using Application.Features.InstitutionProfiles.DTOs;
 using Domain;
 
 namespace Application.Features.Chat.DTOs;
 
 public class ChatResponseDto
 {
-    public string? reply {get; set;}
+    public string reply {get; set;}
 
-    public Error? Error {get; set;}
-
-    public List<DoctorProfile>? Doctors {get; set;}
+    public List<DoctorProfileDetailDto>? Doctors {get; set;}
     
-    public List<InstitutionProfile>? Institutions {get; set;}
+    public List<InstitutionProfileDetailDto>? Institutions {get; set;}
 }

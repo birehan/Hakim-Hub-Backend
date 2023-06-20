@@ -102,7 +102,7 @@ namespace Persistence.Repositories
                 Console.WriteLine(query);
             }
 
-            if (!string.IsNullOrEmpty(educationInstitutionName))
+            if (educationInstitutionName != null)
             {
                 query = query.Where(d => d.Educations.Any(e => e.EducationInstitution == educationInstitutionName));
             }
