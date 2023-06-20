@@ -57,16 +57,9 @@ public class ChatRequestQueryHandler: IRequestHandler<ChatRequestQuery, Result<C
             var Doctors = await _unitOfWork.DoctorProfileRepository.FilterDoctors(Guid.Empty, new List<string>{specialization}, -1, null);
             chatResponse.Doctors = _mapper.Map<List<DoctorProfileDetailDto>>(Doctors);
 
-            // hospital = repository calling
-            if (Doctors.Any())
-    {
         var Institutions = Doctors.Select(d => d.MainInstitution).Distinct();
         chatResponse.Institutions = _mapper.Map<List<InstitutionProfileDetailDto>>(Institutions);
-    }
-    else
-    {
-        chatResponse.Institutions = new List<InstitutionProfileDetailDto>();
-    }
+
      }
 
         response.Value = chatResponse;
