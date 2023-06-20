@@ -1,26 +1,3 @@
-// // using Application.Contracts.Infrastructure;
-// using Application.Contracts.Infrastructure;
-// using Application.Features.Chat.DTOs;
-// using Moq;
-// using System.Threading.Tasks;
-
-// namespace Application.UnitTest.Features.Chat.Mocks
-// {
-//     public static class MockChatRequestSender
-//     {
-//         public static Mock<IChatRequestSender> GetChatRequestSender(ApiResponseDto apiResponse)
-//         {
-//             var mockSender = new Mock<IChatRequestSender>();
-
-//             mockSender.Setup(sender =>
-//                 sender.SendMessage(It.IsAny<ChatRequestDto>())).ReturnsAsync(apiResponse);
-
-//             return mockSender;
-//         }
-//     }
-// }
-
-
 using Application.Contracts.Infrastructure;
 using Application.Features.Chat.DTOs;
 using Application.Features.Chat.Models;
