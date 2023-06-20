@@ -1,14 +1,12 @@
 
-
 using Application.Contracts.Persistence;
+using Domain;
 using Application.Features.Specialities.CQRS.Commands;
 using Application.Features.Specialities.CQRS.Handlers;
-using Application.Features.Specialities.DTOs;
 using Application.Profiles;
 using Application.Responses;
 using Application.UnitTest.Mocks;
 using AutoMapper;
-using Domain;
 using Moq;
 using Shouldly;
 
@@ -17,17 +15,15 @@ namespace Application.UnitTest.SpecialityTest.SpecialityCommandTest;
 public class DeleteSpecialityCommandHandlerTest
 {
     private IMapper _mapper { get; set; }
-    private Mock<IUnitOfWork> _mockUnitOfWork { get; set; }
+    private readonly Mock<IUnitOfWork> _mockUnitOfWork;
+    private readonly Mock<ISpecialityRepository> _mockSpecialityRepository;
     private DeleteSpecialityCommandHandler _handler { get; set; }
-    private readonly CreateSpecialityDto createSpecialityDto;
-    private CreateSpecialityCommandHandler _createHandler { get; set; }
 
 
     public DeleteSpecialityCommandHandlerTest()
     {
-        _mockUnitOfWork = MockUnitOfWork.GetUnitOfWork();
-
-        // _mapper = new Mock<IMapper>();
+        _mockUnitOfWork = new Mock<IUnitOfWork>();
+        _mockSpecialityRepository = new Mock<ISpecialityRepository>();
 
         _mapper = new MapperConfiguration(c =>
       {
@@ -36,40 +32,45 @@ public class DeleteSpecialityCommandHandlerTest
 
         _handler = new DeleteSpecialityCommandHandler(_mockUnitOfWork.Object);
 
-        createSpecialityDto = new CreateSpecialityDto()
-        {
-            Id = Guid.NewGuid(),
-            Name = "Oncology",
-            Description = "This is a sample description for oncology."
-        };
-        _createHandler = new CreateSpecialityCommandHandler(_mockUnitOfWork.Object, _mapper);
     }
 
+    [Fact]
+    public async Task DeleteSpecialityValid()
+    {
+        // Arrange
+        var specialityId = Guid.NewGuid();
+        var deleteCommand = new DeleteSpecialityCommand { Id = specialityId };
+        var specialityToDelete = new Speciality {Id = specialityId};
 
-    // [Fact]
-    // public async Task DeleteSpecialityValid()
-    // {
-    //     var result = await _createHandler.Handle(new CreateSpecialityCommand() { SpecialityDto = createSpecialityDto }, CancellationToken.None);
-    //     var educationToBeDeleted = result.Value.Id;
+        
+        _mockSpecialityRepository.Setup(r => r.Get(specialityId)).ReturnsAsync(specialityToDelete);
+        _mockUnitOfWork.Setup(uow => uow.SpecialityRepository).Returns(_mockSpecialityRepository.Object);
+        _mockUnitOfWork.Setup(uow => uow.Save()).ReturnsAsync(1);
 
-    //     var num = (await _mockUnitOfWork.Object.EducationRepository.GetAll()).Count;
-    //     (await _mockUnitOfWork.Object.SpecialityRepository.GetAll()).Count.ShouldBe(3);
-    //     var resultAfterDeletion = await _handler.Handle(new DeleteSpecialityCommand() { Id = educationToBeDeleted }, CancellationToken.None);
-    //     resultAfterDeletion.Value.ShouldBeEquivalentTo(educationToBeDeleted);
-    //     resultAfterDeletion.Error.ShouldBeEquivalentTo("Speciality Deleted Successfully.");
-    //     (await _mockUnitOfWork.Object.SpecialityRepository.GetAll()).Count.ShouldBe(2);
-    //     Assert.IsType<Result<Guid?>>(resultAfterDeletion);
+        // Act
+        var result = await _handler.Handle(deleteCommand, CancellationToken.None);
 
-    // }
-
+        // Assert
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<Guid?>>();
+        result.IsSuccess.ShouldBeTrue();
+        result.Value.ShouldBe(specialityId);
+    }
 
     [Fact]
     public async Task DeleteSpecialityInvalid()
     {
-        var result = await _handler.Handle(new DeleteSpecialityCommand() { Id = Guid.NewGuid() }, CancellationToken.None);
+
+        var specialityId = Guid.NewGuid();
+        var deleteCommand = new DeleteSpecialityCommand { Id = specialityId };
+
+        _mockSpecialityRepository.Setup(r => r.Get(specialityId)).ReturnsAsync((Speciality)null);
+        _mockUnitOfWork.Setup(uow => uow.SpecialityRepository).Returns(_mockSpecialityRepository.Object);
+
+
+        var result = await _handler.Handle(deleteCommand, CancellationToken.None);
         result.Value.ShouldBeEquivalentTo(null);
         result.Error.ShouldBeEquivalentTo("Speciality Not Found.");
         Assert.IsType<Result<Guid?>>(result);
-
     }
 }
