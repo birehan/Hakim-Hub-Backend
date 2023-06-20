@@ -1,4 +1,5 @@
-namespace API.DTOs
+namespace Application.Features.Accounts.DTOs
+
 {
     public class LoginDto
     {
