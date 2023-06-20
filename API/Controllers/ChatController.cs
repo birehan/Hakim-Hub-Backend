@@ -2,7 +2,7 @@ using Application.Features.Chat.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Application.Features.Chat.CQRS.Queries;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -15,17 +15,11 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Chat([FromBody] ChatRequestDto requestDto)
         {
-            var query = new ChatRequestQuery
-            {
-                Message = requestDto.Message,
-                IpAddress = Request.Headers["IpAddress"],
-                IsNewChat = requestDto.IsNewChat
-            };
-
-            return HandleResult(await _mediator.Send(query));
+            return HandleResult(await _mediator.Send(new ChatRequestQuery{ChatRequestDto = requestDto}));
         }
     }
 };
