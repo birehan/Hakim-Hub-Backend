@@ -24,12 +24,14 @@ namespace API.Extensions
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
 
+
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", policy =>
                 policy.AllowAnyMethod().
                 AllowCredentials().
-                AllowAnyHeader());
+                AllowAnyHeader().WithOrigins("http://localhost:3000"));
             });
 
             return services;
