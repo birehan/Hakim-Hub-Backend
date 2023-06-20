@@ -329,7 +329,6 @@ namespace Application.UnitTest.Mocks
                         query = query.Where(d => d.Educations.Any(e => e.EducationInstitution == educationInstitutionName));
                     }
 
-
                     if (experienceYears > 0)
                     {
                         DateTime startDate = DateTime.Today.AddYears(-experienceYears);
