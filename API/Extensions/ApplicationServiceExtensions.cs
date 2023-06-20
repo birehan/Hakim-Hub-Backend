@@ -29,7 +29,8 @@ namespace API.Extensions
                 options.AddPolicy("CorsPolicy", policy =>
                 policy.AllowAnyMethod().
                 AllowCredentials().
-                AllowAnyHeader());
+                AllowAnyHeader().
+                AllowAnyOrigin());
             });
 
             return services;
