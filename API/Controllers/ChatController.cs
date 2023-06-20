@@ -25,8 +25,7 @@ namespace API.Controllers
                 IsNewChat = requestDto.IsNewChat
             };
 
-            var responseDto = await _mediator.Send(query);
-            return HandleResult(responseDto);
+            return HandleResult(await _mediator.Send(query));
         }
     }
 };
