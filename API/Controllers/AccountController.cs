@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using API.DTOs;
+using Application.Features.Accounts.DTOs;
 using API.Services;
 using Application.Responses;
 using Domain;
