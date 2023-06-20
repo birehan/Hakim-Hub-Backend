@@ -21,34 +21,22 @@ public class ChatRequestSender: IChatRequestSender
         };
     }
 
-    public async Task<ApiResponseDto> SendMessage(string message, string ipAddress, bool isNewChat)
+    public async Task<ApiResponseDto> SendMessage(ChatRequestDto chatRequestDto)
     {
         var requestBody = new ApiRequestDto
         {
-            message = message
+            message = chatRequestDto.message
         };
 
         var requestBodyJson = JsonSerializer.Serialize(requestBody, _jsonOptions);
         var content = new StringContent(requestBodyJson, Encoding.UTF8, "application/json");
 
         _httpClient.DefaultRequestHeaders.Clear();
-        _httpClient.DefaultRequestHeaders.Add("Address", ipAddress);
+        _httpClient.DefaultRequestHeaders.Add("Address", chatRequestDto.Address);
 
         string baseUri = "https://hakimhub-chatbot.onrender.com/api/chat/";
-        baseUri += isNewChat.ToString();
+        baseUri += chatRequestDto.isNewChat.ToString().ToLower();
         var response = await _httpClient.PostAsync(baseUri, content);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            // Handle API error
-            return new ApiResponseDto
-            {
-                Error = new Error
-                {
-                    message = "Failed to communicate with the chatbot API."
-                }
-            };
-        }
 
         var responseContent = await response.Content.ReadAsStringAsync();
         var apiResponse = JsonSerializer.Deserialize<ApiResponseDto>(responseContent, _jsonOptions);
