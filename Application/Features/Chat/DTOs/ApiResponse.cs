@@ -2,8 +2,9 @@ using Application.Features.Chat.Models;
 
 namespace Application.Features.Chat.DTOs;
 
-public class ApiResponse
+public class ApiResponseDto
 {
-    public Data? Data { get; set; }
-    public Error? ErrorMessage { get; set; }
+    public Data? Data {get; set;}
+
+    public Error? Error {get; set;}
 }
