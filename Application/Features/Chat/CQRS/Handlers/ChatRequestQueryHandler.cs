@@ -17,9 +17,6 @@ public class ChatRequestQueryHandler: IRequestHandler<ChatRequestQuery, Result<C
     private readonly IMapper _mapper;
     private readonly IChatRequestSender _chatRequestSender;
 
-
-
-
     public ChatRequestQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IChatRequestSender chatRequestSender)
     {
         _unitOfWork = unitOfWork;
@@ -57,13 +54,20 @@ public class ChatRequestQueryHandler: IRequestHandler<ChatRequestQuery, Result<C
         {
             // doctor = repository calling
             var specialization = ApiResponse.Data.specializations[0];
-            var Doctors = await _unitOfWork.DoctorProfileRepository.FilterDoctors(Guid.Empty, specialization, -1, null);
+            var Doctors = await _unitOfWork.DoctorProfileRepository.FilterDoctors(Guid.Empty, new List<string>{specialization}, -1, null);
             chatResponse.Doctors = _mapper.Map<List<DoctorProfileDetailDto>>(Doctors);
 
             // hospital = repository calling
-            var Institutions = Doctors.Select(d => d.MainInstitution).Distinct();
-            chatResponse.Institutions = _mapper.Map<List<InstitutionProfileDetailDto>>(Institutions);
-        }
+            if (Doctors.Any())
+    {
+        var Institutions = Doctors.Select(d => d.MainInstitution).Distinct();
+        chatResponse.Institutions = _mapper.Map<List<InstitutionProfileDetailDto>>(Institutions);
+    }
+    else
+    {
+        chatResponse.Institutions = new List<InstitutionProfileDetailDto>();
+    }
+     }
 
         response.Value = chatResponse;
         return response;

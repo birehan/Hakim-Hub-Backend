@@ -3,12 +3,12 @@ using Application.Contracts.Persistence;
 using Application.Features.Chat.CQRS.Handlers;
 using Application.Features.Chat.CQRS.Queries;
 using Application.Features.Chat.DTOs;
+using Application.Features.Chat.Models;
 using Application.Features.DoctorProfiles.DTOs;
 using Application.Features.InstitutionProfiles.DTOs;
-using Application.Responses;
-using Application.UnitTest.Mocks;
 using AutoMapper;
 using Domain;
+using MediatR;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -17,80 +17,135 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Application.UnitTest.Features.Chat.Handlers
+namespace Application.Tests.Features.Chat.CQRS.Handlers
 {
     public class ChatRequestQueryHandlerTests
     {
-        [Fact]
-        public async Task Handle_NewChatRequest_ReturnsChatResponseWithDoctorsAndInstitutions()
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
+        private readonly Mock<IMapper> _mapperMock;
+        private readonly Mock<IChatRequestSender> _chatRequestSenderMock;
+        private readonly ChatRequestQueryHandler _handler;
+
+        public ChatRequestQueryHandlerTests()
         {
-            // Arrange
-            var requestDto = new ChatRequestDto
-            {
-                isNewChat = true,
-                // Set other properties as needed
-            };
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            var mockMapper = new Mock<IMapper>();
-            var mockChatRequestSender = MockChatRequestSender.GetChatRequestSender();
-
-            var handler = new ChatRequestQueryHandler(mockUnitOfWork.Object, mockMapper.Object, mockChatRequestSender.Object);
-
-            var query = new ChatRequestQuery
-            {
-                ChatRequestDto = requestDto
-            };
-
-            // Act
-            var result = await handler.Handle(query, CancellationToken.None);
-
-            // Assert
-            Assert.True(result.IsSuccess);
-            Assert.NotNull(result.Value);
-            Assert.Equal("Welcome to the chat!", result.Value.reply);
-            Assert.NotEmpty(result.Value.Doctors);
-            Assert.NotEmpty(result.Value.Institutions);
-
-            mockChatRequestSender.Verify(sender => sender.SendMessage(requestDto), Times.Once);
-            mockUnitOfWork.Verify(uow => uow.DoctorProfileRepository.FilterDoctors(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()), Times.Once);
-            mockUnitOfWork.Verify(uow => uow.InstitutionProfileRepository.GetMainInstitutionsForDoctors(It.IsAny<IEnumerable<DoctorProfile>>()), Times.Once);
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _mapperMock = new Mock<IMapper>();
+            _chatRequestSenderMock = new Mock<IChatRequestSender>();
+            _handler = new ChatRequestQueryHandler(_unitOfWorkMock.Object, _mapperMock.Object, _chatRequestSenderMock.Object);
         }
 
         [Fact]
-        public async Task Handle_ExistingChatRequest_ReturnsChatResponseWithoutDoctorsAndInstitutions()
+        public async Task Handle_WithValidRequest_ReturnsSuccessfulResponse()
+        {
+            // Arrange
+            var request = new ChatRequestQuery { ChatRequestDto = new ChatRequestDto() };
+
+            var apiResponse = new ApiResponseDto
+            {
+                Data = new Data { message = "Hello! How can I assist you today?", specializations = new List<string>() },
+                Error = null
+            };
+
+            _chatRequestSenderMock.Setup(s => s.SendMessage(request.ChatRequestDto))
+                .ReturnsAsync(apiResponse);
+
+            // Act
+            var result = await _handler.Handle(request, CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.Null(result.Error);
+
+            var response = result.Value;
+            Assert.NotNull(response);
+            Assert.Equal(apiResponse.Data.message, response.reply);
+            Assert.Null(response.Doctors);
+            Assert.Null(response.Institutions);
+        }
+
+        [Fact]
+        public async Task Handle_WithValidRequestAndSpecializations_ReturnsSuccessfulResponseWithDoctorsAndInstitutions()
+        {
+            // Arrange
+            var request = new ChatRequestQuery { ChatRequestDto = new ChatRequestDto() };
+
+            var apiResponse = new ApiResponseDto
+            {
+                Data = new Data
+                {
+                    message = "Some message",
+                    specializations = new List<string> { "Specialization1", "Specialization2" }
+                },
+                Error = null
+            };
+
+            _chatRequestSenderMock.Setup(s => s.SendMessage(request.ChatRequestDto))
+                .ReturnsAsync(apiResponse);
+
+            var doctor1 = new DoctorProfile { /* doctor properties */ };
+            var doctor2 = new DoctorProfile { /* doctor properties */ };
+            var doctors = new List<DoctorProfile> { doctor1, doctor2 };
+
+            var institution1 = new InstitutionProfile { /* institution properties */ };
+            var institution2 = new InstitutionProfile { /* institution properties */ };
+            var institutions = new List<InstitutionProfile> { institution1, institution2 };
+
+            _unitOfWorkMock.Setup(u => u.DoctorProfileRepository.FilterDoctors(
+                It.IsAny<Guid>(), It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<string>()))
+                .ReturnsAsync(doctors);
+
+            _unitOfWorkMock.Setup(u => u.DoctorProfileRepository.FilterDoctors(
+                It.IsAny<Guid>(), It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<string>()))
+                .ReturnsAsync(doctors);
+
+            _mapperMock.Setup(m => m.Map<List<DoctorProfileDetailDto>>(doctors))
+                .Returns(doctors.Select(d => new DoctorProfileDetailDto { /* map properties accordingly */ }).ToList());
+
+            _mapperMock.Setup(m => m.Map<List<InstitutionProfileDetailDto>>(institutions))
+                .Returns(institutions.Select(i => new InstitutionProfileDetailDto { /* map properties accordingly */ }).ToList());
+
+            // Act
+            var result = await _handler.Handle(request, CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.Null(result.Error);
+
+            var response = result.Value;
+            Assert.NotNull(response);
+            Assert.Equal(apiResponse.Data.message, response.reply);
+            Assert.NotNull(response.Doctors);
+            Assert.Equal(doctors.Count, response.Doctors.Count);
+        }
+
+        [Fact]
+        public async Task Handle_WithErrorResponse_ReturnsUnsuccessfulResponseWithError()
         {
             // Arrange
             var requestDto = new ChatRequestDto
             {
-                isNewChat = false,
-                // Set other properties as needed
+                message = "Emergency!",
+                Address = "pokahggd",
+                isNewChat = true
             };
 
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            var mockMapper = new Mock<IMapper>();
-            var mockChatRequestSender = MockChatRequestSender.GetChatRequestSender();
+            var apiError = new Error { message = "Error occurred while processing the request." };
+            var apiResponse = new ApiResponseDto { Data = null, Error = apiError };
 
-            var handler = new ChatRequestQueryHandler(mockUnitOfWork.Object, mockMapper.Object, mockChatRequestSender.Object);
-
-            var query = new ChatRequestQuery
-            {
-                ChatRequestDto = requestDto
-            };
+            _chatRequestSenderMock.Setup(mock => mock.SendMessage(requestDto)).ReturnsAsync(apiResponse);
 
             // Act
-            var result = await handler.Handle(query, CancellationToken.None);
+            var result = await _handler.Handle(new ChatRequestQuery { ChatRequestDto = requestDto }, CancellationToken.None);
 
             // Assert
-            Assert.True(result.IsSuccess);
-            Assert.NotNull(result.Value);
-            Assert.Equal("Reply to the existing chat.", result.Value.reply);
-            Assert.Empty(result.Value.Doctors);
-            Assert.Empty(result.Value.Institutions);
+            Assert.False(result.IsSuccess);
+            Assert.Equal(apiError.message, result.Error);
+            Assert.Null(result.Value);
 
-            mockChatRequestSender.Verify(sender => sender.SendMessage(requestDto), Times.Once);
-            mockUnitOfWork.Verify(uow => uow.DoctorProfileRepository.FilterDoctors(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()), Times.Never);
-            mockUnitOfWork.Verify(uow => uow.InstitutionProfileRepository.GetMainInstitutionsForDoctors(It.IsAny<IEnumerable<DoctorProfile>>()), Times.Never);
+            _chatRequestSenderMock.Verify(mock => mock.SendMessage(requestDto), Times.Once);
+            _unitOfWorkMock.Verify(mock => mock.DoctorProfileRepository.FilterDoctors(Guid.Empty, It.IsAny<List<string>>(), -1, null), Times.Never);
+             _mapperMock.Verify(mock => mock.Map<List<DoctorProfileDetailDto>>(It.IsAny<List<DoctorProfile>>()), Times.Never);
+             _mapperMock.Verify(mock => mock.Map<List<InstitutionProfileDetailDto>>(It.IsAny<IEnumerable<InstitutionProfile>>()), Times.Never);
         }
     }
 }
