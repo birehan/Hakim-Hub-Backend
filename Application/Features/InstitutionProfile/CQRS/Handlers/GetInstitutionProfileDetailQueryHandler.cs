@@ -21,7 +21,6 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
         public async Task<Result<InstitutionProfileDetailDto>> Handle(GetInstitutionProfileDetailQuery request, CancellationToken cancellationToken)
         {
             var InstitutionProfile = await _unitOfWork.InstitutionProfileRepository.GetPopulatedInstitution(request.Id);
-
             if (InstitutionProfile == null) return Result<InstitutionProfileDetailDto>.Failure(error: "Item not found.");
 
             return Result<InstitutionProfileDetailDto>.Success(_mapper.Map<InstitutionProfileDetailDto>(InstitutionProfile));

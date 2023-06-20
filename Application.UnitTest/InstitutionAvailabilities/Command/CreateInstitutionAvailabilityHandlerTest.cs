@@ -79,7 +79,6 @@ public async Task Handle_InvalidRequest_ShouldReturnFailureResultWithError()
 
     // Act
     var result = await handler.Handle(command, CancellationToken.None);
-    Console.WriteLine(result.Value);
 
     // Assert
     

@@ -241,7 +241,7 @@ public class CreateDoctorProfileCommandHandlerTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldBe("Doctor Photo must have a valid file extension");
+        result.Error.ShouldBe("photo upload failed");
 
         _mockUnitOfWork.Verify(uow => uow.DoctorProfileRepository.Add(It.IsAny<DoctorProfile>()), Times.Never);
         _mockUnitOfWork.Verify(uow => uow.Save(), Times.Never);

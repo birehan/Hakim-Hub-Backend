@@ -10,10 +10,10 @@ namespace Application.Features.DoctorProfiles.CQRS.Queris
 {
     public class FilterDoctorProfilesQuery : IRequest<Result<List<DoctorProfileDetailDto>>>
     {
-        public string? SpecialityName { get; set; }
+        public ICollection<string>? SpecialityNames { get; set; }
         public Guid? InstitutionId { get; set; }
-        public int ExperienceYears { get; set; }
-        public string? EducationName { get; set; }
+        public int ExperienceYears { get; set; } = -1;
+        public string? EducationName { get; set; } 
     }
 
 }

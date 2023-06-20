@@ -7,7 +7,7 @@ using AutoMapper;
 using Moq;
 using Application.Contracts.Persistence;
 using Application.Features.InstitutionProfiles.CQRS.Handlers;
-using Application.Features.Specialities.CQRS.Queries;
+using Application.Features.InstitutionProfiles.CQRS.Queries;
 using Application.Features.InstitutionProfiles.DTOs;
 using Application.Responses;
 using Domain;
@@ -39,7 +39,7 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
             // Arrange
             var query = new InstitutionProfileSearchQuery
             {
-                ServiceName = "Sample Service",
+                ServiceNames = new List<string> {"Sample Service", "Sample Service 2", "Sample Service 3"},
                 OperationYears = 5,
                 OpenStatus = true
             };
@@ -49,18 +49,16 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
                 new InstitutionProfile
                 {
                     Id = Guid.NewGuid(),
-                    InstitutionName = "Institution 1",
-                    // Set other properties accordingly
+                    InstitutionName = "Institution 1"
                 },
                 new InstitutionProfile
                 {
                     Id = Guid.NewGuid(),
-                    InstitutionName = "Institution 2",
-                    // Set other properties accordingly
+                    InstitutionName = "Institution 2"
                 }
             };
 
-            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.Search(query.ServiceName, query.OperationYears, query.OpenStatus))
+            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.Search(query.ServiceNames, query.OperationYears, query.OpenStatus))
                 .ReturnsAsync(institutionProfiles);
 
             // Act
@@ -83,7 +81,7 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
             var query = new InstitutionProfileSearchQuery();
             var institutionProfiles = new List<InstitutionProfile>();
 
-            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.Search(query.ServiceName, query.OperationYears, query.OpenStatus))
+            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.Search(query.ServiceNames, query.OperationYears, query.OpenStatus))
                 .ReturnsAsync(institutionProfiles);
 
             // Act

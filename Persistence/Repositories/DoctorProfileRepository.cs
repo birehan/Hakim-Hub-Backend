@@ -29,13 +29,13 @@ namespace Persistence.Repositories
         public async Task<DoctorProfile> GetDoctorProfileDetail(Guid Id)
         {
             var doctorProfile = await _dbContext.DoctorProfiles
-       .Where(d => d.Id == Id)
-       .Include(d => d.Photo)
-       .Include(d => d.MainInstitution)
-       .Include(d => d.Educations)
-       .Include(d => d.Specialities)
-       .Include(d => d.Experiences)
-       .FirstOrDefaultAsync();
+            .Where(d => d.Id == Id)
+            .Include(d => d.Photo)
+            .Include(d => d.MainInstitution)
+            .Include(d => d.Educations)
+            .Include(d => d.Specialities)
+            .Include(d => d.Experiences)
+            .FirstOrDefaultAsync();
 
 
             return doctorProfile;
@@ -77,29 +77,27 @@ namespace Persistence.Repositories
 
 
 
-        public async Task<List<DoctorProfile>> FilterDoctors(Guid? institutionId, string? specialityName, int experienceYears, string? educationInstitutionName)
+        public async Task<List<DoctorProfile>> FilterDoctors(Guid? institutionId, ICollection<string>? specialityNames, int experienceYears, string? educationInstitutionName)
         {
             // var query = _dbContext.DoctorProfiles.AsQueryable();
 
             IQueryable<DoctorProfile> query = _dbContext.Set<DoctorProfile>()
             .Include(d => d.Photo)
-       .Include(d => d.MainInstitution)
-       .Include(d => d.Educations)
-       .Include(d => d.Specialities)
-       .Include(d => d.Experiences);
+            .Include(d => d.MainInstitution)
+            .Include(d => d.Educations)
+            .Include(d => d.Specialities)
+            .Include(d => d.Experiences);
 
             // Filter by Institution ID
-            if (institutionId != Guid.Empty)
+            if (institutionId != Guid.Empty && institutionId != new Guid())
             {
                 query = query.Where(d => d.Institutions.Any(i => i.Id == institutionId))
                 .Include(d => d.Specialities).Include(e => e.Educations);
             }
 
-            if (!string.IsNullOrEmpty(specialityName))
+            if (specialityNames != null && specialityNames.Any())
             {
-
-                query = query.Where(d => d.Specialities.Any(s => s.Name == specialityName));
-                Console.WriteLine(query);
+                query = query.Where(x => x.Specialities.Any(Speciality => specialityNames.Contains(Speciality.Name)));
             }
 
             if (!string.IsNullOrEmpty(educationInstitutionName))
@@ -107,7 +105,7 @@ namespace Persistence.Repositories
                 query = query.Where(d => d.Educations.Any(e => e.EducationInstitution == educationInstitutionName));
             }
 
-            if (experienceYears > 0)
+            if (experienceYears >= 0)
             {
                 DateTime startDate = DateTime.Today.AddYears(-experienceYears);
                 query = query.Where(x => x.CareerStartTime <= startDate);
@@ -119,7 +117,6 @@ namespace Persistence.Repositories
             // }
 
             var filteredDoctors = await query.ToListAsync();
-
             return filteredDoctors;
 
 

@@ -25,7 +25,8 @@ namespace Persistence.Repositories
                 .Include(x => x.Banner)
                 .Include(x => x.InstitutionAvailability)
                 .Include(x => x.Services)
-                .Include(x => x.Banner).AsNoTracking().ToListAsync();
+                .Include(x => x.Banner)
+                .AsNoTracking().ToListAsync();
         }
 
         public async Task<InstitutionProfile> GetPopulatedInstitution(Guid id)
@@ -60,7 +61,7 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<InstitutionProfile>> Search(string serviceName, int operationYears, bool openStatus)
+        public async Task<List<InstitutionProfile>> Search(ICollection<string> serviceNames, int operationYears, bool openStatus)
         {
             var options = new JsonSerializerOptions
             {
@@ -69,15 +70,28 @@ namespace Persistence.Repositories
             };
 
             IQueryable<InstitutionProfile> query = _dbContext.Set<InstitutionProfile>()
-                .Include(x => x.Services)
-                    .ThenInclude(s => s.Institutions)
-                .Include(x => x.InstitutionAvailability)
+                .Include(x => x.Address)
                 .Include(x => x.Logo)
-                .Include(x => x.Banner);
+                .Include(x => x.Banner)
+                .Include(x => x.Services)
+                .Include(x => x.Photos)
+                .Include(x => x.InstitutionAvailability)
+                .Include(x => x.Doctors)
+                    .ThenInclude(doctor => doctor.Photo) // Include the Photo of each Doctor
+                .Include(x => x.Doctors)
+                    .ThenInclude(doctor => doctor.Specialities);
 
-            if (!string.IsNullOrEmpty(serviceName))
+            // if (serviceNames != null && serviceNames.Any())
+            // {
+            //     query = query.Where(x => x.Services.Any(service => serviceNames.Contains(service.ServiceName)));
+            // }
+
+            foreach (string serviceName in serviceNames)
             {
-                query = query.Where(x => x.Services.Any(service => service.ServiceName == serviceName));
+                if (!string.IsNullOrEmpty(serviceName))
+                {
+                    query = query.Where(x => x.Services.Any(service => service.ServiceName == serviceName));
+                }
             }
 
             if (operationYears > 0)
@@ -125,7 +139,8 @@ namespace Persistence.Repositories
                 .Include(x => x.Services)
                 .Include(x => x.InstitutionAvailability)
                 .Include(x => x.Logo)
-                .Include(x => x.Banner);
+                .Include(x => x.Banner)
+                .Include(x => x.Address);
 
             if (!string.IsNullOrEmpty(institutionName))
             {
