@@ -36,7 +36,10 @@ namespace Application.Profiles
 
             CreateMap<CreateInstitutionAvailabilityDto, InstitutionAvailability>().ReverseMap();
             CreateMap<UpdateInstitutionAvailabilityDto, InstitutionAvailability>().ReverseMap();
-            CreateMap<InstitutionAvailability, InstitutionAvailabilityDto>();
+            CreateMap<InstitutionAvailability, InstitutionAvailabilityDto>()
+            .ForMember(dest => dest.StartDay, opt => opt.MapFrom(src => src.StartDay.ToString()))
+            .ForMember(dest => dest.EndDay, opt => opt.MapFrom(src => src.EndDay.ToString()))
+            .ReverseMap();
 
             CreateMap<CreateInstitutionProfileDto, InstitutionProfile>().ReverseMap();
             CreateMap<UpdateInstitutionProfileDto, InstitutionProfile>().ReverseMap();
@@ -60,6 +63,8 @@ namespace Application.Profiles
                dest => dest.Photos,
                opt => opt.MapFrom(src => src.Photos.Select(photo => photo.Url).ToList())
            )
+                       .ForMember(dest => dest.InstitutionAvailability, opt => opt.MapFrom(src => src.InstitutionAvailability))
+
            .ReverseMap();
 
             CreateMap<DoctorProfile, InstitutionDoctorDto>()

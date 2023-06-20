@@ -18,7 +18,9 @@ namespace Application.Features.InstitutionProfiles.DTOs
         public double Rate { get; set; }
 
         public bool Status { get; set; }
-        public ICollection<EducationalInstitutionDto> EducationalInstitutions;
+        public ICollection<EducationalInstitutionDto> AllEducationalInstitutions;
+        public ICollection<string> AllSpecialities { get; set; }
+
         public string LogoUrl { get; set; }
         public string BannerUrl { get; set; }
 

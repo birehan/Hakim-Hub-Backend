@@ -15,8 +15,5 @@ namespace Application.Features.Addresses.DTOs
         public double Latitude { get; set; }
         public string Summary { get; set; }
 
-
-        public string InstitutionId { get; set; }
-
     }
 }
