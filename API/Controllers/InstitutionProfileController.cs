@@ -49,10 +49,10 @@ namespace API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("search-institutions")]
-        public async Task<IActionResult> Search(string? serviceName = null, int operationYears = -1, bool openStatus = false)
+        [HttpPost("search-institutions")]
+        public async Task<IActionResult> Search(ICollection<string>? serviceName = null, int operationYears = -1, bool openStatus = false)
         {
-            return HandleResult(await _mediator.Send(new InstitutionProfileSearchQuery { ServiceName = serviceName, OperationYears = operationYears, OpenStatus = openStatus }));
+            return HandleResult(await _mediator.Send(new InstitutionProfileSearchQuery { ServiceNames = serviceName, OperationYears = operationYears, OpenStatus = openStatus }));
         }
 
         [AllowAnonymous]
@@ -62,7 +62,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(new InstitutionProfileSearchByNameQuery { Name = Name }));
         }
 
-        [AllowAnonymous]
+        
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] CreateInstitutionProfileDto createTask)
         {
@@ -70,7 +70,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        [AllowAnonymous]
+       
         [HttpPatch("{id}")]
         public async Task<IActionResult> Put([FromForm] UpdateInstitutionProfileDto InstitutionProfileDto, Guid id)
         {
@@ -79,7 +79,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        [AllowAnonymous]
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {

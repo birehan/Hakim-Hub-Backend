@@ -39,12 +39,11 @@ public class GetDoctorProfileDetailQueryHandlerTests
             Id = doctorProfileId,
             FullName = "Dr. Emily Johnson",
             About = "Compassionate and dedicated doctor",
-            Gender = DoctorProfile.GenderType.Female,
+            Gender = "Female",
             Email = "emily.johnson@example.com",
-            PhotoId = "photo3",
-            CareerStartTime = DateTime.Parse("2022-06-10T09:15:26.533993Z"),
+            PhotoUrl = "photo3",
             MainInstitutionId = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3305"),
-
+            YearsOfExperience = 2
         };
 
         var query = new GetDoctorProfileDetialQuery { Id = doctorProfileId };
@@ -60,8 +59,6 @@ public class GetDoctorProfileDetailQueryHandlerTests
         result.Value.About.ShouldBe(expectedDoctorProfile.About);
         result.Value.Gender.ShouldBe(expectedDoctorProfile.Gender);
         result.Value.Email.ShouldBe(expectedDoctorProfile.Email);
-        result.Value.PhotoId.ShouldBe(expectedDoctorProfile.PhotoId);
-        result.Value.CareerStartTime.ShouldBe(expectedDoctorProfile.CareerStartTime);
         result.Value.MainInstitutionId.ShouldBe(expectedDoctorProfile.MainInstitutionId);
     }
 

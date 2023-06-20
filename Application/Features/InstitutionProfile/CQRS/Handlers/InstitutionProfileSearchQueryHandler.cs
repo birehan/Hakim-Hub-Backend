@@ -1,6 +1,6 @@
 using AutoMapper;
 using Application.Contracts.Persistence;
-using Application.Features.Specialities.CQRS.Queries;
+using Application.Features.InstitutionProfiles.CQRS.Queries;
 using Application.Responses;
 using MediatR;
 using Application.Features.InstitutionProfiles.DTOs;
@@ -20,7 +20,7 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
 
         public async Task<Result<List<InstitutionProfileDto>>> Handle(InstitutionProfileSearchQuery request, CancellationToken cancellationToken)
         {
-            var InstitutionProfiles = await _unitOfWork.InstitutionProfileRepository.Search(request.ServiceName, request.OperationYears, request.OpenStatus);
+            var InstitutionProfiles = await _unitOfWork.InstitutionProfileRepository.Search(request.ServiceNames, request.OperationYears, request.OpenStatus);
 
             if (InstitutionProfiles == null) return null;
 
