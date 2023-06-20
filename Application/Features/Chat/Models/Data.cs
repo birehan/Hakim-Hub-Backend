@@ -1,4 +1,3 @@
-namespace Application.Features.Chat.Models;
 
 public class Data
 {
