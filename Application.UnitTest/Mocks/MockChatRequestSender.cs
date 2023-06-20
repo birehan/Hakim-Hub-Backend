@@ -1,45 +1,81 @@
+// // using Application.Contracts.Infrastructure;
+// using Application.Contracts.Infrastructure;
+// using Application.Features.Chat.DTOs;
+// using Moq;
+// using System.Threading.Tasks;
+
+// namespace Application.UnitTest.Features.Chat.Mocks
+// {
+//     public static class MockChatRequestSender
+//     {
+//         public static Mock<IChatRequestSender> GetChatRequestSender(ApiResponseDto apiResponse)
+//         {
+//             var mockSender = new Mock<IChatRequestSender>();
+
+//             mockSender.Setup(sender =>
+//                 sender.SendMessage(It.IsAny<ChatRequestDto>())).ReturnsAsync(apiResponse);
+
+//             return mockSender;
+//         }
+//     }
+// }
+
+
 using Application.Contracts.Infrastructure;
-using Application.Features.Chat.CQRS.Queries;
 using Application.Features.Chat.DTOs;
-using Application.Responses;
+using Application.Features.Chat.Models;
 using Moq;
 using System.Threading.Tasks;
 
-namespace Application.UnitTest.Mocks
+namespace Application.Tests.Mocks.Infrastructure
 {
-    public static class MockChatRequestSender
+    public static class ChatRequestSenderMockFactory
     {
-        public static Mock<IChatRequestSender> GetChatRequestSender()
+        public static Mock<IChatRequestSender> Create()
         {
-            var mockSender = new Mock<IChatRequestSender>();
+            var mock = new Mock<IChatRequestSender>();
 
-            mockSender.Setup(sender => sender.SendMessage(It.IsAny<ChatRequestDto>()))
-                .ReturnsAsync((ChatRequestDto requestDto) =>
+            // Mock the SendMessage method
+            mock.Setup(sender => sender.SendMessage(It.IsAny<ChatRequestDto>()))
+                .ReturnsAsync((ChatRequestDto request) =>
                 {
-                    var response = new Result<ApiResponse>();
+                    // Simulate the API response based on the request
+                    var response = new ApiResponseDto();
 
-                    // Simulate the behavior based on isNewChat flag
-                    if (requestDto.isNewChat)
+                    if (request.message == "hi")
                     {
-                        response.Value = new ChatApiResponse
+                        response.Data = new Data
                         {
-                            message = "Welcome to the chat!",
-                            specializations = new[] { "Specialization 1", "Specialization 2" }
+                            message = "Hello! How can I assist you today?",
+                            specializations = new List<string>()
                         };
+                        response.Error = null;
+                    }
+                    else if (request.message == "I am sick")
+                    {
+                        response.Data = new Data
+                        {
+                            message = "Based on your symptoms...",
+                            specializations = new List<string> { "General Practitioner" }
+                        };
+                        response.Error = null;
+                    }
+                    else if (request.message == "Emergency!")
+                    {
+                        response.Data = null;
+                        response.Error = new Error { message = "Error occurred while processing the request." };
                     }
                     else
                     {
-                        response.Value = new ChatApiResponse
-                        {
-                            message = "Reply to the existing chat.",
-                            specializations = new string[] { }
-                        };
+                        response.Data = null;
+                        response.Error = null;
                     }
 
                     return response;
                 });
 
-            return mockSender;
+            return mock;
         }
     }
 }
+
