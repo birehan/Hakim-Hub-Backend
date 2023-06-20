@@ -95,7 +95,7 @@ namespace Persistence.Repositories
                 .Include(d => d.Specialities).Include(e => e.Educations);
             }
 
-            if (!string.IsNullOrEmpty(specialityName))
+            if (specialityName != null)
             {
 
                 query = query.Where(d => d.Specialities.Any(s => s.Name == specialityName));
