@@ -1,21 +1,73 @@
+using Application.Contracts.Infrastructure;
+using Application.Contracts.Persistence;
+using Application.Features.Chat.CQRS.Queries;
+using Application.Features.Chat.DTOs;
+using Application.Features.DoctorProfiles.DTOs;
+using Application.Features.InstitutionProfiles.DTOs;
+using Application.Responses;
+using AutoMapper;
+using Domain;
+using MediatR;
+
 namespace Application.Features.Chat.CQRS.Handlers;
 
-public class ChatRequestQueryHandler
+public class ChatRequestQueryHandler: IRequestHandler<ChatRequestQuery, Result<ChatResponseDto>>
 {
-    // chat response mekebel
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+    private readonly IChatRequestSender _chatRequestSender;
 
 
-    // send request to henok's api and get api response? infrastrucutre
 
 
-    // format response
-    // if error done
+    public ChatRequestQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IChatRequestSender chatRequestSender)
+    {
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+        _chatRequestSender = chatRequestSender;
+    }
 
-    // if data reply message
+    public async Task<Result<ChatResponseDto>> Handle(ChatRequestQuery request, CancellationToken cancellationToken)
+    {
 
-    // hospital = repository calling ?
+        // create the response
+        var response = new Result<ChatResponseDto>();
 
-    // doctor = repository calling
+        // send request to henok's api and get api response? infrastrucutre
+        var ApiResponse = await _chatRequestSender.SendMessage(request.ChatRequestDto);
 
+        // if error occured
+        if(ApiResponse.Error != null)
+        {
+            response.Error = ApiResponse.Error.message;
+            response.IsSuccess = false;
+            return response;
+        }
+
+
+        // if data reply message
+        response.IsSuccess = true;
+        
+        var chatResponse = new ChatResponseDto
+        {
+            reply = ApiResponse.Data.message
+        };
+
+        if (ApiResponse.Data.specializations.Any())
+        {
+            // doctor = repository calling
+            var specialization = ApiResponse.Data.specializations[0];
+            var Doctors = await _unitOfWork.DoctorProfileRepository.FilterDoctors(Guid.Empty, specialization, -1, null);
+            chatResponse.Doctors = _mapper.Map<List<DoctorProfileDetailDto>>(Doctors);
+
+            // hospital = repository calling
+            var Institutions = Doctors.Select(d => d.MainInstitution).Distinct();
+            chatResponse.Institutions = _mapper.Map<List<InstitutionProfileDetailDto>>(Institutions);
+        }
+
+        response.Value = chatResponse;
+        return response;
+  
+    }
 
 }
