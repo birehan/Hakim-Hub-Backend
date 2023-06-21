@@ -156,9 +156,16 @@ namespace Application.Profiles
                 return "Open"; // Always open if 24 hours
             }
 
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            Console.WriteLine(availability.EndDay);
+            Console.WriteLine(currentDay);
+            Console.WriteLine(currentDay <= availability.EndDay);
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             // Check if the current day is within the availability range
-            if (currentDay >= availability.StartDay && currentDay <= availability.EndDay)
+            
+            if (currentDay >= availability.StartDay && (availability.EndDay == DayOfWeek.Sunday || currentDay <= availability.EndDay))
             {
+                
                 // Get the current time
                 TimeSpan currentTime = DateTime.Now.TimeOfDay;
 
