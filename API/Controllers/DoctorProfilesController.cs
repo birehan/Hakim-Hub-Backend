@@ -29,6 +29,14 @@ namespace API.Controllers
 
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ActionResult<Result<List<DoctorProfileDto>>>> GetAllDoctors(){
+            var query = new GetDoctorProfileListQuery();
+            var response = await Mediator.Send(query);
+            return HandleResult<List<DoctorProfileDto>>(response);
+        } 
+
 
         [HttpGet("specialities/{specialityId}")]
         public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesBySpecialityID(Guid specialityId)
