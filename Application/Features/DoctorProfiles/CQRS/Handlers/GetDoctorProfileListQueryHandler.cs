@@ -21,7 +21,7 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
         {
             var response = new Result<List<DoctorProfileDto>>();
             var doctorProfiles = await _unitOfWork.DoctorProfileRepository.GetAll();
-            if (doctorProfiles is null || doctorProfiles.Count == 0)
+            if (doctorProfiles is null)
             {
                 response.IsSuccess = false;
                 response.Error = "No doctor profile";
