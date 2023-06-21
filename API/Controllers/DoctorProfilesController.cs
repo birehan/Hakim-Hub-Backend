@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Features.DoctorProfiles.CQRS.Commands;
 using Application.Features.DoctorProfiles.CQRS.Queris;
 using Application.Features.DoctorProfiles.DTOs;
+using Application.Features.InstitutionProfiles.DTOs;
 using Application.Responses;
 using Domain;
 using MediatR;
@@ -38,7 +39,7 @@ namespace API.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<List<DoctorProfileDetailDto>>> FilterDoctors(ICollection<string>? specialityNames = null, string? educationName = "", int experienceYears = -1, Guid institutionId = new Guid())
+        public async Task<ActionResult<List<InstitutionDoctorDto>>> FilterDoctors(ICollection<string>? specialityNames = null, string? educationName = "", int experienceYears = -1, Guid institutionId = new Guid())
         {
             var query = new FilterDoctorProfilesQuery
             {
@@ -48,7 +49,7 @@ namespace API.Controllers
                 InstitutionId = institutionId
             };
             var response = await Mediator.Send(query);
-            return HandleResult<List<DoctorProfileDetailDto>>(response);
+            return HandleResult<List<InstitutionDoctorDto>>(response);
         }
         [HttpPost("createDoctorProfile")]
         public async Task<ActionResult<Guid>> Post([FromForm] CreateDoctorProfileDto createDoctorProfileDto)
