@@ -41,7 +41,7 @@ public class CreateEducationCommandHandlerTest
             FieldOfStudy = "Oncology",
             Degree = "Bachelors",
             DoctorId = Guid.NewGuid(),
-            EducationInstitutionLogoId = "Oxford Campus",
+            // EducationInstitutionLogoId = "Oxford Campus",
         };
 
         _handler = new CreateEducationCommandHandler(_mockUnitOfWork.Object, _mapper, _mockPhotoAccessor.Object);
@@ -54,10 +54,9 @@ public class CreateEducationCommandHandlerTest
         var photo = new PhotoUploadResult { PublicId = Guid.NewGuid().ToString(), Url = "photo-public-id" };
         _mockPhotoAccessor.Setup(pa => pa.AddPhoto(It.IsAny<IFormFile>())).ReturnsAsync(photo);
 
-        createEducationDto.EducationInstitutionLogoId = photo.PublicId;
+        // createEducationDto.EducationInstitutionLogoId = photo.PublicId;
         var result = await _handler.Handle(new CreateEducationCommand() {createEducationDto = createEducationDto}, CancellationToken.None);
         Assert.IsType<CreateEducationDto>(result.Value);
-        // Console.WriteLine("result", result);
         result.IsSuccess.ShouldBeTrue();
         result.Value.EducationInstitution.ShouldBeEquivalentTo(createEducationDto.EducationInstitution);
         result.Value.Degree.ShouldBeEquivalentTo(createEducationDto.Degree);

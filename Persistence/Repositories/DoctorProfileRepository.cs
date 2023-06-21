@@ -33,6 +33,7 @@ namespace Persistence.Repositories
             .Include(d => d.Photo)
             .Include(d => d.MainInstitution)
             .Include(d => d.Educations)
+                .ThenInclude(p => p.EducationInstitutionLogo)
             .Include(d => d.Specialities)
             .Include(d => d.Experiences)
             .FirstOrDefaultAsync();

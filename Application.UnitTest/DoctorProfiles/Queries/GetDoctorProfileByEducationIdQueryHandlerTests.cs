@@ -41,7 +41,7 @@ namespace Application.UnitTest.DoctorProfiles.Queries
 
                 Id = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3304"),
                 FullName = "Dr. Emily Johnson",
-                CareerStartTime =DateTime.Parse("2022-06-10T09:15:26.533993Z"),
+                YearsOfExperience = 0,
                 MainInstitutionId = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3305"),
             }
             };
@@ -57,8 +57,8 @@ namespace Application.UnitTest.DoctorProfiles.Queries
             {
                 result.Value[i].FullName = expectedoctorProfile[i].FullName;
                 result.Value[i].Id = expectedoctorProfile[i].Id;
-                result.Value[i].photoId = expectedoctorProfile[i].photoId;
-                result.Value[i].CareerStartTime = expectedoctorProfile[i].CareerStartTime;
+                // result.Value[i].photoId = expectedoctorProfile[i].photoId;
+                result.Value[i].YearsOfExperience = expectedoctorProfile[i].YearsOfExperience;
                 result.Value[i].MainInstitutionId = expectedoctorProfile[i].MainInstitutionId;
             }
         }
@@ -78,8 +78,8 @@ namespace Application.UnitTest.DoctorProfiles.Queries
             { new DoctorProfileDto{
                 Id = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3308"),
                 FullName = "Dr. Sophia Miller",
-                photoId = "photo4",
-                CareerStartTime = DateTime.Parse("2022-01-01T00:00:00Z"),
+                PhotoUrl = "photo4",
+                YearsOfExperience = 0,
                 MainInstitutionId = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3307"),
             }
             };

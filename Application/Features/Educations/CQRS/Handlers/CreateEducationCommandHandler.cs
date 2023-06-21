@@ -43,7 +43,7 @@ public class CreateEducationCommandHandler: IRequestHandler<CreateEducationComma
         // if adding the photo fails return photo parsing failed response
         if (institutionLogoFile != null){
            
-            request.createEducationDto.EducationInstitutionLogoId = institutionLogoFile.PublicId;
+            // request.createEducationDto.EducationInstitutionLogoId = institutionLogoFile.PublicId;
             var education = _mapper.Map<Education>(request.createEducationDto);
             education.EducationInstitutionLogo  = new Photo
             {

@@ -44,8 +44,8 @@ namespace Application.UnitTest.DoctorProfiles.Queries
             { new DoctorProfileDto{
                 Id = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3308"),
                 FullName = "Dr. Sophia Miller",
-                photoId = "photo4",
-                CareerStartTime = DateTime.Parse("2022-01-01T00:00:00Z"),
+                PhotoUrl = "photo4",
+                YearsOfExperience = 0,
                 MainInstitutionId = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3307"),
             }
             };
@@ -60,8 +60,8 @@ namespace Application.UnitTest.DoctorProfiles.Queries
             for(var i = 0;i< result.Value.Count;i++ ){
                 result.Value[i].FullName = expectedoctorProfile[i].FullName;
                 result.Value[i].Id = expectedoctorProfile[i].Id;
-                result.Value[i].photoId = expectedoctorProfile[i].photoId;
-                result.Value[i].CareerStartTime = expectedoctorProfile[i].CareerStartTime;
+                result.Value[i].PhotoUrl = expectedoctorProfile[i].PhotoUrl;
+                result.Value[i].YearsOfExperience = expectedoctorProfile[i].YearsOfExperience;
                 result.Value[i].MainInstitutionId = expectedoctorProfile[i].MainInstitutionId;
             }
         }

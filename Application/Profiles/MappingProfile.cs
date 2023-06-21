@@ -27,7 +27,13 @@ namespace Application.Profiles
 
             CreateMap<CreateEducationDto, Education>().ReverseMap();
             CreateMap<UpdateEducationDto, Education>().ReverseMap();
-            CreateMap<Education, EducationDto>().ReverseMap();
+            CreateMap<Education, EducationDto>()
+            .ForMember(x => x.EducationInstitutionLogoUrl, o => o.MapFrom(s => s.EducationInstitutionLogo.Url))
+            .ReverseMap();
+            CreateMap<Education, EducationalInstitutionDto>()
+            .ForMember(x => x.LogoUrl, o => o.MapFrom(s => s.EducationInstitutionLogo.Url))
+            .ForMember(x => x.InstitutionName, o => o.MapFrom(s => s.EducationInstitution))
+            .ReverseMap();
             CreateMap<Education, GetEducationInstitutionNameAndLogoDto>().ReverseMap();
 
             CreateMap<CreateDoctorAvailabilityDto, DoctorAvailability>().ReverseMap();
@@ -36,7 +42,11 @@ namespace Application.Profiles
 
             CreateMap<CreateInstitutionAvailabilityDto, InstitutionAvailability>().ReverseMap();
             CreateMap<UpdateInstitutionAvailabilityDto, InstitutionAvailability>().ReverseMap();
-            CreateMap<InstitutionAvailability, InstitutionAvailabilityDto>();
+            CreateMap<InstitutionAvailability, InstitutionAvailabilityDto>()
+            .ForMember(dest => dest.StartDay, opt => opt.MapFrom(src => src.StartDay.ToString()))
+            .ForMember(dest => dest.EndDay, opt => opt.MapFrom(src => src.EndDay.ToString()))
+            .ReverseMap();
+            
 
             CreateMap<CreateInstitutionProfileDto, InstitutionProfile>().ReverseMap();
             CreateMap<UpdateInstitutionProfileDto, InstitutionProfile>().ReverseMap();
@@ -47,6 +57,7 @@ namespace Application.Profiles
                 dest => dest.Services,
                 opt => opt.MapFrom(src => src.Services.Select(service => service.ServiceName).ToList())
             )
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => ComputeOpenCloseStatus(src.InstitutionAvailability)))
             .ReverseMap();
 
             CreateMap<InstitutionProfile, InstitutionProfileDetailDto>()
@@ -56,14 +67,18 @@ namespace Application.Profiles
                dest => dest.Services,
                opt => opt.MapFrom(src => src.Services.Select(service => service.ServiceName).ToList())
            )
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => ComputeOpenCloseStatus(src.InstitutionAvailability)))
             .ForMember(
                dest => dest.Photos,
                opt => opt.MapFrom(src => src.Photos.Select(photo => photo.Url).ToList())
            )
+                       .ForMember(dest => dest.InstitutionAvailability, opt => opt.MapFrom(src => src.InstitutionAvailability))
+
            .ReverseMap();
 
             CreateMap<DoctorProfile, InstitutionDoctorDto>()
             .ForMember(x => x.PhotoUrl, o => o.MapFrom(s => s.Photo.Url))
+            .ForMember(x => x.MainInstitutionName, o => o.MapFrom(s => s.MainInstitution.InstitutionName))
 
              .ForMember(
                dest => dest.Specialities,
@@ -80,13 +95,23 @@ namespace Application.Profiles
 
             CreateMap<CreateExperienceDto, Experience>().ReverseMap();
             CreateMap<UpdateExperienceDto, Experience>().ReverseMap();
-            CreateMap<Experience, ExperienceDto>();
+            CreateMap<Experience, ExperienceDto>()
+            .ForMember(x => x.InstitutionName, o => o.MapFrom(s => s.Institution.InstitutionName))
+            .ReverseMap();
 
             CreateMap<CreateServiceDto, Service>().ReverseMap();
             CreateMap<UpdateServiceDto, Service>().ReverseMap();
             CreateMap<ServiceDto, Service>().ReverseMap();
 
-            CreateMap<DoctorProfile, DoctorProfileDto>().ReverseMap();
+            CreateMap<DoctorProfile, DoctorProfileDto>()
+            .ForMember(x => x.PhotoUrl, o => o.MapFrom(s => s.Photo.Url))
+            .ForMember(x => x.MainInstitutionName, o => o.MapFrom(s => s.MainInstitution.InstitutionName))
+            .ForMember(dest => dest.YearsOfExperience, opt => opt.MapFrom(src => CalculateYearsOfExperience(src.CareerStartTime)))
+            .ForMember(
+               dest => dest.Specialities,
+               opt => opt.MapFrom(src => src.Specialities.Select(Speciality => Speciality.Name).ToList())
+           )
+            .ReverseMap();
             CreateMap<DoctorProfile, DoctorProfileDetailDto>()
             .ForMember(x => x.PhotoUrl, o => o.MapFrom(s => s.Photo.Url))
             .ForMember(x => x.MainInstitutionName, o => o.MapFrom(s => s.MainInstitution.InstitutionName))
@@ -119,6 +144,38 @@ namespace Application.Profiles
 
             return years + randomYears;
         }
+
+        public string ComputeOpenCloseStatus(InstitutionAvailability availability)
+        {
+            // Get the current day of the week
+            DayOfWeek currentDay = DateTime.Now.DayOfWeek;
+
+            // Check if the institution is open 24 hours
+            if (availability.TwentyFourHours)
+            {
+                return "Open"; // Always open if 24 hours
+            }
+
+            // Check if the current day is within the availability range
+            if (currentDay >= availability.StartDay && currentDay <= availability.EndDay)
+            {
+                // Get the current time
+                TimeSpan currentTime = DateTime.Now.TimeOfDay;
+
+                // Parse the opening and closing times
+                TimeSpan openingTime = TimeSpan.Parse(availability.Opening);
+                TimeSpan closingTime = TimeSpan.Parse(availability.Closing);
+
+                // Check if the current time is within the opening and closing times
+                if (currentTime >= openingTime && currentTime <= closingTime)
+                {
+                    return "Open"; // Open
+                }
+            }
+
+            return "Close"; // Closed
+        }
+
 
     }
 }

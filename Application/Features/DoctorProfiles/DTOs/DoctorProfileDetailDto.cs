@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Features.Common;
+using Application.Features.Educations.DTOs;
+using Application.Features.Experiences.DTOs;
 using Domain;
 using static Domain.DoctorProfile;
 
@@ -21,8 +23,8 @@ namespace Application.Features.DoctorProfiles.DTOs
 
         public ICollection<string> Specialities { get; set; } = new List<string>();
 
-        public ICollection<Education> Educations { get; set; } = new List<Education>();
-        public ICollection<Experience> Experiences { get; set; } = new List<Experience>();
+        public ICollection<EducationDto> Educations { get; set; } = new List<EducationDto>();
+        public ICollection<ExperienceDto> Experiences { get; set; } = new List<ExperienceDto>();
 
 
     }

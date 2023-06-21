@@ -47,7 +47,6 @@ public class DeleteEducationCommandHandlerTest
             FieldOfStudy = "Oncology",
             Degree = "Bachelors",
             DoctorId = Guid.NewGuid(),
-            EducationInstitutionLogoId = "Oxford Campus"
         };
 
         _createHandler = new CreateEducationCommandHandler(_mockUnitOfWork.Object, _mapper, _mockPhotoAccessor.Object);

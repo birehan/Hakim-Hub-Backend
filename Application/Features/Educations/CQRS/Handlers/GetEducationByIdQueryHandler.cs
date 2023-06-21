@@ -20,7 +20,7 @@ public class GetEducationByIdQueryHandler : IRequestHandler<GetEducationDetailQu
 
     public async Task<Result<EducationDto>> Handle(GetEducationDetailQuery request, CancellationToken cancellationToken)
     {
-        var education = await _unitOfWork.EducationRepository.Get(request.Id);
+        var education = await _unitOfWork.EducationRepository.GetPopulated(request.Id);
         var response = new Result<EducationDto>();
         if (education == null)
         {

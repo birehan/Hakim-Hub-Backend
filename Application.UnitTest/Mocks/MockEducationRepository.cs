@@ -34,6 +34,7 @@ public class MockEducationRepository
         var mockRepository = new Mock<IEducationRepository>();
 
         mockRepository.Setup(r => r.GetAll()).ReturnsAsync(educations);
+        mockRepository.Setup(r => r.GetAllPopulated()).ReturnsAsync(educations);
 
         mockRepository.Setup(r => r.Add(It.IsAny<Education>())).ReturnsAsync((Education edu) =>
         {

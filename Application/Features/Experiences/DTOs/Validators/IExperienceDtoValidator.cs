@@ -28,9 +28,7 @@ public class IExperienceDtoValidator : AbstractValidator<IExperienceDto>
                 .NotEmpty().WithMessage("End date is required.")
                 .GreaterThanOrEqualTo(dto => dto.StartDate).WithMessage("End date must be after or equal to start date.");
 
-            RuleFor(x => x.DoctorId)
-                .NotEmpty().WithMessage("Doctor ID is required.");
-
+            
             RuleFor(x => x.InstitutionId)
                 .NotEmpty().WithMessage("Institution ID is required.");
 

@@ -7,7 +7,7 @@ namespace Application.Features.InstitutionProfiles.DTOs
     public class EducationalInstitutionDto
     {
         public string InstitutionName { get; set; }
-        public string Logo { get; set; }
+        public string? LogoUrl { get; set; }
     
     }
 }
