@@ -50,9 +50,10 @@ public class GetEducationDetailCommandHandlerTest
             // EducationInstitutionLogoId = "Belford Campus"
         };
 
-        _mockUnitOfWork.Setup(uow => uow.EducationRepository.Get(educationId)).ReturnsAsync(education);
+        _mockUnitOfWork.Setup(uow => uow.EducationRepository.GetPopulated(educationId)).ReturnsAsync(education);
         _mapper.Setup(mapper => mapper.Map<EducationDto>(education)).Returns(educationDto);
         var result = await _handler.Handle(new GetEducationDetailQuery() { Id = educationDto.Id }, CancellationToken.None);
+
         result.ShouldNotBe(null);
         Assert.IsType<Result<EducationDto>>(result);
         Assert.IsType<EducationDto>(result.Value);
