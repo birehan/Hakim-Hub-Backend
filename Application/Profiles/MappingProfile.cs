@@ -123,10 +123,8 @@ namespace Application.Profiles
                .ForMember(dest => dest.YearsOfExperience, opt => opt.MapFrom(src => CalculateYearsOfExperience(src.CareerStartTime)))
 
             .ReverseMap();
-            CreateMap<DoctorProfile, CreateDoctorProfileDto>().ReverseMap();
-            CreateMap<DoctorProfile, UpdateDoctorProfileDto>().ReverseMap();
-            CreateMap<CreateDoctorProfileDto, DoctorProfile>().ReverseMap();
-            CreateMap<UpdateDoctorProfileDto, DoctorProfile>().ReverseMap();
+            CreateMap<CreateDoctorProfileDto, DoctorProfile>();
+            CreateMap<UpdateDoctorProfileDto, DoctorProfile>();
 
 
 
