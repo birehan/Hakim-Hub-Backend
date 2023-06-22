@@ -28,7 +28,7 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
 
         public async Task<Result<List<DoctorProfileDto>>> Handle(FilterDoctorProfilesQuery request, CancellationToken cancellationToken)
         {
-            var response = new Result<List<InstitutionDoctorDto>>();
+            var response = new Result<List<DoctorProfileDto>>();
             var doctorProfiles = await _unitOfWork.DoctorProfileRepository.FilterDoctors(request.InstitutionId, request.SpecialityName, request.ExperienceYears, request.EducationName);
             if (doctorProfiles is null)
             {
