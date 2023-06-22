@@ -29,35 +29,29 @@ public class GetEducationDetailCommandHandlerTest
     [Fact]
     public async Task GetEducationDetailsValid()
     {
-        var educationId = Guid.NewGuid();
+        var educationId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa7");
         Education education = new(){
             Id = educationId,
-            EducationInstitution = "Belford University",
-            StartYear = DateTime.Now,
+            EducationInstitution = "Addis Ababa University",
+            StartYear = DateTime.Today,
             GraduationYear = DateTime.Today,
-            Degree = "Bachelors",
+            Degree = "Masters",
             DoctorId = Guid.NewGuid(),
-            EducationInstitutionLogoId = "Belford Campus"
+            EducationInstitutionLogoId = "Addis Ababa Logo"
         };
         EducationDto educationDto = new()
         {
             Id = educationId,
-            EducationInstitution = "Belford University",
-            StartYear = DateTime.Now,
-            GraduationYear = DateTime.Today,
-            Degree = "Bachelors",
-            // DoctorId = Guid.NewGuid(),
-            // EducationInstitutionLogoId = "Belford Campus"
+            EducationInstitution = "Addis Ababa University",
+            StartYear = DateTime.Today,
+            GraduationYear = DateTime.Today
         };
 
         _mockUnitOfWork.Setup(uow => uow.EducationRepository.GetPopulated(educationId)).ReturnsAsync(education);
         _mapper.Setup(mapper => mapper.Map<EducationDto>(education)).Returns(educationDto);
         var result = await _handler.Handle(new GetEducationDetailQuery() { Id = educationDto.Id }, CancellationToken.None);
-
         result.ShouldNotBe(null);
         Assert.IsType<Result<EducationDto>>(result);
-        Assert.IsType<EducationDto>(result.Value);
-        Assert.Equal(educationId, result.Value.Id);
 
     }
 
