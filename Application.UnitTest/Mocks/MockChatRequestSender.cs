@@ -1,26 +1,26 @@
 using Application.Contracts.Infrastructure;
-using Application.Features.Chat.CQRS.Queries;
 using Application.Features.Chat.DTOs;
-using Application.Responses;
+using Application.Features.Chat.Models;
 using Moq;
 using System.Threading.Tasks;
 
-namespace Application.UnitTest.Mocks
+namespace Application.Tests.Mocks.Infrastructure
 {
-    public static class MockChatRequestSender
+    public static class ChatRequestSenderMockFactory
     {
-        public static Mock<IChatRequestSender> GetChatRequestSender()
+        public static Mock<IChatRequestSender> Create()
         {
-            var mockSender = new Mock<IChatRequestSender>();
+            var mock = new Mock<IChatRequestSender>();
 
-            mockSender.Setup(sender => sender.SendMessage(It.IsAny<ChatRequestDto>()))
-                .ReturnsAsync((ChatRequestDto requestDto) =>
+            // Mock the SendMessage method
+            mock.Setup(sender => sender.SendMessage(It.IsAny<ChatRequestDto>()))
+                .ReturnsAsync((ChatRequestDto request) =>
                 {
                     // Simulate the API response based on the request
                     var response = new ApiResponseDto();
                     if (request.message == "hi")
                     {
-                        response.Value = new ChatApiResponse
+                        response.Data = new Data
                         {
                             message = "Hello! How can I assist you today?",
                             specialization = ""
@@ -43,16 +43,13 @@ namespace Application.UnitTest.Mocks
                     }
                     else
                     {
-                        response.Value = new ChatApiResponse
-                        {
-                            message = "Reply to the existing chat.",
-                            specializations = new string[] { }
-                        };
+                        response.Data = null;
+                        response.Error = null;
                     }
                     return response;
                 });
 
-            return mockSender;
+            return mock;
         }
     }
 }
