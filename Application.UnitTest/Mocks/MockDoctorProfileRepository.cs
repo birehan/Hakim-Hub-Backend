@@ -313,7 +313,7 @@ namespace Application.UnitTest.Mocks
                 .Returns((DateTime careerStartTime) => Task.FromResult(doctorProfiles.Where(d => d.CareerStartTime == careerStartTime).ToList()));
 
 
-            doctorProfileRepo.Setup(repo => repo.FilterDoctors(It.IsAny<Guid?>(), It.IsAny<ICollection<string?>>(), It.IsAny<int>(), It.IsAny<string?>()))
+            doctorProfileRepo.Setup(repo => repo.FilterDoctors(It.IsAny<Guid?>(), It.IsAny<string?>(), It.IsAny<int>(), It.IsAny<string?>()))
                 .Returns((Guid? institutionId, ICollection<string>? specialityNames, int experienceYears, string? educationInstitutionName) =>
                 {
                     // Set null as the default value for each parameter if they are null or empty
