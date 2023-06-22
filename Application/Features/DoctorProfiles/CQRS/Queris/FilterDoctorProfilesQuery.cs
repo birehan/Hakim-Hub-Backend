@@ -10,7 +10,7 @@ using Application.Features.InstitutionProfiles.DTOs;
 
 namespace Application.Features.DoctorProfiles.CQRS.Queris
 {
-    public class FilterDoctorProfilesQuery : IRequest<Result<List<InstitutionDoctorDto>>>
+    public class FilterDoctorProfilesQuery : IRequest<Result<List<DoctorProfileDto>>>
     {
         public ICollection<string>? SpecialityNames { get; set; }
         public Guid? InstitutionId { get; set; }

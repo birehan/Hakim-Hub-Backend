@@ -20,7 +20,7 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
         public async Task<Result<List<DoctorProfileDto>>> Handle(GetDoctorProfileListQuery request, CancellationToken cancellationToken)
         {
             var response = new Result<List<DoctorProfileDto>>();
-            var doctorProfiles = await _unitOfWork.DoctorProfileRepository.GetAll();
+            var doctorProfiles = await _unitOfWork.DoctorProfileRepository.GetAllDoctors();
             if (doctorProfiles is null)
             {
                 response.IsSuccess = false;
