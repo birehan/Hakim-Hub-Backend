@@ -37,7 +37,7 @@ namespace Application.UnitTest.DoctorProfiles.Queries
             // Arrange
             var query = new FilterDoctorProfilesQuery
             {
-                SpecialityNames = new List<string>{"Cardiology"},
+                SpecialityName = "Cardiology",
                 InstitutionId = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3305"),
                 ExperienceYears = 0,
                 EducationName = "Medical College"
@@ -104,7 +104,7 @@ namespace Application.UnitTest.DoctorProfiles.Queries
             var query = new FilterDoctorProfilesQuery
             {
                 InstitutionId = null,
-                SpecialityNames = new List<string>{"Internal Medicine"},
+                SpecialityName = "Internal Medicine",
                 ExperienceYears = -1,
                 EducationName = null
             };

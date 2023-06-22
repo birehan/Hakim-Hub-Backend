@@ -16,16 +16,30 @@ namespace Application.UnitTest.Mocks
             mockSender.Setup(sender => sender.SendMessage(It.IsAny<ChatRequestDto>()))
                 .ReturnsAsync((ChatRequestDto requestDto) =>
                 {
-                    var response = new Result<ApiResponse>();
-
-                    // Simulate the behavior based on isNewChat flag
-                    if (requestDto.isNewChat)
+                    // Simulate the API response based on the request
+                    var response = new ApiResponseDto();
+                    if (request.message == "hi")
                     {
                         response.Value = new ChatApiResponse
                         {
-                            message = "Welcome to the chat!",
-                            specializations = new[] { "Specialization 1", "Specialization 2" }
+                            message = "Hello! How can I assist you today?",
+                            specialization = ""
                         };
+                        response.Error = null;
+                    }
+                    else if (request.message == "I am sick")
+                    {
+                        response.Data = new Data
+                        {
+                            message = "Based on your symptoms...",
+                            specialization = "General Practitioner" 
+                        };
+                        response.Error = null;
+                    }
+                    else if (request.message == "Emergency!")
+                    {
+                        response.Data = null;
+                        response.Error = new Error { message = "Error occurred while processing the request." };
                     }
                     else
                     {
@@ -35,7 +49,6 @@ namespace Application.UnitTest.Mocks
                             specializations = new string[] { }
                         };
                     }
-
                     return response;
                 });
 

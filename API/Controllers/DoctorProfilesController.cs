@@ -38,12 +38,12 @@ namespace API.Controllers
         } 
 
         [AllowAnonymous]
-        [HttpPost("filter")]
-        public async Task<ActionResult<List<DoctorProfileDto>>> FilterDoctors(ICollection<string>? specialityNames = null, string? educationName = "", int experienceYears = -1, Guid institutionId = new Guid())
+        [HttpPost]
+        public async Task<ActionResult<List<InstitutionDoctorDto>>> FilterDoctors(string? specialityName = "", string? educationName = "", int experienceYears = -1, Guid institutionId = new Guid())
         {
             var query = new FilterDoctorProfilesQuery
             {
-                SpecialityNames = specialityNames,
+                SpecialityName = specialityName,
                 EducationName = educationName,
                 ExperienceYears = experienceYears,
                 InstitutionId = institutionId
