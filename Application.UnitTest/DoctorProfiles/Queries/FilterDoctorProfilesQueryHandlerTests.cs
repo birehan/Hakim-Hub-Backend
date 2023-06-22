@@ -43,9 +43,9 @@ namespace Application.UnitTest.DoctorProfiles.Queries
                 EducationName = "Medical College"
             };
 
-            var expectedDoctorProfiles = new List<DoctorProfileDetailDto>
+            var expectedDoctorProfiles = new List<DoctorProfileDto>
                 {
-                    new DoctorProfileDetailDto
+                    new DoctorProfileDto
                     {
                         Id = Guid.Parse("3f2504e0-4f89-41d3-9a0c-0305e82c3304"),
                         FullName ="Dr. Emily Johnson",
@@ -60,7 +60,7 @@ namespace Application.UnitTest.DoctorProfiles.Queries
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.ShouldBeOfType<Result<List<DoctorProfileDetailDto>>>();
+            result.ShouldBeOfType<Result<List<DoctorProfileDto>>>();
             result.Value.ShouldNotBeNull();
             var actualDoctorProfiles = result.Value;
             actualDoctorProfiles.ShouldNotBeEmpty();
@@ -91,7 +91,7 @@ namespace Application.UnitTest.DoctorProfiles.Queries
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.ShouldBeOfType<Result<List<DoctorProfileDetailDto>>>();
+            result.ShouldBeOfType<Result<List<DoctorProfileDto>>>();
             // result.Value.ShouldBeNull();
 
 
@@ -109,17 +109,17 @@ namespace Application.UnitTest.DoctorProfiles.Queries
                 EducationName = null
             };
 
-            var expectedDoctorProfiles = new List<DoctorProfileDetailDto>
-    {
-        new DoctorProfileDetailDto
-        {
-            Id = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3301"),
-            FullName = "Dr. John Smith",
-            PhotoUrl = "photo1",
-            MainInstitutionId =  Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3302"),
-            YearsOfExperience = 0
-        }
-    };
+            var expectedDoctorProfiles = new List<DoctorProfileDto>
+                {
+                    new DoctorProfileDto
+                    {
+                        Id = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3301"),
+                        FullName = "Dr. John Smith",
+                        PhotoUrl = "photo1",
+                        MainInstitutionId =  Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3302"),
+                        YearsOfExperience = 0
+                    }
+                };
 
 
             // Act
@@ -127,7 +127,7 @@ namespace Application.UnitTest.DoctorProfiles.Queries
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.ShouldBeOfType<Result<List<DoctorProfileDetailDto>>>();
+            result.ShouldBeOfType<Result<List<DoctorProfileDto>>>();
             result.Value.ShouldNotBeNull();
             var actualDoctorProfiles = result.Value;
             actualDoctorProfiles.ShouldNotBeEmpty();
@@ -156,9 +156,9 @@ namespace Application.UnitTest.DoctorProfiles.Queries
 
             };
 
-            var expectedDoctorProfiles = new List<DoctorProfileDetailDto>
+            var expectedDoctorProfiles = new List<DoctorProfileDto>
                 {
-                    new DoctorProfileDetailDto
+                    new DoctorProfileDto
                     {
                         Id = Guid.Parse("3f2504e0-4f89-41d3-9a0c-0305e82c3304"),
                         FullName = "Dr. John Smith",
@@ -173,7 +173,7 @@ namespace Application.UnitTest.DoctorProfiles.Queries
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.ShouldBeOfType<Result<List<DoctorProfileDetailDto>>>();
+            result.ShouldBeOfType<Result<List<DoctorProfileDto>>>();
             result.Value.ShouldNotBeNull();
             var actualDoctorProfiles = result.Value;
             actualDoctorProfiles.ShouldNotBeEmpty();
@@ -198,9 +198,9 @@ namespace Application.UnitTest.DoctorProfiles.Queries
                 ExperienceYears = 0
             };
 
-            var expectedDoctorProfiles = new List<DoctorProfileDetailDto>
+            var expectedDoctorProfiles = new List<DoctorProfileDto>
                 {
-                    new DoctorProfileDetailDto
+                    new DoctorProfileDto
                     {
                         Id = Guid.Parse("3f2504e0-4f89-41d3-9a0c-0305e82c3301"),
                         FullName = "Dr. John Smith",
@@ -216,7 +216,7 @@ namespace Application.UnitTest.DoctorProfiles.Queries
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.ShouldBeOfType<Result<List<DoctorProfileDetailDto>>>();
+            result.ShouldBeOfType<Result<List<DoctorProfileDto>>>();
             result.Value.ShouldNotBeNull();
             var actualDoctorProfiles = result.Value;
             actualDoctorProfiles.ShouldNotBeEmpty();

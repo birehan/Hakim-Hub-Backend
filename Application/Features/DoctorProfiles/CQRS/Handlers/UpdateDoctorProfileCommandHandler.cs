@@ -37,7 +37,7 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
                 return Result<Unit>.Failure(string.Join(Environment.NewLine, validationResult.Errors.Select(e => e.ErrorMessage).ToList()));
             }
 
-            var doctorProfile = await _unitOfWork.DoctorProfileRepository.GetDoctorProfile(request.updateDoctorProfileDto.Id);
+            var doctorProfile = await _unitOfWork.DoctorProfileRepository.GetDoctorProfileDetail(request.updateDoctorProfileDto.Id);
             if (doctorProfile == null)
             {
                 return Result<Unit>.Failure(new NotFoundException(nameof(doctorProfile), request.updateDoctorProfileDto.Id).Message);
