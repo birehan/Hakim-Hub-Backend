@@ -21,7 +21,7 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
         public async Task<Result<Unit>> Handle(DeleteDoctorProfileCommand request, CancellationToken cancellationToken)
         {
             var response = new Result<Unit>();
-            var doctorProfile = await _unitOfWork.DoctorProfileRepository.GetDoctorProfile(request.Id);
+            var doctorProfile = await _unitOfWork.DoctorProfileRepository.GetDoctorProfileDetail(request.Id);
             if (doctorProfile == null)
             {
 
