@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Features.DoctorProfiles.CQRS.Commands;
 using Application.Features.DoctorProfiles.CQRS.Queris;
 using Application.Features.DoctorProfiles.DTOs;
+using Application.Features.InstitutionProfiles.DTOs;
 using Application.Responses;
 using Domain;
 using MediatR;
@@ -28,17 +29,17 @@ namespace API.Controllers
 
         }
 
-
-        [HttpGet("specialities/{specialityId}")]
-        public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesBySpecialityID(Guid specialityId)
-        {
-            var query = new GetDoctorProfileListBySpecialityIdQuery { SpecialityId = specialityId };
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ActionResult<Result<List<DoctorProfileDto>>>> GetAllDoctors(){
+            var query = new GetDoctorProfileListQuery();
             var response = await Mediator.Send(query);
             return HandleResult<List<DoctorProfileDto>>(response);
-        }
+        } 
+
         [AllowAnonymous]
-        [HttpPost]
-        public async Task<ActionResult<List<DoctorProfileDetailDto>>> FilterDoctors(ICollection<string>? specialityNames = null, string? educationName = "", int experienceYears = -1, Guid institutionId = new Guid())
+        [HttpPost("filter")]
+        public async Task<ActionResult<List<DoctorProfileDto>>> FilterDoctors(ICollection<string>? specialityNames = null, string? educationName = "", int experienceYears = -1, Guid institutionId = new Guid())
         {
             var query = new FilterDoctorProfilesQuery
             {
@@ -48,9 +49,9 @@ namespace API.Controllers
                 InstitutionId = institutionId
             };
             var response = await Mediator.Send(query);
-            return HandleResult<List<DoctorProfileDetailDto>>(response);
+            return HandleResult<List<DoctorProfileDto>>(response);
         }
-        [HttpPost("createDoctorProfile")]
+        [HttpPost("create")]
         public async Task<ActionResult<Guid>> Post([FromForm] CreateDoctorProfileDto createDoctorProfileDto)
         {
             var command = new CreateDoctorProfileCommand { CreateDoctorProfileDto = createDoctorProfileDto };
@@ -58,7 +59,7 @@ namespace API.Controllers
             return HandleResult<Guid>(response);
         }
 
-        [HttpPatch]
+        [HttpPatch("update")]
         public async Task<ActionResult<Unit>> Update([FromForm] UpdateDoctorProfileDto updateDoctorProfileDto)
         {
             var command = new UpdateDoctorProfileCommand { updateDoctorProfileDto = updateDoctorProfileDto };

@@ -20,7 +20,7 @@ namespace Application.Features.InstitutionProfiles.CQRS.Handlers
 
         public async Task<Result<List<InstitutionProfileDto>>> Handle(InstitutionProfileSearchQuery request, CancellationToken cancellationToken)
         {
-            var InstitutionProfiles = await _unitOfWork.InstitutionProfileRepository.Search(request.ServiceNames, request.OperationYears, request.OpenStatus);
+            var InstitutionProfiles = await _unitOfWork.InstitutionProfileRepository.Search(request.ServiceNames, request.OperationYears, request.OpenStatus, request.Name);
 
             if (InstitutionProfiles == null) return null;
 

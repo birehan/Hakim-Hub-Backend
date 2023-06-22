@@ -123,10 +123,8 @@ namespace Application.Profiles
                .ForMember(dest => dest.YearsOfExperience, opt => opt.MapFrom(src => CalculateYearsOfExperience(src.CareerStartTime)))
 
             .ReverseMap();
-            CreateMap<DoctorProfile, CreateDoctorProfileDto>().ReverseMap();
-            CreateMap<DoctorProfile, UpdateDoctorProfileDto>().ReverseMap();
-            CreateMap<CreateDoctorProfileDto, DoctorProfile>().ReverseMap();
-            CreateMap<UpdateDoctorProfileDto, DoctorProfile>().ReverseMap();
+            CreateMap<CreateDoctorProfileDto, DoctorProfile>();
+            CreateMap<UpdateDoctorProfileDto, DoctorProfile>();
 
 
 
@@ -155,10 +153,12 @@ namespace Application.Profiles
             {
                 return "Open"; // Always open if 24 hours
             }
-
+            
             // Check if the current day is within the availability range
-            if (currentDay >= availability.StartDay && currentDay <= availability.EndDay)
+            
+            if (currentDay >= availability.StartDay && (availability.EndDay == DayOfWeek.Sunday || currentDay <= availability.EndDay))
             {
+                
                 // Get the current time
                 TimeSpan currentTime = DateTime.Now.TimeOfDay;
 

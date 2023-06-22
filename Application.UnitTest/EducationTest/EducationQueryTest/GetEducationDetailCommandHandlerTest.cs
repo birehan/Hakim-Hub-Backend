@@ -47,10 +47,9 @@ public class GetEducationDetailCommandHandlerTest
             GraduationYear = DateTime.Today
         };
 
-        _mockUnitOfWork.Setup(uow => uow.EducationRepository.Get(educationId)).ReturnsAsync(education);
+        _mockUnitOfWork.Setup(uow => uow.EducationRepository.GetPopulated(educationId)).ReturnsAsync(education);
         _mapper.Setup(mapper => mapper.Map<EducationDto>(education)).Returns(educationDto);
         var result = await _handler.Handle(new GetEducationDetailQuery() { Id = educationDto.Id }, CancellationToken.None);
-        Console.WriteLine("This is the result", result);
         result.ShouldNotBe(null);
         Assert.IsType<Result<EducationDto>>(result);
 
