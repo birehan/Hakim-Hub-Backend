@@ -10,5 +10,7 @@ namespace Application.Features.InstitutionProfiles.CQRS.Queries
         public ICollection<string>? ServiceNames { get; set; } = new List<string>();
         public int OperationYears { get; set; } = -1;
         public bool OpenStatus { get; set; } = false;
+        public string Name { get; set; } = "";
+
     }
 }

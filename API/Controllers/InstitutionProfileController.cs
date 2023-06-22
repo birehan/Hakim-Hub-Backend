@@ -50,9 +50,9 @@ namespace API.Controllers
 
         [AllowAnonymous]
         [HttpPost("search-institutions")]
-        public async Task<IActionResult> Search(ICollection<string>? serviceName = null, int operationYears = -1, bool openStatus = false)
+        public async Task<IActionResult> Search(ICollection<string>? serviceName = null, int operationYears = -1, bool openStatus = false, string? name = "")
         {
-            return HandleResult(await _mediator.Send(new InstitutionProfileSearchQuery { ServiceNames = serviceName, OperationYears = operationYears, OpenStatus = openStatus }));
+            return HandleResult(await _mediator.Send(new InstitutionProfileSearchQuery { ServiceNames = serviceName, OperationYears = operationYears, OpenStatus = openStatus, Name = name }));
         }
 
         [AllowAnonymous]
