@@ -39,18 +39,21 @@ namespace API.Controllers
 
         [AllowAnonymous]
         [HttpPost("filter")]
-        public async Task<ActionResult<List<DoctorProfileDto>>> FilterDoctors(ICollection<string>? specialityNames = null, string? educationName = "", int experienceYears = -1, Guid institutionId = new Guid())
+        public async Task<ActionResult<List<DoctorProfileDto>>> FilterDoctors(ICollection<string>? specialityNames = null, string? educationName = "", int experienceYears = -1, Guid institutionId = new Guid(),int pageNumber=0,int pageSize=0)
         {
             var query = new FilterDoctorProfilesQuery
             {
                 SpecialityNames = specialityNames,
                 EducationName = educationName,
                 ExperienceYears = experienceYears,
-                InstitutionId = institutionId
+                InstitutionId = institutionId,
+                pageNumber = pageNumber,
+                pageSize = pageSize
             };
             var response = await Mediator.Send(query);
             return HandleResult<List<DoctorProfileDto>>(response);
         }
+        [AllowAnonymous]
         [HttpPost("create")]
         public async Task<ActionResult<Guid>> Post([FromForm] CreateDoctorProfileDto createDoctorProfileDto)
         {
@@ -58,7 +61,7 @@ namespace API.Controllers
             var response = await Mediator.Send(command);
             return HandleResult<Guid>(response);
         }
-
+        [AllowAnonymous]
         [HttpPatch("update")]
         public async Task<ActionResult<Unit>> Update([FromForm] UpdateDoctorProfileDto updateDoctorProfileDto)
         {
@@ -66,7 +69,7 @@ namespace API.Controllers
             var response = await Mediator.Send(command);
             return HandleResult<Unit>(response);
         }
-
+        [AllowAnonymous]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Unit>> Delete(Guid id)
         {
