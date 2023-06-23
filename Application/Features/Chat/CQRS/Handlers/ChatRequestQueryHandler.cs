@@ -17,9 +17,6 @@ public class ChatRequestQueryHandler: IRequestHandler<ChatRequestQuery, Result<C
     private readonly IMapper _mapper;
     private readonly IChatRequestSender _chatRequestSender;
 
-
-
-
     public ChatRequestQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IChatRequestSender chatRequestSender)
     {
         _unitOfWork = unitOfWork;
@@ -33,7 +30,7 @@ public class ChatRequestQueryHandler: IRequestHandler<ChatRequestQuery, Result<C
         // create the response
         var response = new Result<ChatResponseDto>();
 
-        // send request to henok's api and get api response? infrastrucutre
+        // send request to chatbot api and get api response
         var ApiResponse = await _chatRequestSender.SendMessage(request.ChatRequestDto);
 
         // if error occured
@@ -44,7 +41,6 @@ public class ChatRequestQueryHandler: IRequestHandler<ChatRequestQuery, Result<C
             return response;
         }
 
-
         // if data reply message
         response.IsSuccess = true;
         
@@ -53,17 +49,26 @@ public class ChatRequestQueryHandler: IRequestHandler<ChatRequestQuery, Result<C
             reply = ApiResponse.Data.message
         };
 
-        if (ApiResponse.Data.specializations.Any())
-        {
-            // doctor = repository calling
-            var specialization = ApiResponse.Data.specializations[0];
-            var Doctors = await _unitOfWork.DoctorProfileRepository.FilterDoctors(Guid.Empty, specialization, -1, null);
-            chatResponse.Doctors = _mapper.Map<List<DoctorProfileDetailDto>>(Doctors);
+        var specialization = ApiResponse.Data.specialization;
 
-            // hospital = repository calling
+        if (!string.IsNullOrEmpty(specialization))
+        {
+            
+            var Doctors = await _unitOfWork.DoctorProfileRepository.FilterDoctors(Guid.Empty, new List<string?> {specialization}, -1, null);
             var Institutions = Doctors.Select(d => d.MainInstitution).Distinct();
-            chatResponse.Institutions = _mapper.Map<List<InstitutionProfileDetailDto>>(Institutions);
-        }
+            var DetailInstitution = new List<InstitutionProfileDetailDto>();
+
+            foreach(var institution in Institutions){
+
+                var inst = await _unitOfWork.InstitutionProfileRepository.GetPopulatedInstitution(institution.Id);
+                var mapped_inst = _mapper.Map<InstitutionProfileDetailDto>(inst);
+                mapped_inst.Doctors = mapped_inst.Doctors.Where(d => d.Specialities.Contains(specialization)).ToList();
+
+                DetailInstitution.Add(mapped_inst);
+
+            }
+                chatResponse.Institutions = DetailInstitution;
+            }
 
         response.Value = chatResponse;
         return response;
