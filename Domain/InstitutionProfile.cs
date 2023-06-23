@@ -11,22 +11,22 @@ namespace Domain
         public string Summary { get; set; }
         public DateTime EstablishedOn { get; set; }
         public double Rate { get; set; }
-
+        [JsonIgnore]
         public Address? Address { get; set; }
         public string LogoId { get; set; }
-
+        [JsonIgnore]
         public Photo Logo { get; set; }
         public string BannerId { get; set; }
-
+        [JsonIgnore]
         public Photo Banner { get; set; }
-
+        [JsonIgnore]
         public ICollection<DoctorProfile> Doctors { get; set; } = new List<DoctorProfile>();
 
-
+        [JsonIgnore]
         public ICollection<Service> Services { get; set; } = new List<Service>();
-
+        [JsonIgnore]
         public ICollection<Photo> Photos { get; set; } = new List<Photo>();
-
+        [JsonIgnore]
         public InstitutionAvailability InstitutionAvailability { get; set; }
 
     }
