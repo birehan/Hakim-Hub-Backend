@@ -34,4 +34,3 @@ public class DoctorProfile : BaseDomainEntity
         [JsonIgnore]
         public ICollection<Speciality> Specialities { get; set; } = new List<Speciality>();
 }
-
