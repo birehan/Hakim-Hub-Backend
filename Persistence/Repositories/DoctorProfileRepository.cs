@@ -39,9 +39,8 @@ namespace Persistence.Repositories
         }
 
 
-        public async Task<List<DoctorProfile>> FilterDoctors(Guid? institutionId, ICollection<string>? specialityNames, int experienceYears, string? educationInstitutionName)
+        public async Task<List<DoctorProfile>> FilterDoctors(Guid? institutionId, ICollection<string>? specialityNames, int experienceYears, string? educationInstitutionName,int pageNumber, int pageSize)
         {
-            // var query = _dbContext.DoctorProfiles.AsQueryable();
 
             IQueryable<DoctorProfile> query = _dbContext.Set<DoctorProfile>()
             .Include(d => d.Photo)
@@ -49,7 +48,7 @@ namespace Persistence.Repositories
             .Include(d => d.Educations)
             .Include(d => d.Specialities)
             .Include(d => d.Experiences);
-
+    
             // Filter by Institution ID
             if (institutionId != Guid.Empty && institutionId != new Guid())
             {
@@ -73,10 +72,17 @@ namespace Persistence.Repositories
                 query = query.Where(x => x.CareerStartTime <= startDate);
             }
 
-        
 
-            var filteredDoctors = await query.ToListAsync();
-            return filteredDoctors;
+             if (pageNumber > 0 && pageSize > 0)
+            {
+                int totalCount = await query.CountAsync();
+                int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+                int skip = (pageNumber - 1) * pageSize;
+                var pagedQuery = query.Skip(skip).Take(pageSize);
+                return await pagedQuery.ToListAsync();
+            }
+            
+            return await query.ToListAsync();
 
 
         }
