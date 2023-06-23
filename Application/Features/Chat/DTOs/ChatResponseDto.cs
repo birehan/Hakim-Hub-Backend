@@ -10,4 +10,6 @@ public class ChatResponseDto
     public string reply {get; set;}
     
     public List<InstitutionProfileDetailDto>? Institutions {get; set;}
+
+    public string Speciality { get; set; } =  "";
 }

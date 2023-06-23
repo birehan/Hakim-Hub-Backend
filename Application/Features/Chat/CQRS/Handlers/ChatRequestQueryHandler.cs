@@ -11,7 +11,7 @@ using MediatR;
 
 namespace Application.Features.Chat.CQRS.Handlers;
 
-public class ChatRequestQueryHandler: IRequestHandler<ChatRequestQuery, Result<ChatResponseDto>>
+public class ChatRequestQueryHandler : IRequestHandler<ChatRequestQuery, Result<ChatResponseDto>>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
@@ -34,7 +34,7 @@ public class ChatRequestQueryHandler: IRequestHandler<ChatRequestQuery, Result<C
         var ApiResponse = await _chatRequestSender.SendMessage(request.ChatRequestDto);
 
         // if error occured
-        if(ApiResponse.Error != null)
+        if (ApiResponse.Error != null)
         {
             response.Error = ApiResponse.Error.message;
             response.IsSuccess = false;
@@ -43,7 +43,7 @@ public class ChatRequestQueryHandler: IRequestHandler<ChatRequestQuery, Result<C
 
         // if data reply message
         response.IsSuccess = true;
-        
+
         var chatResponse = new ChatResponseDto
         {
             reply = ApiResponse.Data.message
@@ -53,12 +53,15 @@ public class ChatRequestQueryHandler: IRequestHandler<ChatRequestQuery, Result<C
 
         if (!string.IsNullOrEmpty(specialization))
         {
-            
-            var Doctors = await _unitOfWork.DoctorProfileRepository.FilterDoctors(Guid.Empty, new List<string?> {specialization}, -1, null);
+
+            chatResponse.Speciality = specialization;
+
+            var Doctors = await _unitOfWork.DoctorProfileRepository.FilterDoctors(Guid.Empty, new List<string?> { specialization }, -1, null);
             var Institutions = Doctors.Select(d => d.MainInstitution).Distinct();
             var DetailInstitution = new List<InstitutionProfileDetailDto>();
 
-            foreach(var institution in Institutions){
+            foreach (var institution in Institutions)
+            {
 
                 var inst = await _unitOfWork.InstitutionProfileRepository.GetPopulatedInstitution(institution.Id);
                 var mapped_inst = _mapper.Map<InstitutionProfileDetailDto>(inst);
@@ -67,12 +70,12 @@ public class ChatRequestQueryHandler: IRequestHandler<ChatRequestQuery, Result<C
                 DetailInstitution.Add(mapped_inst);
 
             }
-                chatResponse.Institutions = DetailInstitution;
-            }
+            chatResponse.Institutions = DetailInstitution;
+        }
 
         response.Value = chatResponse;
         return response;
-  
+
     }
 
 }
