@@ -14,6 +14,7 @@ using Application.Features.DoctorAvailabilities.DTOs;
 using AutoMapper;
 using Domain;
 using Application.Features.DoctorProfiles.DTOs;
+using Application.Features.Accounts.DTOs;
 
 namespace Application.Profiles
 {
@@ -127,6 +128,7 @@ namespace Application.Profiles
             CreateMap<DoctorProfile, UpdateDoctorProfileDto>().ReverseMap();
             CreateMap<CreateDoctorProfileDto, DoctorProfile>().ReverseMap();
             CreateMap<UpdateDoctorProfileDto, DoctorProfile>().ReverseMap();
+            CreateMap<AppUser, UserAccountDto>().ReverseMap();
 
 
 

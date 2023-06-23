@@ -1,5 +1,9 @@
+using Application.Contracts.Infrastructure;
 using Application.Interfaces;
+using Application.Models;
+using Infrastructure.Mail;
 using Infrastructure.Photos;
+using Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
@@ -23,8 +27,21 @@ namespace API.Extensions
 
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
+            
+            services.Configure<EmailSettings>(config.GetSection("EmailSettings"));
+            services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddScoped<IUserAccessor, UserAccessor>();
 
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("IsAdmin", policy =>
+                {
+                    policy.Requirements.Add(new IsAdminRequirement());
+                });
+            });
+
+            services.AddScoped<IAuthorizationHandler, IsAdminRequirementHandler>();
 
             services.AddCors(options =>
             {

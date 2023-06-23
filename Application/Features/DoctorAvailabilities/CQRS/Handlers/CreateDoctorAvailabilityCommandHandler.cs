@@ -1,4 +1,3 @@
-
 using AutoMapper;
 using Application.Contracts.Persistence;
 using Application.Features.DoctorAvailabilities.CQRS.Commands;

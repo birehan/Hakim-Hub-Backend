@@ -4,8 +4,9 @@ using Application.Features.Accounts.DTOs;
 
 namespace Application.Features.Accounts.CQRS.Commands
 {
-    public class ForgetPasswordSendEmailCommand : IRequest<Result<string>>
+    public class CreateUserCommand : IRequest<Result<string>>
     {
-        public ForgetPasswordDto ForgetPasswordDto { get; set; }
+        public CreateUserDto CreateUserDto { get; set; }
     }
+
 }

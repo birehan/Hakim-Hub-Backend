@@ -42,7 +42,7 @@ public class ForgetPasswordSendEmailCommandHandler : IRequestHandler<ForgetPassw
             {
                 To = user.Email,
                 Subject = "Password Reset",
-                Body = $"Please reset your password by clicking the following link: {resetUrl}"
+                Body = $"Reset your password using the link: {resetUrl}"
             };
 
             var isEmailSent = await _emailSender.SendEmail(email);
