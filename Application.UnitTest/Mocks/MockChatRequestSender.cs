@@ -18,13 +18,12 @@ namespace Application.Tests.Mocks.Infrastructure
                 {
                     // Simulate the API response based on the request
                     var response = new ApiResponseDto();
-
                     if (request.message == "hi")
                     {
                         response.Data = new Data
                         {
                             message = "Hello! How can I assist you today?",
-                            specializations = new List<string>()
+                            specialization = ""
                         };
                         response.Error = null;
                     }
@@ -33,7 +32,7 @@ namespace Application.Tests.Mocks.Infrastructure
                         response.Data = new Data
                         {
                             message = "Based on your symptoms...",
-                            specializations = new List<string> { "General Practitioner" }
+                            specialization = "General Practitioner" 
                         };
                         response.Error = null;
                     }
@@ -47,7 +46,6 @@ namespace Application.Tests.Mocks.Infrastructure
                         response.Data = null;
                         response.Error = null;
                     }
-
                     return response;
                 });
 
@@ -55,4 +53,3 @@ namespace Application.Tests.Mocks.Infrastructure
         }
     }
 }
-

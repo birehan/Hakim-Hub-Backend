@@ -10,6 +10,7 @@ using Application.Profiles;
 using Application.Responses;
 using Application.UnitTest.Mocks;
 using AutoMapper;
+using Domain;
 using Moq;
 using Shouldly;
 using Xunit;
@@ -54,8 +55,8 @@ namespace Application.UnitTest.DoctorProfiles.CQRS.Handlers
         public async Task Handle_WithNoDoctorProfiles_ReturnsUnsuccessfulResultWithError()
         {
             // Arrange
-            var emptyDoctorProfiles = new List<Domain.DoctorProfile>();
-            _mockUow.Setup(uow => uow.DoctorProfileRepository.GetAll())
+            List<DoctorProfile>? emptyDoctorProfiles = null;
+            _mockUow.Setup(uow => uow.DoctorProfileRepository.GetAllDoctors())
                 .ReturnsAsync(emptyDoctorProfiles);
 
             var handler = new GetDoctorProfileListQueryHandler(_mockUow.Object, _mapper);
@@ -65,8 +66,11 @@ namespace Application.UnitTest.DoctorProfiles.CQRS.Handlers
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.False(result.IsSuccess);
-            Assert.Equal("No doctor profile", result.Error);
+            result.IsSuccess.ShouldBeFalse();
+            result.ShouldBeOfType<Result<List<DoctorProfileDto>>>();
+            result.Error.ShouldBe("No doctor profile");
         }
+
+
     }
 }

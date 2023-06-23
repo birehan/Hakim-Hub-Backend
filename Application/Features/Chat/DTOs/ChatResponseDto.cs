@@ -9,7 +9,7 @@ public class ChatResponseDto
 {
     public string reply {get; set;}
 
-    public List<DoctorProfileDetailDto>? Doctors {get; set;}
+    // public List<DoctorProfileDetailDto>? Doctors {get; set;}
     
     public List<InstitutionProfileDetailDto>? Institutions {get; set;}
 }
