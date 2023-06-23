@@ -62,7 +62,7 @@ namespace Persistence.Repositories
                 query = query.Where(x => x.Specialities.Any(Speciality => specialityNames.Contains(Speciality.Name)));
             }
 
-            if (educationInstitutionName != null)
+            if (!string.IsNullOrEmpty(educationInstitutionName))
             {
                 query = query.Where(d => d.Educations.Any(e => e.EducationInstitution == educationInstitutionName));
             }
