@@ -61,7 +61,7 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<InstitutionProfile>> Search(ICollection<string> serviceNames, int operationYears, bool openStatus, string name)
+        public async Task<List<InstitutionProfile>> Search(ICollection<string> serviceNames, int operationYears, bool openStatus, string name, int pageNumber, int pageSize, double? latitude, double? longitude, double? maxDistance)
         {
             var options = new JsonSerializerOptions
             {
@@ -101,6 +101,8 @@ namespace Persistence.Repositories
                 query = query.Where(x => x.EstablishedOn <= startDate);
             }
 
+           
+
             if (openStatus)
             {
                 var currentDate = DateTime.UtcNow.Date;
@@ -121,17 +123,47 @@ namespace Persistence.Repositories
                 var profiles = await query.ToListAsync();
 
                 var filteredProfiles = profiles.Where(x => x.InstitutionAvailability != null &&
-                    availabilities.Any(a => a.InstitutionId == x.Id)
-                    //     (a.TwentyFourHours ||
-                    //      (TimeSpan.Parse(a.Opening) <= currentTime && currentTime <= TimeSpan.Parse(a.Closing))))
+                    availabilities.Any(a => a.InstitutionId == x.Id &&
+                        (a.TwentyFourHours ||
+                         (TimeSpan.Parse(a.Opening) <= currentTime && currentTime <= TimeSpan.Parse(a.Closing))))
                     ).ToList();
 
+                 // Calculate the distance in memory
+                if (latitude.HasValue && longitude.HasValue && maxDistance.HasValue)
+                {
+                    filteredProfiles = filteredProfiles.Where(x =>
+                        CalculateDistance(latitude.Value, longitude.Value, x.Address.Latitude ?? 0, x.Address.Longitude ?? 0) <= maxDistance.Value
+                    ).ToList();
+                }
+
+                // Apply pagination if page number and page size are given
+                if (pageNumber > 0 && pageSize > 0)
+                {
+                    int filteredTotalCount = filteredProfiles.Count;
+                    int totalPages = (int)Math.Ceiling((double)filteredTotalCount / pageSize);
+                    int skip = (pageNumber - 1) * pageSize;
+                    filteredProfiles = filteredProfiles.Skip(skip).Take(pageSize).ToList();
+                }
 
                 return filteredProfiles;
             }
 
+           // Apply pagination if page number and page size are given
+            if (pageNumber > 0 && pageSize > 0)
+            {
+                int totalCount = await query.CountAsync();
+                int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+                int skip = (pageNumber - 1) * pageSize;
+                var pagedQuery = query.Skip(skip).Take(pageSize);
+                return await pagedQuery.ToListAsync();
+            }
+
+
+            // Return all institutions
             return await query.ToListAsync();
         }
+
+
 
 
         public async Task<List<InstitutionProfile>> Search(string institutionName)
@@ -164,6 +196,32 @@ namespace Persistence.Repositories
             }
             return false;
         }
+
+    private static double  CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+    {
+        const double R = 6371; // Earth's radius in kilometers
+
+        double latRad1 = DegreesToRadians(lat1);
+        double lonRad1 = DegreesToRadians(lon1);
+        double latRad2 = DegreesToRadians(lat2);
+        double lonRad2 = DegreesToRadians(lon2);
+
+        double deltaLat = latRad2 - latRad1;
+        double deltaLon = lonRad2 - lonRad1;
+
+        double a = Math.Sin(deltaLat / 2) * Math.Sin(deltaLat / 2) +
+                Math.Cos(latRad1) * Math.Cos(latRad2) *
+                Math.Sin(deltaLon / 2) * Math.Sin(deltaLon / 2);
+        double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+        double distance = R * c;
+
+        return distance;
+    }
+
+    private static double DegreesToRadians(double degrees)
+    {
+        return degrees * Math.PI / 180;
+    }
 
 
 
