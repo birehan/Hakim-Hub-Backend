@@ -16,6 +16,8 @@ namespace Application.Features.DoctorProfiles.CQRS.Queris
         public Guid? InstitutionId { get; set; }
         public int ExperienceYears { get; set; } = -1;
         public string? EducationName { get; set; } 
+        public int pageNumber {get;set;} = 0;
+        public int pageSize {get;set;} = 0;
     }
 
 }
