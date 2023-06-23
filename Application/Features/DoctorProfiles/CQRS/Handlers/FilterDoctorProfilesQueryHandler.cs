@@ -13,7 +13,7 @@ using Application.Features.InstitutionProfiles.DTOs;
 
 namespace Application.Features.DoctorProfiles.CQRS.Handlers
 {
-    public class FilterDoctorProfilesQueryHandler : IRequestHandler<FilterDoctorProfilesQuery, Result<List<InstitutionDoctorDto>>>
+    public class FilterDoctorProfilesQueryHandler : IRequestHandler<FilterDoctorProfilesQuery, Result<List<DoctorProfileDto>>>
 
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -26,10 +26,10 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
             _mapper = mapper;
         }
 
-        public async Task<Result<List<InstitutionDoctorDto>>> Handle(FilterDoctorProfilesQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<DoctorProfileDto>>> Handle(FilterDoctorProfilesQuery request, CancellationToken cancellationToken)
         {
-            var response = new Result<List<InstitutionDoctorDto>>();
-            var doctorProfiles = await _unitOfWork.DoctorProfileRepository.FilterDoctors(request.InstitutionId, request.SpecialityNames, request.ExperienceYears, request.EducationName);
+            var response = new Result<List<DoctorProfileDto>>();
+            var doctorProfiles = await _unitOfWork.DoctorProfileRepository.FilterDoctors(request.InstitutionId, request.SpecialityName, request.ExperienceYears, request.EducationName);
             if (doctorProfiles is null)
             {
                 response.IsSuccess = false;
@@ -39,7 +39,7 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
             else
             {
                 response.IsSuccess = true;
-                response.Value = _mapper.Map<List<InstitutionDoctorDto>>(doctorProfiles);
+                response.Value = _mapper.Map<List<DoctorProfileDto>>(doctorProfiles);
                 return response;
             }
         }

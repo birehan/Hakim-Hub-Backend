@@ -29,29 +29,29 @@ namespace API.Controllers
 
         }
 
-
-        [HttpGet("specialities/{specialityId}")]
-        public async Task<ActionResult<List<DoctorProfileDto>>> GetDoctorProfilesBySpecialityID(Guid specialityId)
-        {
-            var query = new GetDoctorProfileListBySpecialityIdQuery { SpecialityId = specialityId };
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ActionResult<Result<List<DoctorProfileDto>>>> GetAllDoctors(){
+            var query = new GetDoctorProfileListQuery();
             var response = await Mediator.Send(query);
             return HandleResult<List<DoctorProfileDto>>(response);
-        }
+        } 
+
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<List<InstitutionDoctorDto>>> FilterDoctors(ICollection<string>? specialityNames = null, string? educationName = "", int experienceYears = -1, Guid institutionId = new Guid())
+        public async Task<ActionResult<List<InstitutionDoctorDto>>> FilterDoctors(string? specialityName = "", string? educationName = "", int experienceYears = -1, Guid institutionId = new Guid())
         {
             var query = new FilterDoctorProfilesQuery
             {
-                SpecialityNames = specialityNames,
+                SpecialityName = specialityName,
                 EducationName = educationName,
                 ExperienceYears = experienceYears,
                 InstitutionId = institutionId
             };
             var response = await Mediator.Send(query);
-            return HandleResult<List<InstitutionDoctorDto>>(response);
+            return HandleResult<List<DoctorProfileDto>>(response);
         }
-        [HttpPost("createDoctorProfile")]
+        [HttpPost("create")]
         public async Task<ActionResult<Guid>> Post([FromForm] CreateDoctorProfileDto createDoctorProfileDto)
         {
             var command = new CreateDoctorProfileCommand { CreateDoctorProfileDto = createDoctorProfileDto };
@@ -59,7 +59,7 @@ namespace API.Controllers
             return HandleResult<Guid>(response);
         }
 
-        [HttpPatch]
+        [HttpPatch("update")]
         public async Task<ActionResult<Unit>> Update([FromForm] UpdateDoctorProfileDto updateDoctorProfileDto)
         {
             var command = new UpdateDoctorProfileCommand { updateDoctorProfileDto = updateDoctorProfileDto };

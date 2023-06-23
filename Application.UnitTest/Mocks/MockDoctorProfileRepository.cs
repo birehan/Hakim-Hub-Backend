@@ -291,36 +291,20 @@ namespace Application.UnitTest.Mocks
 
             var doctorProfileRepo = new Mock<IDoctorProfileRepository>();
 
-            doctorProfileRepo.Setup(repo => repo.GetDoctorProfile(It.IsAny<Guid>()))
-                .Returns((Guid id) => Task.FromResult(doctorProfiles.FirstOrDefault(d => d.Id == id)));
 
             doctorProfileRepo.Setup(repo => repo.GetDoctorProfileDetail(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(doctorProfiles.FirstOrDefault(d => d.Id == id)));
 
 
-            doctorProfileRepo.Setup(repo => repo.GetDoctorProfileBySpecialityId(It.IsAny<Guid>()))
-                .Returns((Guid specialityId) => Task.FromResult(doctorProfiles.Where(d => d.Specialities.Any(s => s.Id == specialityId)).ToList()));
 
-            doctorProfileRepo.Setup(repo => repo.GetDoctorProfileByEducationId(It.IsAny<Guid>()))
-               .Returns((Guid educationId) => Task.FromResult(doctorProfiles.Where(d => d.Educations.Any(s => s.Id == educationId)).ToList()));
-
-            doctorProfileRepo.Setup(repo => repo.GetDoctorProfileByInstitutionId(It.IsAny<Guid>()))
-                .Returns((Guid institutionId) => Task.FromResult(doctorProfiles.Where(d => d.Institutions.Any(i => i.Id == institutionId)).ToList()));
-
-
-
-            doctorProfileRepo.Setup(repo => repo.GetDoctorProfileByCareerStartTime(It.IsAny<DateTime>()))
-                .Returns((DateTime careerStartTime) => Task.FromResult(doctorProfiles.Where(d => d.CareerStartTime == careerStartTime).ToList()));
-
-
-            doctorProfileRepo.Setup(repo => repo.FilterDoctors(It.IsAny<Guid?>(), It.IsAny<ICollection<string?>>(), It.IsAny<int>(), It.IsAny<string?>()))
+            doctorProfileRepo.Setup(repo => repo.FilterDoctors(It.IsAny<Guid?>(), It.IsAny<string?>(), It.IsAny<int>(), It.IsAny<string?>()))
                 .Returns((Guid? institutionId, ICollection<string>? specialityNames, int experienceYears, string? educationInstitutionName) =>
                 {
                     // Set null as the default value for each parameter if they are null or empty
                     institutionId ??= null;
                     specialityNames ??= new List<string>();
                     educationInstitutionName ??= null;
-                    if (institutionId is null && specialityNames is null && 
+                    if (institutionId is null && specialityNames is null &&
                     educationInstitutionName is null)
                     {
                         var Curquery = new List<DoctorProfile>().AsQueryable();
@@ -345,7 +329,6 @@ namespace Application.UnitTest.Mocks
                         query = query.Where(d => d.Educations.Any(e => e.EducationInstitution == educationInstitutionName));
                     }
 
-                    
                     if (experienceYears > 0)
                     {
                         DateTime startDate = DateTime.Today.AddYears(-experienceYears);
@@ -392,7 +375,7 @@ namespace Application.UnitTest.Mocks
                         }
                     });
 
-            doctorProfileRepo.Setup(repo => repo.GetAll()).ReturnsAsync(doctorProfiles);
+            doctorProfileRepo.Setup(repo => repo.GetAllDoctors()).ReturnsAsync(doctorProfiles);
 
 
             return doctorProfileRepo;
