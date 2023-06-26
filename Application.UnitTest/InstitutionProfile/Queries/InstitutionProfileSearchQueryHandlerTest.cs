@@ -41,7 +41,8 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
             {
                 ServiceNames = new List<string> {"Sample Service", "Sample Service 2", "Sample Service 3"},
                 OperationYears = 5,
-                OpenStatus = true
+                OpenStatus = true, 
+                Name = "Sung"
             };
 
             var institutionProfiles = new List<InstitutionProfile>
@@ -58,7 +59,7 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
                 }
             };
 
-            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.Search(query.ServiceNames, query.OperationYears, query.OpenStatus))
+            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.Search(query.ServiceNames, query.OperationYears, query.OpenStatus, query.Name))
                 .ReturnsAsync(institutionProfiles);
 
             // Act
@@ -81,7 +82,7 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
             var query = new InstitutionProfileSearchQuery();
             var institutionProfiles = new List<InstitutionProfile>();
 
-            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.Search(query.ServiceNames, query.OperationYears, query.OpenStatus))
+            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.Search(query.ServiceNames, query.OperationYears, query.OpenStatus, query.Name))
                 .ReturnsAsync(institutionProfiles);
 
             // Act

@@ -70,7 +70,7 @@ namespace Application.UnitTest.DoctorProfiles.Commands
             var command = new DeleteDoctorProfileCommand { Id = doctorId };
             var existingDoctorProfile = new DoctorProfile { Id = doctorId };
             
-            _mockUnitOfWork.Setup(uow => uow.DoctorProfileRepository.GetDoctorProfile(doctorId))
+            _mockUnitOfWork.Setup(uow => uow.DoctorProfileRepository.GetDoctorProfileDetail(doctorId))
                 .ReturnsAsync(existingDoctorProfile);
             _mockUnitOfWork.Setup(uow => uow.Save())
                 .ReturnsAsync(0);

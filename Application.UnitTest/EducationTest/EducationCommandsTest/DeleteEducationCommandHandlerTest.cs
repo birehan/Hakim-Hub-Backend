@@ -18,18 +18,16 @@ namespace Application.UnitTest.EducationTest.EducationCommandsTest;
 public class DeleteEducationCommandHandlerTest
 {
     private  IMapper _mapper { get; set; }
-    private Mock<IPhotoAccessor> _mockPhotoAccessor { get; set; }
     private Mock<IUnitOfWork> _mockUnitOfWork { get; set; }
+
+    private Mock<IEducationRepository> _mockEducationRepository { get; set; }
     private DeleteEducationCommandHandler _handler { get; set; }
-    private readonly CreateEducationDto createEducationDto;
-    private CreateEducationCommandHandler _createHandler { get; set; }
 
 
     public DeleteEducationCommandHandlerTest()
     {
         _mockUnitOfWork = MockUnitOfWork.GetUnitOfWork();
-
-        _mockPhotoAccessor = new Mock<IPhotoAccessor>();
+        _mockEducationRepository = new Mock<IEducationRepository>();
 
         _mapper = new MapperConfiguration(c =>
       {
@@ -37,50 +35,37 @@ public class DeleteEducationCommandHandlerTest
       }).CreateMapper();
 
         _handler = new DeleteEducationCommandHandler(_mockUnitOfWork.Object, _mapper);
+}
 
-        createEducationDto = new CreateEducationDto()
-        {
-            Id = Guid.NewGuid(),
-            EducationInstitution = "to be deleted University",
-            StartYear = DateTime.Now,
-            GraduationYear = DateTime.Today,
-            FieldOfStudy = "Oncology",
-            Degree = "Bachelors",
-            DoctorId = Guid.NewGuid(),
-        };
 
-        _createHandler = new CreateEducationCommandHandler(_mockUnitOfWork.Object, _mapper, _mockPhotoAccessor.Object);
+    [Fact]
+    public async Task DeleteEducationValid()
+    {
+        var educationId = Guid.NewGuid();
+        var deleteCommand = new DeleteEducationCommand { Id = educationId };
+        var specialityToDelete = new Education { Id = educationId };
+
+        _mockEducationRepository.Setup(r => r.Get(educationId)).ReturnsAsync(specialityToDelete);
+        _mockUnitOfWork.Setup(uow => uow.EducationRepository).Returns(_mockEducationRepository.Object);
+        _mockUnitOfWork.Setup(uow => uow.Save()).ReturnsAsync(1);
+
+        // Act
+        var result = await _handler.Handle(deleteCommand, CancellationToken.None);
+
+        // Assert
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<Guid?>>();
+        result.IsSuccess.ShouldBeTrue();
+        result.Value.ShouldBe(educationId);
     }
 
 
-    // [Fact]
-    // public async Task DeleteEducationValid()
-    // {
-
-    //     var photo = new PhotoUploadResult { PublicId = Guid.NewGuid().ToString(), Url = "photo-public-id" };
-    //     _mockPhotoAccessor.Setup(pa => pa.AddPhoto(It.IsAny<IFormFile>())).ReturnsAsync(photo);
-
-    //     createEducationDto.EducationInstitutionLogoId = photo.PublicId;
-
-    //     var result = await _createHandler.Handle(new CreateEducationCommand() { createEducationDto = createEducationDto }, CancellationToken.None);
-    //     var educationToBeDeleted = result.Value.Id;
-
-    //     var num = (await _mockUnitOfWork.Object.EducationRepository.GetAll()).Count;
-    //     (await _mockUnitOfWork.Object.EducationRepository.GetAll()).Count.ShouldBe(3);
-    //     var resultAfterDeletion = await _handler.Handle(new DeleteEducationCommand() { Id = educationToBeDeleted }, CancellationToken.None);
-    //     resultAfterDeletion.Value.ShouldBeEquivalentTo(educationToBeDeleted);
-    //     resultAfterDeletion.Error.ShouldBeEquivalentTo("Education Deleted Successfully.");
-    //     (await _mockUnitOfWork.Object.EducationRepository.GetAll()).Count.ShouldBe(2);
-    //     Assert.IsType<Result<Guid?>>(resultAfterDeletion);
-    // }
-
-
-    // [Fact]
-    // public async Task DeleteEducationInvalid()
-    // {
-    //     var result = await _handler.Handle(new DeleteEducationCommand() { Id = Guid.NewGuid() }, CancellationToken.None);
-    //     result.Value.ShouldBeEquivalentTo(null);
-    //     result.Error.ShouldBeEquivalentTo("Education Not Found.");
-    //     Assert.IsType<Result<Guid?>>(result);
-    // }
+    [Fact]
+    public async Task DeleteEducationInvalid()
+    {
+        var result = await _handler.Handle(new DeleteEducationCommand() { Id = Guid.NewGuid() }, CancellationToken.None);
+        result.Value.ShouldBeEquivalentTo(null);
+        result.Error.ShouldBeEquivalentTo("Education Not Found.");
+        Assert.IsType<Result<Guid?>>(result);
+    }
 }

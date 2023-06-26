@@ -1,8 +1,7 @@
 using Application.Features.Common;
 using Domain.Common;
 using static Domain.DoctorProfile;
-
-namespace Domain
+namespace Application.Features.InstitutionProfiles.DTOs
 {
     public class InstitutionDoctorDto : BaseDto
     {

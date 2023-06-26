@@ -10,14 +10,9 @@ namespace Application.Contracts.Persistence
 {
     public interface IDoctorProfileRepository : IGenericRepository<DoctorProfile>
     {
-        public Task<DoctorProfile> GetDoctorProfile(Guid Id);
         public Task<DoctorProfile> GetDoctorProfileDetail(Guid Id);
-        public Task<List<DoctorProfile>> GetDoctorProfileBySpecialityId(Guid SpecialityId);
-        public Task<List<DoctorProfile>> GetDoctorProfileByEducationId(Guid EducationId);
+        public Task<List<DoctorProfile>> GetAllDoctors();
 
-        public Task<List<DoctorProfile>> GetDoctorProfileByInstitutionId(Guid InstitutionId);
-
-        public Task<List<DoctorProfile>> GetDoctorProfileByCareerStartTime(DateTime careerStartTime);
         public Task<List<DoctorProfile>> FilterDoctors(Guid? institutionId, ICollection<string>? specialityNames = null, int experienceYears = -1, string? educationInstitutionName = null);
         
     }

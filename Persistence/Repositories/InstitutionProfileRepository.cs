@@ -61,7 +61,7 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<InstitutionProfile>> Search(ICollection<string> serviceNames, int operationYears, bool openStatus)
+        public async Task<List<InstitutionProfile>> Search(ICollection<string> serviceNames, int operationYears, bool openStatus, string name)
         {
             var options = new JsonSerializerOptions
             {
@@ -80,6 +80,12 @@ namespace Persistence.Repositories
                     .ThenInclude(doctor => doctor.Photo) // Include the Photo of each Doctor
                 .Include(x => x.Doctors)
                     .ThenInclude(doctor => doctor.Specialities);
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                string searchTerm = name.ToLower();
+                query = query.Where(x => x.InstitutionName.ToLower().Contains(searchTerm));
+            }
 
             foreach (string serviceName in serviceNames)
             {
