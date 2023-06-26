@@ -17,7 +17,7 @@ namespace Application.Features.Accounts.CQRS.Commands
 
         public async Task<Result<string>> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByIdAsync(request.ResetPasswordDto.UserId);
+            var user = await _userManager.FindByIdAsync(request.ResetPasswordDto.UserName);
 
             if (user == null)
             {
