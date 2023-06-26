@@ -31,7 +31,7 @@ namespace API.Extensions
                 options.AddPolicy("CorsPolicy", policy =>
                 policy.AllowAnyMethod().
                 AllowCredentials().
-                AllowAnyHeader().WithOrigins("http://localhost:3000", "http://hakimhub.vercel.app"));
+                AllowAnyHeader().WithOrigins("http://localhost:3000", "https://hakimhub.vercel.app"));
             });
 
             return services;
