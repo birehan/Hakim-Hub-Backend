@@ -81,12 +81,30 @@ namespace Persistence.Repositories
                 .Include(x => x.Doctors)
                     .ThenInclude(doctor => doctor.Specialities);
 
+            
+            
+
+                    // Filter by latitude, longitude, and distance
+            if (latitude.HasValue && longitude.HasValue && maxDistance.HasValue)
+            {
+                double userLat = latitude.Value;
+                double userLon = longitude.Value;
+                double maxDist = maxDistance.Value;
+
+                query = query.Where(x =>
+                    _dbContext.CalculateDistance(userLat, userLon, x.Address.Latitude ?? 0, x.Address.Longitude ?? 0) <= maxDist
+                );
+            }
+
+
+            // Filter by institution name
             if (!string.IsNullOrEmpty(name))
             {
                 string searchTerm = name.ToLower();
                 query = query.Where(x => x.InstitutionName.ToLower().Contains(searchTerm));
             }
 
+            // Filter by service names
             foreach (string serviceName in serviceNames)
             {
                 if (!string.IsNullOrEmpty(serviceName))
@@ -95,20 +113,19 @@ namespace Persistence.Repositories
                 }
             }
 
+            // Filter by operation years
             if (operationYears > 0)
             {
                 DateTime startDate = DateTime.Today.AddYears(-operationYears);
                 query = query.Where(x => x.EstablishedOn <= startDate);
             }
 
-           
-
             if (openStatus)
             {
                 var currentDate = DateTime.UtcNow.Date;
                 var currentTime = DateTime.UtcNow.TimeOfDay;
 
-                var institutionIds = await query.Select(x => x.Id).ToListAsync();
+                var institutionIds = query.Select(x => x.Id).ToList();
                 var currentDayOfWeek = (int)currentDate.DayOfWeek + 1; // Adding 1 to match the numbering convention
 
                 var availabilities = await _dbContext.Set<InstitutionAvailability>()
@@ -119,49 +136,37 @@ namespace Persistence.Repositories
                     )
                     .ToListAsync();
 
-
                 var profiles = await query.ToListAsync();
-
-                var filteredProfiles = profiles.Where(x => x.InstitutionAvailability != null &&
+                profiles = profiles.Where(x => x.InstitutionAvailability != null &&
                     availabilities.Any(a => a.InstitutionId == x.Id &&
                         (a.TwentyFourHours ||
                          (TimeSpan.Parse(a.Opening) <= currentTime && currentTime <= TimeSpan.Parse(a.Closing))))
-                    ).ToList();
-
-                 // Calculate the distance in memory
-                if (latitude.HasValue && longitude.HasValue && maxDistance.HasValue)
-                {
-                    filteredProfiles = filteredProfiles.Where(x =>
-                        CalculateDistance(latitude.Value, longitude.Value, x.Address.Latitude ?? 0, x.Address.Longitude ?? 0) <= maxDistance.Value
-                    ).ToList();
-                }
+                ).ToList();
 
                 // Apply pagination if page number and page size are given
                 if (pageNumber > 0 && pageSize > 0)
                 {
-                    int filteredTotalCount = filteredProfiles.Count;
+                    int filteredTotalCount = profiles.Count;
                     int totalPages = (int)Math.Ceiling((double)filteredTotalCount / pageSize);
                     int skip = (pageNumber - 1) * pageSize;
-                    filteredProfiles = filteredProfiles.Skip(skip).Take(pageSize).ToList();
+                    profiles = profiles.Skip(skip).Take(pageSize).ToList();
                 }
 
-                return filteredProfiles;
+                return profiles;
+                
             }
 
-           // Apply pagination if page number and page size are given
+        // Apply pagination if page number and page size are given
             if (pageNumber > 0 && pageSize > 0)
             {
-                int totalCount = await query.CountAsync();
-                int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
                 int skip = (pageNumber - 1) * pageSize;
-                var pagedQuery = query.Skip(skip).Take(pageSize);
-                return await pagedQuery.ToListAsync();
+                query = query.Skip(skip).Take(pageSize);
             }
 
-
-            // Return all institutions
+    
             return await query.ToListAsync();
         }
+
 
 
 
@@ -196,36 +201,6 @@ namespace Persistence.Repositories
             }
             return false;
         }
-
-    private static double  CalculateDistance(double lat1, double lon1, double lat2, double lon2)
-    {
-        const double R = 6371; // Earth's radius in kilometers
-
-        double latRad1 = DegreesToRadians(lat1);
-        double lonRad1 = DegreesToRadians(lon1);
-        double latRad2 = DegreesToRadians(lat2);
-        double lonRad2 = DegreesToRadians(lon2);
-
-        double deltaLat = latRad2 - latRad1;
-        double deltaLon = lonRad2 - lonRad1;
-
-        double a = Math.Sin(deltaLat / 2) * Math.Sin(deltaLat / 2) +
-                Math.Cos(latRad1) * Math.Cos(latRad2) *
-                Math.Sin(deltaLon / 2) * Math.Sin(deltaLon / 2);
-        double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-        double distance = R * c;
-
-        return distance;
-    }
-
-    private static double DegreesToRadians(double degrees)
-    {
-        return degrees * Math.PI / 180;
-    }
-
-
-
-
 
 
     }
