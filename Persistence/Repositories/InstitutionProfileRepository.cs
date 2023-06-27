@@ -120,8 +120,6 @@ namespace Persistence.Repositories
                 query = query.Where(x => x.EstablishedOn <= startDate);
             }
 
-           
-
             if (openStatus)
             {
                 var currentDate = DateTime.UtcNow.Date;
@@ -168,6 +166,7 @@ namespace Persistence.Repositories
     
             return await query.ToListAsync();
         }
+
 
 
 
