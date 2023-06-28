@@ -141,38 +141,7 @@ namespace Persistence
         }
 
 
-        public void CreateDistanceFunction()
-        {
-            using (var connection = new NpgsqlConnection("DefaultConnection"))
-            {
-                connection.Open();
-
-                using (var command = new NpgsqlCommand())
-                {
-                    command.Connection = connection;
-
-                    command.CommandText = @"
-                CREATE OR REPLACE FUNCTION calculate_distance(
-                    lat1 double precision,
-                    lon1 double precision,
-                    lat2 double precision,
-                    lon2 double precision
-                )
-                RETURNS double precision AS $$
-                DECLARE
-                    x double precision = 69.1 * (lat2 - lat1);
-                    y double precision = 69.1 * (lon2 - lon1) * cos(lat1 / 57.3);
-                    distance double precision = sqrt(x * x + y * y);
-                BEGIN
-                    RETURN distance;
-                END;
-                $$ LANGUAGE plpgsql;
-            ";
-
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
+       
 
         [DbFunction("calculate_distance", "public")]
         public double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
