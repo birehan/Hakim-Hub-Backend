@@ -13,7 +13,7 @@ namespace Application.Contracts.Persistence
         public Task<DoctorProfile> GetDoctorProfileDetail(Guid Id);
         public Task<List<DoctorProfile>> GetAllDoctors();
 
-        public Task<List<DoctorProfile>> FilterDoctors(Guid? institutionId, ICollection<string>? specialityNames = null, int experienceYears = -1, string? educationInstitutionName = null,int pageNumber=0, int pageSize = 0);
+        public Task<List<DoctorProfile>> FilterDoctors(Guid? institutionId, string? Name, ICollection<string>? specialityNames = null, int experienceYears = -1, string? educationInstitutionName = null,int pageNumber=0, int pageSize = 0);
         
     }
 }
