@@ -38,7 +38,7 @@ public class EducationsController : BaseApiController
         return HandleResult(await _mediator.Send(new GetEducationDetailQuery { Id = id }));
     }
 
-    
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Post([FromForm] CreateEducationDto createEducationDto)
     {
