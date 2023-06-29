@@ -39,7 +39,7 @@ namespace API.Controllers
 
         [AllowAnonymous]
         [HttpPost("filter")]
-        public async Task<ActionResult<List<DoctorProfileDto>>> FilterDoctors(ICollection<string>? specialityNames = null, string? educationName = "", int experienceYears = -1, Guid institutionId = new Guid(),int pageNumber=0,int pageSize=0)
+        public async Task<ActionResult<List<DoctorProfileDto>>> FilterDoctors(string? name, ICollection<string>? specialityNames = null, string? educationName = "", int experienceYears = -1, Guid institutionId = new Guid(),int pageNumber=0,int pageSize=0)
         {
             var query = new FilterDoctorProfilesQuery
             {
@@ -48,7 +48,8 @@ namespace API.Controllers
                 ExperienceYears = experienceYears,
                 InstitutionId = institutionId,
                 pageNumber = pageNumber,
-                pageSize = pageSize
+                pageSize = pageSize,
+                Name = name
             };
             var response = await Mediator.Send(query);
             return HandleResult<List<DoctorProfileDto>>(response);

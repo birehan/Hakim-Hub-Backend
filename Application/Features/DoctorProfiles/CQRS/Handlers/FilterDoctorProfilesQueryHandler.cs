@@ -29,7 +29,7 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
         public async Task<Result<List<DoctorProfileDto>>> Handle(FilterDoctorProfilesQuery request, CancellationToken cancellationToken)
         {
             var response = new Result<List<DoctorProfileDto>>();
-            var doctorProfiles = await _unitOfWork.DoctorProfileRepository.FilterDoctors(request.InstitutionId, request.SpecialityNames, request.ExperienceYears, request.EducationName,request.pageNumber,request.pageSize);
+            var doctorProfiles = await _unitOfWork.DoctorProfileRepository.FilterDoctors(request.InstitutionId, request.Name, request.SpecialityNames, request.ExperienceYears, request.EducationName,request.pageNumber,request.pageSize);
             if (doctorProfiles is null)
             {
                 response.IsSuccess = false;

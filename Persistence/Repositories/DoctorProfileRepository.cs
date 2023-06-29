@@ -39,7 +39,7 @@ namespace Persistence.Repositories
         }
 
 
-        public async Task<List<DoctorProfile>> FilterDoctors(Guid? institutionId, ICollection<string>? specialityNames, int experienceYears, string? educationInstitutionName,int pageNumber, int pageSize)
+        public async Task<List<DoctorProfile>> FilterDoctors(Guid? institutionId, string? Name, ICollection<string>? specialityNames, int experienceYears, string? educationInstitutionName,int pageNumber, int pageSize)
         {
 
             IQueryable<DoctorProfile> query = _dbContext.Set<DoctorProfile>()
@@ -54,6 +54,13 @@ namespace Persistence.Repositories
             {
                 query = query.Where(d => d.Institutions.Any(i => i.Id == institutionId))
                 .Include(d => d.Specialities).Include(e => e.Educations);
+            }
+
+            // Filter by doctor name
+            if (!string.IsNullOrEmpty(Name))
+            {
+                string searchTerm = Name.ToLower();
+                query = query.Where(x => x.FullName.ToLower().Contains(searchTerm));
             }
 
             if (specialityNames != null && specialityNames.Any())

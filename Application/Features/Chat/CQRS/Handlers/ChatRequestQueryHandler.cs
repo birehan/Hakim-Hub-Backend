@@ -56,7 +56,7 @@ public class ChatRequestQueryHandler : IRequestHandler<ChatRequestQuery, Result<
 
             chatResponse.Speciality = specialization;
 
-            var Doctors = await _unitOfWork.DoctorProfileRepository.FilterDoctors(Guid.Empty, new List<string?> { specialization }, -1, null);
+            var Doctors = await _unitOfWork.DoctorProfileRepository.FilterDoctors(Guid.Empty, null, new List<string?> { specialization }, -1, null);
             var Institutions = Doctors.Select(d => d.MainInstitution).Distinct();
             var DetailInstitution = new List<InstitutionProfileDetailDto>();
 
