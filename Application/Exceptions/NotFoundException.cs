@@ -7,7 +7,7 @@ namespace Application.Exceptions
 {
     public class NotFoundException : Exception
     {
-        public NotFoundException(string entityName , object identifier):base($"The{entityName} with {identifier} not found"){}
+        public NotFoundException(string entityName , object identifier):base($"The {entityName} with {identifier} not found"){}
         
     }
 }

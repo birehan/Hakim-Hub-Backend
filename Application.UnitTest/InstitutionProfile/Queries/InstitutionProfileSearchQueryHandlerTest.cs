@@ -59,7 +59,8 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
                 }
             };
 
-            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.Search(query.ServiceNames, query.OperationYears, query.OpenStatus, query.Name))
+            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.Search(query.ServiceNames, query.OperationYears, query.OpenStatus, query.Name,query.pageNumber,query.pageSize,query.latitude,query.longitude,query.maxDistance))
+
                 .ReturnsAsync(institutionProfiles);
 
             // Act
@@ -82,7 +83,7 @@ namespace Application.UnitTest.InstitutionProfiles.Queries
             var query = new InstitutionProfileSearchQuery();
             var institutionProfiles = new List<InstitutionProfile>();
 
-            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.Search(query.ServiceNames, query.OperationYears, query.OpenStatus, query.Name))
+            _mockUnitOfWork.Setup(uow => uow.InstitutionProfileRepository.Search(query.ServiceNames, query.OperationYears, query.OpenStatus, query.Name,query.pageNumber,query.pageSize,query.latitude,query.longitude,query.maxDistance))
                 .ReturnsAsync(institutionProfiles);
 
             // Act

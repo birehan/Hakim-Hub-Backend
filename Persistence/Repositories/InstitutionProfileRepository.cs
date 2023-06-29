@@ -61,7 +61,7 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<InstitutionProfile>> Search(ICollection<string> serviceNames, int operationYears, bool openStatus, string name)
+        public async Task<List<InstitutionProfile>> Search(ICollection<string> serviceNames, int operationYears, bool openStatus, string name, int pageNumber, int pageSize, double? latitude, double? longitude, double? maxDistance)
         {
             var options = new JsonSerializerOptions
             {
@@ -81,12 +81,30 @@ namespace Persistence.Repositories
                 .Include(x => x.Doctors)
                     .ThenInclude(doctor => doctor.Specialities);
 
+            
+            
+
+                    // Filter by latitude, longitude, and distance
+            if (latitude.HasValue && longitude.HasValue && maxDistance.HasValue)
+            {
+                double userLat = latitude.Value;
+                double userLon = longitude.Value;
+                double maxDist = maxDistance.Value;
+
+                query = query.Where(x =>
+                    _dbContext.CalculateDistance(userLat, userLon, x.Address.Latitude ?? 0, x.Address.Longitude ?? 0) <= maxDist
+                );
+            }
+
+
+            // Filter by institution name
             if (!string.IsNullOrEmpty(name))
             {
                 string searchTerm = name.ToLower();
                 query = query.Where(x => x.InstitutionName.ToLower().Contains(searchTerm));
             }
 
+            // Filter by service names
             foreach (string serviceName in serviceNames)
             {
                 if (!string.IsNullOrEmpty(serviceName))
@@ -95,6 +113,7 @@ namespace Persistence.Repositories
                 }
             }
 
+            // Filter by operation years
             if (operationYears > 0)
             {
                 DateTime startDate = DateTime.Today.AddYears(-operationYears);
@@ -106,7 +125,7 @@ namespace Persistence.Repositories
                 var currentDate = DateTime.UtcNow.Date;
                 var currentTime = DateTime.UtcNow.TimeOfDay;
 
-                var institutionIds = await query.Select(x => x.Id).ToListAsync();
+                var institutionIds = query.Select(x => x.Id).ToList();
                 var currentDayOfWeek = (int)currentDate.DayOfWeek + 1; // Adding 1 to match the numbering convention
 
                 var availabilities = await _dbContext.Set<InstitutionAvailability>()
@@ -117,21 +136,39 @@ namespace Persistence.Repositories
                     )
                     .ToListAsync();
 
-
                 var profiles = await query.ToListAsync();
+                profiles = profiles.Where(x => x.InstitutionAvailability != null &&
+                    availabilities.Any(a => a.InstitutionId == x.Id &&
+                        (a.TwentyFourHours ||
+                         (TimeSpan.Parse(a.Opening) <= currentTime && currentTime <= TimeSpan.Parse(a.Closing))))
+                ).ToList();
 
-                var filteredProfiles = profiles.Where(x => x.InstitutionAvailability != null &&
-                    availabilities.Any(a => a.InstitutionId == x.Id)
-                    //     (a.TwentyFourHours ||
-                    //      (TimeSpan.Parse(a.Opening) <= currentTime && currentTime <= TimeSpan.Parse(a.Closing))))
-                    ).ToList();
+                // Apply pagination if page number and page size are given
+                if (pageNumber > 0 && pageSize > 0)
+                {
+                    int filteredTotalCount = profiles.Count;
+                    int totalPages = (int)Math.Ceiling((double)filteredTotalCount / pageSize);
+                    int skip = (pageNumber - 1) * pageSize;
+                    profiles = profiles.Skip(skip).Take(pageSize).ToList();
+                }
 
-
-                return filteredProfiles;
+                return profiles;
+                
             }
 
+        // Apply pagination if page number and page size are given
+            if (pageNumber > 0 && pageSize > 0)
+            {
+                int skip = (pageNumber - 1) * pageSize;
+                query = query.Skip(skip).Take(pageSize);
+            }
+
+    
             return await query.ToListAsync();
         }
+
+
+
 
 
         public async Task<List<InstitutionProfile>> Search(string institutionName)
@@ -164,10 +201,6 @@ namespace Persistence.Repositories
             }
             return false;
         }
-
-
-
-
 
 
     }

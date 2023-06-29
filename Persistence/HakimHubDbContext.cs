@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Domain;
 using Domain.Common;
+using Npgsql;
 
 namespace Persistence
 {
@@ -139,6 +140,15 @@ namespace Persistence
 
         }
 
+
+       
+
+        [DbFunction("calculate_distance", "public")]
+        public double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+        {
+            var result = Database.ExecuteSqlInterpolated($"SELECT calculate_distance({lat1}, {lon1}, {lat2}, {lon2})");
+            return Convert.ToDouble(result);
+        }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
 

@@ -128,7 +128,7 @@ public class UpdateDoctorProfileCommandHandlerTests
         // Assert
         result.ShouldBeOfType<Result<Unit>>();
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("ThedoctorProfile with 518b301a-30da-4a1e-97e0-e7d58d18ba75 not found");
+        result.Error.ShouldContain("The doctorProfile with 518b301a-30da-4a1e-97e0-e7d58d18ba75 not found");
     }
 
     [Fact]

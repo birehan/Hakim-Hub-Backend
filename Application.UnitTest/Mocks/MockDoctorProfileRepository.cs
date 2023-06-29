@@ -297,8 +297,8 @@ namespace Application.UnitTest.Mocks
 
 
 
-            doctorProfileRepo.Setup(repo => repo.FilterDoctors(It.IsAny<Guid?>(), It.IsAny<ICollection<string?>>(), It.IsAny<int>(), It.IsAny<string?>()))
-                .Returns((Guid? institutionId, ICollection<string>? specialityNames, int experienceYears, string? educationInstitutionName) =>
+            doctorProfileRepo.Setup(repo => repo.FilterDoctors(It.IsAny<Guid?>(), It.IsAny<ICollection<string?>>(), It.IsAny<int>(), It.IsAny<string?>(),It.IsAny<int>(),It.IsAny<int>()))
+                .Returns((Guid? institutionId, ICollection<string>? specialityNames, int experienceYears, string? educationInstitutionName,int pageNumber,int pageSize) =>
                 {
                     // Set null as the default value for each parameter if they are null or empty
                     institutionId ??= null;

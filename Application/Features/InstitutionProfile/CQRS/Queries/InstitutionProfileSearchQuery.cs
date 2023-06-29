@@ -11,6 +11,11 @@ namespace Application.Features.InstitutionProfiles.CQRS.Queries
         public int OperationYears { get; set; } = -1;
         public bool OpenStatus { get; set; } = false;
         public string Name { get; set; } = "";
+        public int pageNumber {get;set;} = 0;
+        public int pageSize {get;set;} = 0;
+        public double? latitude {get;set;}
+        public double? longitude {get;set;}
+        public double? maxDistance {get;set;}
 
     }
 }

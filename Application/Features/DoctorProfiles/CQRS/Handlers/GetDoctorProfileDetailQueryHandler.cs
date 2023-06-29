@@ -28,7 +28,7 @@ namespace Application.Features.DoctorProfiles.CQRS.Handlers
             var doctorProfile = await _unitOfWork.DoctorProfileRepository.GetDoctorProfileDetail(request.Id);
             if (doctorProfile is null)
             {
-                var error = new NotFoundException(nameof(doctorProfile), request.Id);
+                var error = new NotFoundException(nameof(doctorProfile), request.Id).Message;
                 response.IsSuccess = false;
                 response.Error = $"{error}";
                 return response;
