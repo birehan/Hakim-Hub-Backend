@@ -304,12 +304,7 @@ namespace Application.UnitTest.Mocks
                     institutionId ??= null;
                     specialityNames ??= new List<string>();
                     educationInstitutionName ??= null;
-                    if (institutionId is null && specialityNames is null &&
-                    educationInstitutionName is null)
-                    {
-                        var Curquery = new List<DoctorProfile>().AsQueryable();
-                        return Task.FromResult(Curquery.ToList());
-                    }
+                   
 
                     var query = doctorProfiles.AsQueryable();
 
@@ -334,6 +329,10 @@ namespace Application.UnitTest.Mocks
                     {
                         DateTime startDate = DateTime.Today.AddYears(-experienceYears);
                         query = query.Where(x => x.CareerStartTime <= startDate);
+                    }
+                    if(pageNumber > 0 && pageSize>0){
+                        var skip = (pageNumber-1)*pageSize;
+                        return Task.FromResult(query.Skip(skip).Take(pageSize).ToList());
                     }
 
                     return Task.FromResult(query.ToList());
