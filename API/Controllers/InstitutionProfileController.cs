@@ -62,7 +62,8 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(new InstitutionProfileSearchByNameQuery { Name = Name }));
         }
 
-        
+        [AllowAnonymous]
+
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] CreateInstitutionProfileDto createTask)
         {
@@ -70,7 +71,8 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-       
+        [AllowAnonymous]
+
         [HttpPatch("{id}")]
         public async Task<IActionResult> Put([FromForm] UpdateInstitutionProfileDto InstitutionProfileDto, Guid id)
         {
@@ -79,7 +81,8 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        
+        [AllowAnonymous]
+  
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
