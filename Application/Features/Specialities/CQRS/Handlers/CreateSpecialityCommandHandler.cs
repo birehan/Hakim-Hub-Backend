@@ -42,7 +42,7 @@ namespace Application.Features.Specialities.CQRS.Handlers
             {
                 response.Value = _mapper.Map<CreateSpecialityDto>(spec);
                 response.IsSuccess = true;
-                response.Error = "Create Speciality Successful.";
+                response.Message = "Create Speciality Successful.";
             }
             else
             {

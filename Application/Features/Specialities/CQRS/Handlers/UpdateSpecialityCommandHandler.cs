@@ -41,7 +41,7 @@ namespace Application.Features.Specialities.CQRS.Handlers
             if (await _unitOfWork.Save() > 0){
                 response.IsSuccess = true;
                 response.Value = Unit.Value;
-                response.Error = "Speciality Updated Successfully.";
+                response.Message = "Speciality Updated Successfully.";
             }
             else{
                 response.IsSuccess = false;
