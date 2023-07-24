@@ -37,7 +37,7 @@ namespace Application.UnitTest.DoctorProfiles.Queries
             // Arrange
             var query = new FilterDoctorProfilesQuery
             {
-                SpecialityNames = new List<string>{"Cardiology"},
+                SpecialityNames = new List<string> { "Cardiology" },
                 InstitutionId = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3305"),
                 ExperienceYears = 0,
                 EducationName = "Medical College"
@@ -98,15 +98,17 @@ namespace Application.UnitTest.DoctorProfiles.Queries
         }
 
         [Fact]
-        public async Task Handle_WithSpecialityName_ReturnsFilteredDoctorProfiles()
+        public async Task Handle_WithSpecialityNames_ReturnsFilteredDoctorProfiles()
         {
             // Arrange
             var query = new FilterDoctorProfilesQuery
             {
                 InstitutionId = null,
-                SpecialityNames = new List<string>{"Internal Medicine"},
+                SpecialityNames = new List<string> { "Internal Medicine" },
                 ExperienceYears = -1,
-                EducationName = null
+                EducationName = null,
+                pageNumber = 0,
+                pageSize = 0,
             };
 
             var expectedDoctorProfiles = new List<DoctorProfileDto>
@@ -152,7 +154,9 @@ namespace Application.UnitTest.DoctorProfiles.Queries
             // Arrange
             var query = new FilterDoctorProfilesQuery
             {
-                InstitutionId = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3305")
+                InstitutionId = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3305"),
+                pageNumber = 0,
+                pageSize = 0,
 
             };
 
@@ -195,7 +199,9 @@ namespace Application.UnitTest.DoctorProfiles.Queries
             // Arrange
             var query = new FilterDoctorProfilesQuery
             {
-                ExperienceYears = 0
+                ExperienceYears = 0,
+                pageNumber = 0,
+                pageSize = 0
             };
 
             var expectedDoctorProfiles = new List<DoctorProfileDto>
@@ -235,6 +241,97 @@ namespace Application.UnitTest.DoctorProfiles.Queries
             }
 
         }
+
+        [Fact]
+        public async Task Handle_WithEducationInstitutionName_ReturnsFilteredDoctorProfiles()
+        {
+            // Arrange
+            var query = new FilterDoctorProfilesQuery
+            {
+                EducationName = "Medical College",
+                pageNumber = 0,
+                pageSize = 0,
+            };
+
+            var expectedDoctorProfiles = new List<DoctorProfileDto>
+            {
+                new DoctorProfileDto
+                {
+                    Id = Guid.Parse("3f2504e0-4f89-41d3-9a0c-0305e82c3304"),
+                    FullName = "Dr. Emily Johnson",
+                    PhotoUrl = "photo3",
+                    MainInstitutionId = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3305"),
+                    YearsOfExperience = 2
+                }
+            };
+
+            // Act
+            var result = await _handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            result.IsSuccess.ShouldBeTrue();
+            result.ShouldBeOfType<Result<List<DoctorProfileDto>>>();
+            result.Value.ShouldNotBeNull();
+            var actualDoctorProfiles = result.Value;
+            actualDoctorProfiles.ShouldNotBeEmpty();
+            actualDoctorProfiles.Count.ShouldBe(expectedDoctorProfiles.Count);
+
+            for (int i = 0; i < actualDoctorProfiles.Count; i++)
+            {
+                var actualProfile = actualDoctorProfiles[i];
+                var expectedProfile = expectedDoctorProfiles[i];
+
+                actualProfile.FullName.ShouldBe(expectedProfile.FullName);
+                actualProfile.Id.ShouldBe(expectedProfile.Id);
+                actualProfile.MainInstitutionId.ShouldBe(expectedProfile.MainInstitutionId);
+            }
+        }
+
+        [Fact]
+        public async Task Handle_WithPagination_ReturnsPagedDoctorProfiles()
+        {
+            // Arrange
+            var query = new FilterDoctorProfilesQuery
+            {
+                pageNumber = 2,
+                pageSize = 2
+            };
+
+            var expectedDoctorProfiles = new List<DoctorProfileDto>
+            {
+                new DoctorProfileDto
+                    {
+                        Id = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3308"),
+                        FullName = "Dr. Sophia Miller",
+                        About = "Experienced and caring doctor",
+                        Email = "sophia.miller@example.com",
+                        MainInstitutionId = Guid.Parse("3F2504E0-4F89-41D3-9A0C-0305E82C3307"),
+
+                    }
+            };
+
+            // Act
+            var result = await _handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            result.IsSuccess.ShouldBeTrue();
+            result.ShouldBeOfType<Result<List<DoctorProfileDto>>>();
+            result.Value.ShouldNotBeNull();
+            var actualDoctorProfiles = result.Value;
+            actualDoctorProfiles.ShouldNotBeEmpty();
+            actualDoctorProfiles.Count.ShouldBe(expectedDoctorProfiles.Count);
+
+            for (int i = 0; i < actualDoctorProfiles.Count; i++)
+            {
+                var actualProfile = actualDoctorProfiles[i];
+                var expectedProfile = expectedDoctorProfiles[i];
+
+                actualProfile.FullName.ShouldBe(expectedProfile.FullName);
+                actualProfile.Id.ShouldBe(expectedProfile.Id);
+                actualProfile.MainInstitutionId.ShouldBe(expectedProfile.MainInstitutionId);
+            }
+        }
+
 
 
     }

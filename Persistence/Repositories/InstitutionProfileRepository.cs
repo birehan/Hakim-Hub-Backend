@@ -202,6 +202,32 @@ namespace Persistence.Repositories
             return false;
         }
 
+    private static double  CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+    {
+        const double R = 6371; // Earth's radius in kilometers
+
+        double latRad1 = DegreesToRadians(lat1);
+        double lonRad1 = DegreesToRadians(lon1);
+        double latRad2 = DegreesToRadians(lat2);
+        double lonRad2 = DegreesToRadians(lon2);
+
+        double deltaLat = latRad2 - latRad1;
+        double deltaLon = lonRad2 - lonRad1;
+
+        double a = Math.Sin(deltaLat / 2) * Math.Sin(deltaLat / 2) +
+                Math.Cos(latRad1) * Math.Cos(latRad2) *
+                Math.Sin(deltaLon / 2) * Math.Sin(deltaLon / 2);
+        double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+        double distance = R * c;
+
+        return distance;
+    }
+
+    private static double DegreesToRadians(double degrees)
+    {
+        return degrees * Math.PI / 180;
+    }
+
 
     }
 }
