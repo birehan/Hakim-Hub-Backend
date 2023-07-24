@@ -32,7 +32,7 @@ namespace Application.Features.Specialities.CQRS.Handlers
                 {
                     response.IsSuccess = true;
                     response.Value = speciality.Id;
-                    response.Error = "Speciality Deleted Successfully.";
+                    response.Message = "Speciality Deleted Successfully.";
 
                 }else{
                 response.IsSuccess = false;
