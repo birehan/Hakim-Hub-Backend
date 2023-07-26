@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Domain;
 using Domain.Common;
-using Npgsql;
 
 namespace Persistence
 {
@@ -13,6 +12,7 @@ namespace Persistence
         {
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+            CreateCalculateDistanceFunction(); // Call the function during the DbContext constructor.
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -138,9 +138,30 @@ namespace Persistence
             .HasForeignKey<InstitutionProfile>(e => e.LogoId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        
         }
 
 
+        private void CreateCalculateDistanceFunction()
+        {
+            Database.ExecuteSqlRaw(@"
+                CREATE OR REPLACE FUNCTION calculate_distance(
+                    lat1 double precision,
+                    lon1 double precision,
+                    lat2 double precision,
+                    lon2 double precision
+                )
+                RETURNS double precision AS $$
+                DECLARE
+                    x double precision = 69.1 * (lat2 - lat1);
+                    y double precision = 69.1 * (lon2 - lon1) * cos(radians(lat1));
+                    distance double precision = sqrt(x * x + y * y);
+                BEGIN
+                    RETURN distance;
+                END;
+                $$ LANGUAGE plpgsql;
+            ");
+        }
        
 
         [DbFunction("calculate_distance", "public")]
@@ -176,3 +197,4 @@ namespace Persistence
         public DbSet<DoctorAvailability> DoctorAvailabilities { get; set; }
     }
 }
+
