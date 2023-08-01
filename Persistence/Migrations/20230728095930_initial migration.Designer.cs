@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(HakimHubDbContext))]
-    [Migration("20230713125519_nedbwddx")]
-    partial class nedbwddx
+    [Migration("20230728095930_initial migration")]
+    partial class initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
