@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-    public partial class nedbwddx : Migration
+    public partial class initialmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -209,6 +209,63 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DoctorAvailabilities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Day = table.Column<int>(type: "integer", nullable: false),
+                    StartTime = table.Column<string>(type: "text", nullable: false),
+                    EndTime = table.Column<string>(type: "text", nullable: false),
+                    DoctorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InstitutionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SpecialityId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoctorAvailabilities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DoctorAvailabilities_Specialities_SpecialityId",
+                        column: x => x.SpecialityId,
+                        principalTable: "Specialities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DoctorProfileInstitutionProfile",
+                columns: table => new
+                {
+                    DoctorsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InstitutionsId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoctorProfileInstitutionProfile", x => new { x.DoctorsId, x.InstitutionsId });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DoctorProfiles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
+                    About = table.Column<string>(type: "text", nullable: true),
+                    Gender = table.Column<int>(type: "integer", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    PhotoId = table.Column<string>(type: "text", nullable: true),
+                    CareerStartTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    MainInstitutionId = table.Column<Guid>(type: "uuid", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoctorProfiles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DoctorProfileSpeciality",
                 columns: table => new
                 {
@@ -219,9 +276,66 @@ namespace Persistence.Migrations
                 {
                     table.PrimaryKey("PK_DoctorProfileSpeciality", x => new { x.DoctorsId, x.SpecialitiesId });
                     table.ForeignKey(
+                        name: "FK_DoctorProfileSpeciality_DoctorProfiles_DoctorsId",
+                        column: x => x.DoctorsId,
+                        principalTable: "DoctorProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_DoctorProfileSpeciality_Specialities_SpecialitiesId",
                         column: x => x.SpecialitiesId,
                         principalTable: "Specialities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Educations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    EducationInstitution = table.Column<string>(type: "text", nullable: false),
+                    StartYear = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    GraduationYear = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Degree = table.Column<string>(type: "text", nullable: false),
+                    FieldOfStudy = table.Column<string>(type: "text", nullable: false),
+                    DoctorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    EducationInstitutionLogoId = table.Column<string>(type: "text", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Educations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Educations_DoctorProfiles_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "DoctorProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Experiences",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Position = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    DoctorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InstitutionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Experiences", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Experiences_DoctorProfiles_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "DoctorProfiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -303,162 +417,6 @@ namespace Persistence.Migrations
                     table.ForeignKey(
                         name: "FK_Photos_InstitutioProfiles_InstitutionProfileId",
                         column: x => x.InstitutionProfileId,
-                        principalTable: "InstitutioProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DoctorProfiles",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    FullName = table.Column<string>(type: "text", nullable: false),
-                    About = table.Column<string>(type: "text", nullable: true),
-                    Gender = table.Column<int>(type: "integer", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: true),
-                    PhotoId = table.Column<string>(type: "text", nullable: true),
-                    CareerStartTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    MainInstitutionId = table.Column<Guid>(type: "uuid", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DoctorProfiles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DoctorProfiles_InstitutioProfiles_MainInstitutionId",
-                        column: x => x.MainInstitutionId,
-                        principalTable: "InstitutioProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_DoctorProfiles_Photos_PhotoId",
-                        column: x => x.PhotoId,
-                        principalTable: "Photos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DoctorAvailabilities",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Day = table.Column<int>(type: "integer", nullable: false),
-                    StartTime = table.Column<string>(type: "text", nullable: false),
-                    EndTime = table.Column<string>(type: "text", nullable: false),
-                    DoctorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    InstitutionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    SpecialityId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DoctorAvailabilities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DoctorAvailabilities_DoctorProfiles_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "DoctorProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DoctorAvailabilities_InstitutioProfiles_InstitutionId",
-                        column: x => x.InstitutionId,
-                        principalTable: "InstitutioProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DoctorAvailabilities_Specialities_SpecialityId",
-                        column: x => x.SpecialityId,
-                        principalTable: "Specialities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DoctorProfileInstitutionProfile",
-                columns: table => new
-                {
-                    DoctorsId = table.Column<Guid>(type: "uuid", nullable: false),
-                    InstitutionsId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DoctorProfileInstitutionProfile", x => new { x.DoctorsId, x.InstitutionsId });
-                    table.ForeignKey(
-                        name: "FK_DoctorProfileInstitutionProfile_DoctorProfiles_DoctorsId",
-                        column: x => x.DoctorsId,
-                        principalTable: "DoctorProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DoctorProfileInstitutionProfile_InstitutioProfiles_Institut~",
-                        column: x => x.InstitutionsId,
-                        principalTable: "InstitutioProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Educations",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    EducationInstitution = table.Column<string>(type: "text", nullable: false),
-                    StartYear = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    GraduationYear = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Degree = table.Column<string>(type: "text", nullable: false),
-                    FieldOfStudy = table.Column<string>(type: "text", nullable: false),
-                    DoctorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    EducationInstitutionLogoId = table.Column<string>(type: "text", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Educations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Educations_DoctorProfiles_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "DoctorProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Educations_Photos_EducationInstitutionLogoId",
-                        column: x => x.EducationInstitutionLogoId,
-                        principalTable: "Photos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Experiences",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Position = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    DoctorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    InstitutionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Experiences", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Experiences_DoctorProfiles_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "DoctorProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Experiences_InstitutioProfiles_InstitutionId",
-                        column: x => x.InstitutionId,
                         principalTable: "InstitutioProfiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -613,10 +571,66 @@ namespace Persistence.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_DoctorProfileSpeciality_DoctorProfiles_DoctorsId",
-                table: "DoctorProfileSpeciality",
+                name: "FK_DoctorAvailabilities_DoctorProfiles_DoctorId",
+                table: "DoctorAvailabilities",
+                column: "DoctorId",
+                principalTable: "DoctorProfiles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_DoctorAvailabilities_InstitutioProfiles_InstitutionId",
+                table: "DoctorAvailabilities",
+                column: "InstitutionId",
+                principalTable: "InstitutioProfiles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_DoctorProfileInstitutionProfile_DoctorProfiles_DoctorsId",
+                table: "DoctorProfileInstitutionProfile",
                 column: "DoctorsId",
                 principalTable: "DoctorProfiles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_DoctorProfileInstitutionProfile_InstitutioProfiles_Institut~",
+                table: "DoctorProfileInstitutionProfile",
+                column: "InstitutionsId",
+                principalTable: "InstitutioProfiles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_DoctorProfiles_InstitutioProfiles_MainInstitutionId",
+                table: "DoctorProfiles",
+                column: "MainInstitutionId",
+                principalTable: "InstitutioProfiles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_DoctorProfiles_Photos_PhotoId",
+                table: "DoctorProfiles",
+                column: "PhotoId",
+                principalTable: "Photos",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Educations_Photos_EducationInstitutionLogoId",
+                table: "Educations",
+                column: "EducationInstitutionLogoId",
+                principalTable: "Photos",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Experiences_InstitutioProfiles_InstitutionId",
+                table: "Experiences",
+                column: "InstitutionId",
+                principalTable: "InstitutioProfiles",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
